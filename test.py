@@ -1,6 +1,5 @@
 import csv
 import numpy as np
-import pandas as pd
 import networkx as nx
 
 from kmalgorithm import km_config, km_modmat
