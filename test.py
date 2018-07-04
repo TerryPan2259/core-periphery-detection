@@ -15,7 +15,7 @@ def test1():
 def test2():
 	network = nx.karate_club_graph()
 
-	cppairs = km_dense(network, significance_level = 0.05)
+	cppairs = km_modmat(network, significance_level = 0.05)
 
 	assert 'pair_id' in cppairs 
 	assert 'core_node' in cppairs 
