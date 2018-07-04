@@ -1,0 +1,39 @@
+Metadata-Version: 1.1
+Name: kmalgorithm
+Version: 0.0.16
+Summary: Algorithm for finding multiple core-periphery pairs in networks
+Home-page: https://github.com/skojaku/km_config
+Author: Sadamori Kojaku
+Author-email: freesailing4046@gmail.com
+License: MIT
+Description: Algorithm for finding multiple core-periphery pairs in networks.
+        
+        Please cite  "S. Kojaku and N. Masuda, Core-periphery structure requires something else in the network" New J. Phys., 20, 043012 (2018)"'
+        ==============
+        
+        Installation
+        ------------
+        
+        **On Unix (Linux, OS X)**
+        
+         - `pip install ./kmalgorithm`
+        
+           C++11 compiler is required. Running pip command will detects the applicable compier and use to build Python library. 
+           OpenMP will be used for a fast computation if applicable.  
+        
+        
+        Usage
+        --------------------------
+        
+        ```python
+        ```
+        
+Keywords: network core-periphery structure
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Software Development
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
