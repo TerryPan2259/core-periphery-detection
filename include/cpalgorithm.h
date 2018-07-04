@@ -1,25 +1,3 @@
-/*
-*
-* Header file of the KM-config algorithm (C++ version)
-*
-*
-* An algorithm for finding multiple core-periphery pairs in networks
-*
-*
-* Core-periphery structure requires something else in the network
-* Sadamori Kojaku and Naoki Masuda
-* Preprint arXiv:1710.07076
-* 
-*
-* Please do not distribute without contacting the authors.
-*
-*
-* AUTHOR - Sadamori Kojaku
-*
-*
-* DATE - 11 Oct 2017
-*/
-
 #include <algorithm>
 #include <fstream>
 #include <iostream>
@@ -40,41 +18,46 @@
 #endif
 using namespace std;
 
-class KMAlgorithm{
+class CPAlgorithm{
 public:	
 	// Constructor 
-	KMAlgorithm();
-	//KMAlgorithm(int num_runs, double significance_level);
+	CPAlgorithm();
+	//CPAlgorithm(int num_runs, double significance_level);
 	
 	// Getter
 	vector<int> get_c () const;
 	vector<bool> get_x () const;
-	vector<double> get_p_values () const;
+	//vector<double> get_p_values () const;
 	
 	// Setter
-	void set_significance_level (double s);
-	void set_num_rand_nets (double r);
+	//void set_significance_level (double s);
+	//void set_num_rand_nets (double r);
 	
 	// Detect significant CP pairs in networks 
-	void detect(const Graph& G);
+	virtual void detect(const Graph& G) = 0;
+	
+	// Compute the quality of CP pairs 
+	virtual void calc_Q(
+	    const Graph& G,
+	    const vector<int>& c,
+	    const vector<bool>& x,
+	    double& Q,
+	    vector<double>& q) = 0;
 	
 protected:
 	vector<int> _c; // _c[i] indicates the index of the CP pair of node i 
 	vector<bool> _x;  // x[i]=1 or x[i]=0 indicates a core or a periphery, respectively.  
-	vector<double> _p_values; // p_values 
+	//vector<double> _p_values; // p_values 
 	double _Q; // quality value 
 	vector<double> _q;  // quality values
 	
-	double _significance_level; // statistical significance level
-	int _num_rand_nets; // number of randomised networks to be generated
+	//double _significance_level; // statistical significance level
+	//int _num_rand_nets; // number of randomised networks to be generated
 	int _num_runs; // Number of runs of the algorithm 
 	mt19937_64 _mtrnd; // random number generator
 
 	/* --------------------------
-	 Functions needed to be implemented	
-	-------------------------- */
-	
-	// Detect CP structure and compute their quality
+	 Functions needed to be implemented in each algorithm	
 	virtual void _detect_( //
 	    const Graph& G,
 	    vector<int>& c,
@@ -82,24 +65,19 @@ protected:
 	    double& Q,
 	    vector<double>& q,
             mt19937_64& mtrnd) = 0;
+	-------------------------- */
+	// Detect CP structure and compute their quality
+	
+	
+	/* --------------------------
+	 Statistical test	
 	
 	// Initialise parameter of randomised networks generator 
 	virtual void _init_randomised_network_generator(const Graph& G)= 0;	
 	
 	// Generate randomised networks 
         virtual void _generate_randomised_network(Graph& G, mt19937_64& mtrnd) = 0;
-	
-	// Compute the quality of CP pairs 
-	virtual void _calc_Q(
-	    const Graph& G,
-	    const vector<int>& c,
-	    const vector<bool>& x,
-	    double& Q,
-	    vector<double>& q) = 0;
-	
-	/* --------------------------
-	 Statistical test	
-	-------------------------- */
+
 	void _estimate_statistical_significance(
 	    const Graph& G,
 	    const vector<int>& c,
@@ -107,23 +85,24 @@ protected:
 	    const int num_of_rand_nets,
     	    vector<double>& p_values
 	    );
+	double _normcdf(double value);
+	-------------------------- */
 
 
 	/* --------------------------
 	Other utility functions 
 	-------------------------- */
-	double _normcdf(double value);
 
 	mt19937_64 _init_random_number_generator();
 };
 
-KMAlgorithm::KMAlgorithm(){
+CPAlgorithm::CPAlgorithm(){
 	_mtrnd = _init_random_number_generator(); 
-	_num_rand_nets = 500;
+	//_num_rand_nets = 500;
 	_num_runs = 10;
 }
 
-mt19937_64 KMAlgorithm::_init_random_number_generator(){
+mt19937_64 CPAlgorithm::_init_random_number_generator(){
 	mt19937_64 mtrnd;
 	random_device r;
 	seed_seq seed{ r(), r(), r(), r(), r(), r(), r(), r() };
@@ -132,29 +111,31 @@ mt19937_64 KMAlgorithm::_init_random_number_generator(){
 }
 
 // Getter
-vector<int> KMAlgorithm::get_c() const{
+vector<int> CPAlgorithm::get_c() const{
 	return _c;
 }
-vector<bool> KMAlgorithm::get_x() const{
+vector<bool> CPAlgorithm::get_x() const{
 	return _x;
 }
 
-vector<double> KMAlgorithm::get_p_values() const{
+/*
+vector<double> CPAlgorithm::get_p_values() const{
 	return _p_values;
 }
 
-void KMAlgorithm::set_significance_level (double s){
+void CPAlgorithm::set_significance_level (double s){
 	_significance_level = s;
 }
-
-void KMAlgorithm::set_num_rand_nets (double r){
+void CPAlgorithm::set_num_rand_nets (double r){
 	_num_rand_nets = r;
 }
+*/
 
-void KMAlgorithm::detect(const Graph& G){
+
+/*
+void CPAlgorithm::detect(const Graph& G){
 	_detect_(G, _c, _x, _Q, _q, _mtrnd);
 	
-	/* Statistical test */
 	int K = _q.size();
 	vector<double> tmp(K,0.0);
 	_p_values = tmp;
@@ -163,7 +144,7 @@ void KMAlgorithm::detect(const Graph& G){
 	}
 }
 
-void KMAlgorithm::_estimate_statistical_significance(
+void CPAlgorithm::_estimate_statistical_significance(
     const Graph& G,
     const vector<int>& c,
     const vector<bool>& x,
@@ -172,7 +153,7 @@ void KMAlgorithm::_estimate_statistical_significance(
 )
 {
 
-    /* Initialise variables */
+    // Initialise variables 
     bool noSelfloop = false;
     bool isunweighted = false;
     int K = *max_element(c.begin(), c.end()) + 1;
@@ -188,7 +169,6 @@ void KMAlgorithm::_estimate_statistical_significance(
         n[c[i]]++;
     };
 	
-    /* Generate \hat q^{(s)} and \hat n^{(s)} (1 \leq s \leq S) */
     int numthread;// create random number generator per each thread
     _init_randomised_network_generator(G);
 
@@ -239,7 +219,7 @@ void KMAlgorithm::_estimate_statistical_significance(
         }
     }
 
-    /* Compute the mean and variance of the quality and size */
+    // Compute the mean and variance of the quality and size
     int S = nhat.size();
     double mu_n = (double)accumulate(nhat.begin(), nhat.end(), 0.0) / (double)S;
     double mu_q = (double)accumulate(qhat.begin(), qhat.end(), 0.0) / (double)S;
@@ -252,7 +232,7 @@ void KMAlgorithm::_estimate_statistical_significance(
         sig_nq += ((double)nhat[s] - mu_n) * (qhat[s] - mu_q) / (double)(S - 1);
     }
 
-    /* Compute p-values using the Gaussian kernel density estimator */
+    // Compute p-values using the Gaussian kernel density estimator 
     double h = MAX(pow((double)S, -1.0 / 6.0), 1e-32);
     p_values.clear();
     p_values.assign(K, 1.0);
@@ -273,7 +253,10 @@ void KMAlgorithm::_estimate_statistical_significance(
     }
 }
 
-double KMAlgorithm::_normcdf(double value)
+double CPAlgorithm::_normcdf(double value)
 {
     return 0.5 + 0.5 * erf(value * M_SQRT1_2);
 }
+
+*/
+

@@ -19,41 +19,31 @@
 *
 * DATE - 11 Oct 2017
 */
-#ifndef KM_ALGORITHM 
-#define KM_ALGORITHM
-	#include "kmalgorithm.h" 
+#ifndef CP_ALGORITHM 
+#define CP_ALGORITHM
+	#include "cpalgorithm.h" 
 #endif
 
-class KM_modmat: public KMAlgorithm{
+class KM_modmat: public CPAlgorithm{
 public:
 	// Constructor 
 	KM_modmat();
-	KM_modmat(int num_runs, double significance_level);
+	KM_modmat(int num_runs);
 	
-protected: // function needed to be implemented
-	int _num_runs; 
-
-	void _init_randomised_network_generator(const Graph& G);
-
-        void _generate_randomised_network(Graph& G, mt19937_64& mtrnd);
-
-	void _detect_(
-	    const Graph& G,
-	    vector<int>& c,
-	    vector<bool>& x,
-	    double& Q,
-	    vector<double>& q,
-            mt19937_64& mtrnd);
+	void detect(const Graph& G);
 	
-	void _calc_Q(
+	void calc_Q(
 	    const Graph& G,
 	    const vector<int>& c,
 	    const vector<bool>& x,
 	    double& Q,
 	    vector<double>& q);
+	
+protected: // function needed to be implemented
+	int _num_runs; 
+
 
 private:
-	
 	void _km_modmat_louvain(
 	    const vector<vector<double>>& M,
 	    const int num_of_runs,
@@ -127,46 +117,24 @@ private:
 /*-----------------------------
 Constructor
 -----------------------------*/
-KM_modmat::KM_modmat(int num_runs, double significance_level):KMAlgorithm(){
+KM_modmat::KM_modmat(int num_runs):CPAlgorithm(){
 	KM_modmat();
 	_num_runs = num_runs;
-	_significance_level = significance_level;
 };
 
-KM_modmat::KM_modmat(): KMAlgorithm(){
+KM_modmat::KM_modmat(): CPAlgorithm(){
 	_num_runs = 10;
-	_significance_level = 0.05;
-	_num_rand_nets = 500;
 };
 
 
 /*-----------------------------
-Functions inherited from the super class (KMAlgorithm)
+Functions inherited from the super class (CPAlgorithm)
 -----------------------------*/
-void KM_modmat::_detect_(
-	    const Graph& G,
-	    vector<int>& c,
-	    vector<bool>& x,
-	    double& Q,
-	    vector<double>& q,
-            mt19937_64& mtrnd){
-
-	vector<vector<double>>M = G.to_matrix();
-	
-	_km_modmat_louvain(M, _num_runs, c, x, Q, q, mtrnd);
+void KM_modmat::detect(const Graph& G){
+	_km_modmat_louvain(G.to_matrix(), _num_runs, _c, _x, _Q, _q, _mtrnd);
 }
 
-// not implemented
-void KM_modmat::_init_randomised_network_generator(const Graph& G){
-
-}
-
-// not implemented
-void KM_modmat::_generate_randomised_network(Graph& G_rand, mt19937_64& mtrnd){
-
-}
-
-void KM_modmat::_calc_Q(
+void KM_modmat::calc_Q(
     const Graph& G,
     const vector<int>& c,
     const vector<bool>& x,

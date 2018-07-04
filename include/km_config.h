@@ -19,48 +19,40 @@
 *
 * DATE - 11 Oct 2017
 */
-#ifndef KM_ALGORITHM 
-#define KM_ALGORITHM
-	#include "kmalgorithm.h" 
+#ifndef CP_ALGORITHM 
+#define CP_ALGORITHM
+	#include "cpalgorithm.h" 
 #endif
 
-class KM_config: public KMAlgorithm{
+class KM_config: public CPAlgorithm{
 public:
 	// Constructor 
 	KM_config();
-	KM_config(int num_runs, double significance_level);
+	KM_config(int num_runs);
+
+	// function needed to be implemented
+
+	void detect(const Graph& G);
 	
-protected: // function needed to be implemented
-
-	void _init_randomised_network_generator(const Graph& G);
-
-        void _generate_randomised_network(Graph& G, mt19937_64& mtrnd);
-
-	void _detect_(
-	    const Graph& G,
-	    vector<int>& c,
-	    vector<bool>& x,
-	    double& Q,
-	    vector<double>& q,
-            mt19937_64& mtrnd);
-	
-	void _calc_Q(
+	void calc_Q(
 	    const Graph& G,
 	    const vector<int>& c,
 	    const vector<bool>& x,
 	    double& Q,
 	    vector<double>& q);
-
+	
+protected: 
+	
 private:
 	int _num_runs;
 	uniform_real_distribution<double> _udist;
 	
 	// variables for statistical test
-	vector<double> _deg;
-	vector<int> _deg_rank;
-        bool _noSelfloop;
-        bool _isunweighted;
-        int _N;
+//	vector<double> _deg;
+//	vector<int> _deg_rank;
+//      bool _noSelfloop;
+//      bool _isunweighted;
+//      int _N;
 
 	void _km_config_label_switching(
 	    const Graph& G,
@@ -72,7 +64,7 @@ private:
             mt19937_64& mtrnd
 		);
 
-	void _Chung_Lu_Algorithm(const vector<double>& deg, const vector<int>& nodes, Graph& G, bool noSelfloop, bool isunweighted, mt19937_64& mtrnd);
+//	void _Chung_Lu_Algorithm(const vector<double>& deg, const vector<int>& nodes, Graph& G, bool noSelfloop, bool isunweighted, mt19937_64& mtrnd);
 
 	double _calc_dQ_conf(double d_i_c,
 	    double d_i_p,
@@ -110,42 +102,28 @@ private:
 /*-----------------------------
 Constructor
 -----------------------------*/
-KM_config::KM_config(int num_runs, double significance_level):KMAlgorithm(){
+KM_config::KM_config(int num_runs):CPAlgorithm(){
 	KM_config();
 	_num_runs = num_runs;
-	_significance_level = significance_level;
 };
 
-KM_config::KM_config():KMAlgorithm(){
+KM_config::KM_config():CPAlgorithm(){
+	uniform_real_distribution<double> tmp(0.0,1.0);
+	_udist = tmp;
 	_num_runs = 10;
-	_significance_level = 0.05;
-	_num_rand_nets = 500;
-	//_null_model = "config"; 
-	//_algorithm = "louvain"; 
-	
-	uniform_real_distribution<double> tmp(0.0, 1.0);
-	_udist = tmp; 
 	_mtrnd = _init_random_number_generator();
 };
 
 
 /*-----------------------------
-Functions inherited from the super class (KMAlgorithm)
+Functions inherited from the super class (CPAlgorithm)
 -----------------------------*/
-void KM_config::_detect_(
-	    const Graph& G,
-	    vector<int>& c,
-	    vector<bool>& x,
-	    double& Q,
-	    vector<double>& q,
-            mt19937_64& mtrnd){
-
-	_km_config_label_switching(G, _num_runs, c, x, Q, q, mtrnd);
+void KM_config::detect(const Graph& G){
+	_km_config_label_switching(G, _num_runs, _c, _x, _Q, _q, _mtrnd);
 }
-
+/*
 void KM_config::_init_randomised_network_generator(const Graph& G){
 
-    /* Initialise variables */
     _noSelfloop = false;
     _isunweighted = false;
     _N = G.get_num_nodes();
@@ -165,12 +143,12 @@ void KM_config::_init_randomised_network_generator(const Graph& G){
         [&](int x, int y){return _deg[x] > _deg[y];}
     );
 }
+*/
+//void KM_config::_generate_randomised_network(Graph& G_rand, mt19937_64& mtrnd){
+	//_Chung_Lu_Algorithm(_deg, _deg_rank, G_rand, _noSelfloop, _isunweighted, mtrnd);
+//}
 
-void KM_config::_generate_randomised_network(Graph& G_rand, mt19937_64& mtrnd){
-	_Chung_Lu_Algorithm(_deg, _deg_rank, G_rand, _noSelfloop, _isunweighted, mtrnd);
-}
-
-void KM_config::_calc_Q(
+void KM_config::calc_Q(
     const Graph& G,
     const vector<int>& c,
     const vector<bool>& x,
@@ -221,7 +199,6 @@ Private functions (internal use only)
  * in Algorithms and Models for the Web Graph (eds. Frieze, A., Horn, P. & Prałat, P.) 
  * 6732 LNCS, 115–126 (Springer Berlin Heidelberg, 2011). 
  *
- * */
 void KM_config::_Chung_Lu_Algorithm(const vector<double>& deg, const vector<int>& nodes, Graph& G, bool noSelfloop, bool isunweighted, mt19937_64& mtrnd)
 {
     int N = deg.size();
@@ -270,6 +247,7 @@ void KM_config::_Chung_Lu_Algorithm(const vector<double>& deg, const vector<int>
 	}
     }
 }
+ * */
 
 /* 
 * Use this function instead if you have problem in initialising mtrnd
@@ -317,7 +295,7 @@ void KM_config::_km_config_label_switching(
 
         _km_config_label_switching_core(G, ci, xi, mtrnd);
 
-        _calc_Q(G, ci, xi, Qi, qi);
+        calc_Q(G, ci, xi, Qi, qi);
 	
         if (Qi > Q) {
             c = ci;
