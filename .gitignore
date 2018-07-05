@@ -3,5 +3,5 @@ inst.sh
 makefile
 build
 dist
-kmalgorithm.egg-info
+*.egg-info
 tmp
