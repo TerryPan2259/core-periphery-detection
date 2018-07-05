@@ -104,7 +104,7 @@ setup(
     author='Sadamori Kojaku',
     author_email='freesailing4046@gmail.com',
     description='Algorithm for finding multiple core-periphery pairs in networks',
-    long_description=read('README.txt'),
+    long_description=read('README.md'),
     url='https://github.com/skojaku/km_config',
     ext_modules=ext_modules,
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),

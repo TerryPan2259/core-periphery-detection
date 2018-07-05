@@ -37,6 +37,11 @@ public:
 	virtual void detect(const Graph& G) = 0;
 	
 	// Compute the quality of CP pairs 
+	void calc_Q(
+	    const Graph& G,
+	    double& Q,
+	    vector<double>& q);
+
 	virtual void calc_Q(
 	    const Graph& G,
 	    const vector<int>& c,
@@ -259,4 +264,9 @@ double CPAlgorithm::_normcdf(double value)
 }
 
 */
-
+void CPAlgorithm::calc_Q(
+	    const Graph& G,
+	    double& Q,
+	    vector<double>& q){
+	calc_Q(G, _c, _x, Q, q);
+}

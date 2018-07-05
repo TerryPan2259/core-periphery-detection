@@ -11,6 +11,7 @@
 Write the algorithms to be included in the prackage here
 ----------------------------------------------------- */
 #include <bealgorithm.h>
+#include <minres.h>
 #include <km_config.h>
 #include <km_modmat.h>
 
@@ -97,6 +98,24 @@ py::list detect_be(py::array_t<int> edges, py::array_t<double> ws, int num_of_ru
 	return results;
 }
 
+/* MINRES algorithm*/
+py::list detect_minres(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs){
+	
+       	Graph G(0); 
+	readEdgeTable(edges, ws, G);
+
+	MINRES be = MINRES();
+
+	be.detect(G);
+	
+	vector<int>  c = be.get_c();
+	vector<bool> x = be.get_x();
+
+	py::list results(2);
+	packResults(c, x, results);	
+
+	return results;
+}
 /* KM algorithm based on the configuration model */
 py::list detect_config(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs){
 	
@@ -138,6 +157,11 @@ py::list detect_modmat(py::array_t<int> edges, py::array_t<double> ws, int num_o
 PYBIND11_MODULE(_cpalgorithm, m){
 	m.doc() = "Core-periphery detection in networks";
 	m.def("detect_be", &detect_be, "Borgatti-Everett algorithm",
+		py::arg("edges"),
+		py::arg("ws"),
+		py::arg("num_of_runs") = 10
+	);
+	m.def("detect_minres", &detect_minres, "MINRES algorithm",
 		py::arg("edges"),
 		py::arg("ws"),
 		py::arg("num_of_runs") = 10

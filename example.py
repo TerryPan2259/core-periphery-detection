@@ -23,6 +23,6 @@ w = np.array([ edge[2] for edge in edges ]).astype(float)
 if all(np.isnan(w)):
 	nx.set_edge_attributes(G, values =1, name='weight')
 	w[:] = 1.0
-cppairs = cp.km_config(G)
+cppairs = cp.minres(G)
 
 print(cppairs)

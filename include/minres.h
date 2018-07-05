@@ -14,7 +14,7 @@
 	#include "cpalgorithm.h" 
 #endif
 
-class MINRES: public MINRES{
+class MINRES: public CPAlgorithm{
 public:
 	// Constructor 
 	MINRES();
@@ -28,8 +28,7 @@ public:
 	    double& Q,
 	    vector<double>& q);
 private:
-
-	vector<int> MINRES::_sortIndex(const vector<int>& Qs);
+        vector<int> _sortIndex(const vector<int>& Qs);
 };
 
 
@@ -114,13 +113,15 @@ void MINRES::calc_Q(
 	//(mpp) number of present edges in periphery 
 	Q = (ncc * ncc - mcc) + mpp;
 	Q = -Q;
-	q = Q;	
+	
+	vector<double> tmp(1, Q);
+	q = tmp;
 }
 
 /*-----------------------------
 Private functions (internal use only)
 -----------------------------*/
-vector<int> MINRES::sortIndex(const vector<int>& Qs){
+vector<int> MINRES::_sortIndex(const vector<int>& Qs){
     vector<int> y(Qs.size());
     size_t n(0);
     generate(std::begin(y), std::end(y), [&]{ return n++; });
@@ -130,5 +131,3 @@ vector<int> MINRES::sortIndex(const vector<int>& Qs){
                 [&](int i1, int i2) { return Qs[i1] > Qs[i2]; } );
     return y;
 }
-
-
