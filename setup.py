@@ -6,7 +6,7 @@ import setuptools
 import os
 from setuptools import setup, find_packages
 
-__version__ = '0.0.16'
+__version__ = '0.0.1'
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
@@ -105,7 +105,7 @@ setup(
     author_email='freesailing4046@gmail.com',
     description='Algorithm for finding multiple core-periphery pairs in networks',
     long_description=read('README.md'),
-    url='https://github.com/skojaku/km_config',
+    url='https://github.com/skojaku/core-periphery-detection',
     ext_modules=ext_modules,
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
     install_requires=['pybind11>=2.2', 'networkx>=2.0', 'numpy>=1.14.2'],

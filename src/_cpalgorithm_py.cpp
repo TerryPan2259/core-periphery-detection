@@ -59,6 +59,26 @@ void readEdgeTable(py::array_t<int> edges_array_t, py::array_t<double> w_array_t
     }
 }
 
+void readCPResult(py::array_t<int> c_array_t, py::array_t<bool> x_array_t, vector<int>& c, vector<bool>& x)
+{
+
+    auto _c = c_array_t.data();
+    auto _x = x_array_t.data();
+    
+    auto r = c_array_t.request();
+    int N = r.shape[0];
+
+    vector<int> cList(N, 0.0);
+    vector<bool> xList(N, false);
+	
+    for(int i =0; i< N; i++){
+        cList[i] = _c[i];
+        xList[i] = _x[i];
+    }
+    c = cList;
+    x = xList;
+}
+
 void packResults(vector<int>&c, vector<bool>& x, py::list& results)
 {
 	int N = c.size();
@@ -78,6 +98,22 @@ void packResults(vector<int>&c, vector<bool>& x, py::list& results)
 	results[1] = xs_array_t;
 }
 
+void pack_Q(double _Q, vector<double>& _q, py::list& results)
+{
+	int K = _q.size();
+	py::array_t<double> q_array_t(K);
+	auto q = q_array_t.mutable_data();
+	
+	py::array_t<double> Q_array_t(1);
+	auto Q = Q_array_t.mutable_data();
+	
+	Q[0] = _Q;
+	for(int i = 0; i < K; i++){
+		q[i] = _q[i];
+	}
+	results[0] = Q_array_t;
+	results[1] = q_array_t;
+}
 
 /* BE algorithm*/
 py::list detect_be(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs){
@@ -154,26 +190,136 @@ py::list detect_modmat(py::array_t<int> edges, py::array_t<double> ws, int num_o
 	return results;
 }
 
+py::list calc_Q_config(py::array_t<int> edges, py::array_t<double> ws, py::array_t<int> _c, py::array_t<bool> _x){
+
+	vector<int> c;	
+	vector<bool> x;	
+       	Graph G(0); 
+	readEdgeTable(edges, ws, G);
+	readCPResult(_c, _x, c, x);
+	
+	KM_config km = KM_config();
+
+	double Q = -1;
+	vector<double>q;
+	km.calc_Q(G, c, x, Q, q);
+	
+	py::list results(2);
+	packResults(c, x, results);	
+	return results;
+}
+
+py::list calc_Q_minres(py::array_t<int> edges, py::array_t<double> ws, py::array_t<int> _c, py::array_t<bool> _x){
+
+	vector<int> c;	
+	vector<bool> x;	
+       	Graph G(0); 
+	readEdgeTable(edges, ws, G);
+	readCPResult(_c, _x, c, x);
+	
+	MINRES km = MINRES();
+
+	double Q = -1;
+	vector<double>q;
+	km.calc_Q(G, c, x, Q, q);
+	
+	py::list results(2);
+	packResults(c, x, results);	
+	return results;
+}
+
+py::list calc_Q_be(py::array_t<int> edges, py::array_t<double> ws, py::array_t<int> _c, py::array_t<bool> _x){
+
+	vector<int> c;	
+	vector<bool> x;	
+       	Graph G(0); 
+	readEdgeTable(edges, ws, G);
+	readCPResult(_c, _x, c, x);
+	
+	BEAlgorithm km = BEAlgorithm();
+
+	double Q = -1;
+	vector<double>q;
+	km.calc_Q(G, c, x, Q, q);
+	
+	py::list results(2);
+	packResults(c, x, results);	
+	return results;
+}
+
+py::list calc_Q_modmat(py::array_t<int> edges, py::array_t<double> ws, py::array_t<int> _c, py::array_t<bool> _x){
+
+	vector<int> c;	
+	vector<bool> x;	
+       	Graph G(0); 
+	readEdgeTable(edges, ws, G);
+	readCPResult(_c, _x, c, x);
+	
+	KM_modmat km = KM_modmat();
+
+	double Q = -1;
+	vector<double>q;
+	km.calc_Q(G, c, x, Q, q);
+	
+	py::list results(2);
+	packResults(c, x, results);	
+	return results;
+}
+
 PYBIND11_MODULE(_cpalgorithm, m){
 	m.doc() = "Core-periphery detection in networks";
+
+	// CP detection algorithm 
 	m.def("detect_be", &detect_be, "Borgatti-Everett algorithm",
 		py::arg("edges"),
 		py::arg("ws"),
 		py::arg("num_of_runs") = 10
 	);
+
 	m.def("detect_minres", &detect_minres, "MINRES algorithm",
 		py::arg("edges"),
 		py::arg("ws"),
 		py::arg("num_of_runs") = 10
 	);
+
 	m.def("detect_config", &detect_config, "Use the configuration model as null models",
 		py::arg("edges"),
 		py::arg("ws"),
 		py::arg("num_of_runs") = 10
 	);
+
 	m.def("detect_modmat", &detect_modmat, "Use the user-provided modularity matrix",
 		py::arg("edges"),
 		py::arg("ws"),
 		py::arg("num_of_runs") = 10
+	);
+
+	// Quality functions
+	m.def("calc_Q_be", &calc_Q_be, "Borgatti-Everett algorithm",
+		py::arg("edges"),
+		py::arg("ws"),
+		py::arg("c"),
+		py::arg("x")
+	);
+
+	m.def("calc_Q_minres", &calc_Q_minres, "MINRES algorithm",
+		py::arg("edges"),
+		py::arg("ws"),
+		py::arg("c"),
+		py::arg("x")
+	);
+
+	m.def("calc_Q_config", &calc_Q_config, "Use the configuration model as null models",
+		py::arg("edges"),
+		py::arg("ws"),
+		py::arg("c"),
+		py::arg("x")
+	);
+
+	m.def("calc_Q_modmat", &calc_Q_modmat, "Use the user-provided modularity matrix",
+		py::arg("edges"),
+		py::arg("ws"),
+		py::arg("c"),
+		py::arg("x")
 	);
 }

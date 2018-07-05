@@ -8,7 +8,6 @@ def be(G, num_of_runs = 10):
 		print("Pass Networkx.classes.graph.Graph object")
 		return
 
-	#Gi = nx.convert_node_labels_to_integers(G)
 	node2id = dict(zip(G.nodes, range(len(G.nodes))))
 	id2node= dict((v,k) for k,v in node2id.items())
 

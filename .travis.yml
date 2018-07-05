@@ -7,7 +7,7 @@ python:
 # command to install dependencies
 install:
   - pip install -r requirements.txt
-  - pip3 install --index-url https://test.pypi.org/simple/ kmalgorithm
+  - pip3 install --index-url https://test.pypi.org/simple/ cpalgorithm
 
 # command to run tests
 script:
