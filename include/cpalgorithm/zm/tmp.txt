@@ -1,0 +1,286 @@
+n file included from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:0:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h: 関数 ‘void update_Gamma(std::vector<long double>&, int, std::vector<std::vector<long double> >&)’ 内:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:108:24: エラー: ‘N’ was not declared in this scope
+         for(i = 0; i < N; i++)
+                        ^
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h: 関数 ‘void update_Omega(std::vector<std::vector<long double> >&, int, int, const std::vector<int>&, const std::vector<long double>&, const std::map<std::pair<int, int>, std::array<std::array<long double, 2ul>, 2ul> >&)’ 内:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:138:25: エラー: ‘adjList’ was not declared in this scope
+                     j = adjList[i][it];
+                         ^
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:139:54: エラー: passing ‘const std::map<std::pair<int, int>, std::array<std::array<long double, 2ul>, 2ul> >’ as ‘this’ argument of ‘std::map<_Key, _Tp, _Compare, _Alloc>::mapped_type& std::map<_Key, _Tp, _Compare, _Alloc>::operator[](std::map<_Key, _Tp, _Compare, _Alloc>::key_type&&) [with _Key = std::pair<int, int>; _Tp = std::array<std::array<long double, 2ul>, 2ul>; _Compare = std::less<std::pair<int, int> >; _Alloc = std::allocator<std::pair<const std::pair<int, int>, std::array<std::array<long double, 2ul>, 2ul> > >; std::map<_Key, _Tp, _Compare, _Alloc>::mapped_type = std::array<std::array<long double, 2ul>, 2ul>; std::map<_Key, _Tp, _Compare, _Alloc>::key_type = std::pair<int, int>]’ discards qualifiers [-fpermissive]
+                     SIGMA += Two_point[make_pair(i,j)][r][s];
+                                                      ^
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h: 関数 ‘void predict(std::vector<int>&, int, int, const std::vector<std::vector<long double> >&)’ 内:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:158:79: エラー: no match for ‘operator+’ (operand types are ‘const value_type {aka const std::vector<long double>}’ and ‘const int’)
+         Glist[i] = distance(One_point[i],max_element(One_point[i],One_point[i]+K));        
+                                                                               ^
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:158:79: 備考: 候補:
+In file included from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/stl_algobase.h:67:0,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/char_traits.h:39,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ios:40,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ostream:38,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/iostream:39,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:4,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/stl_iterator.h:333:5: 備考: template<class _Iterator> std::reverse_iterator<_Iterator> std::operator+(typename std::reverse_iterator<_Iterator>::difference_type, const std::reverse_iterator<_Iterator>&)
+     operator+(typename reverse_iterator<_Iterator>::difference_type __n,
+     ^
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/stl_iterator.h:333:5: 備考:   template argument deduction/substitution failed:
+In file included from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:0:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:158:80: 備考:   mismatched types ‘const std::reverse_iterator<_Iterator>’ and ‘const int’
+         Glist[i] = distance(One_point[i],max_element(One_point[i],One_point[i]+K));        
+                                                                                ^
+In file included from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/stl_algobase.h:67:0,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/char_traits.h:39,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ios:40,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ostream:38,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/iostream:39,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:4,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/stl_iterator.h:1118:5: 備考: template<class _Iterator> std::move_iterator<_Iterator> std::operator+(typename std::move_iterator<_Iterator>::difference_type, const std::move_iterator<_Iterator>&)
+     operator+(typename move_iterator<_Iterator>::difference_type __n,
+     ^
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/stl_iterator.h:1118:5: 備考:   template argument deduction/substitution failed:
+In file included from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:0:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:158:80: 備考:   mismatched types ‘const std::move_iterator<_Iterator>’ and ‘const int’
+         Glist[i] = distance(One_point[i],max_element(One_point[i],One_point[i]+K));        
+                                                                                ^
+In file included from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/string:52:0,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/locale_classes.h:40,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/ios_base.h:41,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ios:42,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ostream:38,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/iostream:39,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:4,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.h:2365:5: 備考: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(const std::basic_string<_CharT, _Traits, _Alloc>&, const std::basic_string<_CharT, _Traits, _Alloc>&)
+     operator+(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
+     ^
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.h:2365:5: 備考:   template argument deduction/substitution failed:
+In file included from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:0:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:158:80: 備考:   ‘const value_type {aka const std::vector<long double>}’ is not derived from ‘const std::basic_string<_CharT, _Traits, _Alloc>’
+         Glist[i] = distance(One_point[i],max_element(One_point[i],One_point[i]+K));        
+                                                                                ^
+In file included from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/string:53:0,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/locale_classes.h:40,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/ios_base.h:41,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ios:42,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ostream:38,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/iostream:39,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:4,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.tcc:692:5: 備考: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(const _CharT*, const std::basic_string<_CharT, _Traits, _Alloc>&)
+     operator+(const _CharT* __lhs,
+     ^
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.tcc:692:5: 備考:   template argument deduction/substitution failed:
+In file included from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:0:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:158:80: 備考:   mismatched types ‘const _CharT*’ and ‘std::vector<long double>’
+         Glist[i] = distance(One_point[i],max_element(One_point[i],One_point[i]+K));        
+                                                                                ^
+In file included from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/string:53:0,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/locale_classes.h:40,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/ios_base.h:41,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ios:42,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ostream:38,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/iostream:39,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:4,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.tcc:708:5: 備考: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(_CharT, const std::basic_string<_CharT, _Traits, _Alloc>&)
+     operator+(_CharT __lhs, const basic_string<_CharT, _Traits, _Alloc>& __rhs)
+     ^
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.tcc:708:5: 備考:   template argument deduction/substitution failed:
+In file included from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:0:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:158:80: 備考:   mismatched types ‘const std::basic_string<_CharT, _Traits, _Alloc>’ and ‘const int’
+         Glist[i] = distance(One_point[i],max_element(One_point[i],One_point[i]+K));        
+                                                                                ^
+In file included from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/string:52:0,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/locale_classes.h:40,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/ios_base.h:41,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ios:42,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ostream:38,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/iostream:39,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:4,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.h:2402:5: 備考: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(const std::basic_string<_CharT, _Traits, _Alloc>&, const _CharT*)
+     operator+(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
+     ^
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.h:2402:5: 備考:   template argument deduction/substitution failed:
+In file included from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:0:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:158:80: 備考:   ‘const value_type {aka const std::vector<long double>}’ is not derived from ‘const std::basic_string<_CharT, _Traits, _Alloc>’
+         Glist[i] = distance(One_point[i],max_element(One_point[i],One_point[i]+K));        
+                                                                                ^
+In file included from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/string:52:0,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/locale_classes.h:40,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/ios_base.h:41,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ios:42,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ostream:38,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/iostream:39,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:4,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.h:2418:5: 備考: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(const std::basic_string<_CharT, _Traits, _Alloc>&, _CharT)
+     operator+(const basic_string<_CharT, _Traits, _Alloc>& __lhs, _CharT __rhs)
+     ^
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.h:2418:5: 備考:   template argument deduction/substitution failed:
+In file included from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:0:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:158:80: 備考:   ‘const value_type {aka const std::vector<long double>}’ is not derived from ‘const std::basic_string<_CharT, _Traits, _Alloc>’
+         Glist[i] = distance(One_point[i],max_element(One_point[i],One_point[i]+K));        
+                                                                                ^
+In file included from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/string:52:0,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/locale_classes.h:40,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/ios_base.h:41,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ios:42,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ostream:38,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/iostream:39,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:4,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.h:2430:5: 備考: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(std::basic_string<_CharT, _Traits, _Alloc>&&, const std::basic_string<_CharT, _Traits, _Alloc>&)
+     operator+(basic_string<_CharT, _Traits, _Alloc>&& __lhs,
+     ^
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.h:2430:5: 備考:   template argument deduction/substitution failed:
+In file included from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:0:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:158:80: 備考:   types ‘std::basic_string<_CharT, _Traits, _Alloc>’ and ‘const value_type {aka const std::vector<long double>}’ have incompatible cv-qualifiers
+         Glist[i] = distance(One_point[i],max_element(One_point[i],One_point[i]+K));        
+                                                                                ^
+In file included from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/string:52:0,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/locale_classes.h:40,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/ios_base.h:41,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ios:42,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ostream:38,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/iostream:39,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:4,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.h:2436:5: 備考: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(const std::basic_string<_CharT, _Traits, _Alloc>&, std::basic_string<_CharT, _Traits, _Alloc>&&)
+     operator+(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
+     ^
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.h:2436:5: 備考:   template argument deduction/substitution failed:
+In file included from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:0:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:158:80: 備考:   ‘const value_type {aka const std::vector<long double>}’ is not derived from ‘const std::basic_string<_CharT, _Traits, _Alloc>’
+         Glist[i] = distance(One_point[i],max_element(One_point[i],One_point[i]+K));        
+                                                                                ^
+In file included from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/string:52:0,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/locale_classes.h:40,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/ios_base.h:41,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ios:42,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ostream:38,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/iostream:39,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:4,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.h:2442:5: 備考: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(std::basic_string<_CharT, _Traits, _Alloc>&&, std::basic_string<_CharT, _Traits, _Alloc>&&)
+     operator+(basic_string<_CharT, _Traits, _Alloc>&& __lhs,
+     ^
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.h:2442:5: 備考:   template argument deduction/substitution failed:
+In file included from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:0:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:158:80: 備考:   types ‘std::basic_string<_CharT, _Traits, _Alloc>’ and ‘const value_type {aka const std::vector<long double>}’ have incompatible cv-qualifiers
+         Glist[i] = distance(One_point[i],max_element(One_point[i],One_point[i]+K));        
+                                                                                ^
+In file included from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/string:52:0,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/locale_classes.h:40,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/ios_base.h:41,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ios:42,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ostream:38,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/iostream:39,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:4,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.h:2454:5: 備考: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(const _CharT*, std::basic_string<_CharT, _Traits, _Alloc>&&)
+     operator+(const _CharT* __lhs,
+     ^
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.h:2454:5: 備考:   template argument deduction/substitution failed:
+In file included from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:0:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:158:80: 備考:   mismatched types ‘const _CharT*’ and ‘std::vector<long double>’
+         Glist[i] = distance(One_point[i],max_element(One_point[i],One_point[i]+K));        
+                                                                                ^
+In file included from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/string:52:0,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/locale_classes.h:40,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/ios_base.h:41,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ios:42,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ostream:38,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/iostream:39,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:4,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.h:2460:5: 備考: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(_CharT, std::basic_string<_CharT, _Traits, _Alloc>&&)
+     operator+(_CharT __lhs,
+     ^
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.h:2460:5: 備考:   template argument deduction/substitution failed:
+In file included from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:0:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:158:80: 備考:   mismatched types ‘std::basic_string<_CharT, _Traits, _Alloc>’ and ‘const int’
+         Glist[i] = distance(One_point[i],max_element(One_point[i],One_point[i]+K));        
+                                                                                ^
+In file included from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/string:52:0,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/locale_classes.h:40,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/ios_base.h:41,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ios:42,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ostream:38,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/iostream:39,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:4,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.h:2466:5: 備考: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(std::basic_string<_CharT, _Traits, _Alloc>&&, const _CharT*)
+     operator+(basic_string<_CharT, _Traits, _Alloc>&& __lhs,
+     ^
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.h:2466:5: 備考:   template argument deduction/substitution failed:
+In file included from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:0:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:158:80: 備考:   types ‘std::basic_string<_CharT, _Traits, _Alloc>’ and ‘const value_type {aka const std::vector<long double>}’ have incompatible cv-qualifiers
+         Glist[i] = distance(One_point[i],max_element(One_point[i],One_point[i]+K));        
+                                                                                ^
+In file included from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/string:52:0,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/locale_classes.h:40,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/ios_base.h:41,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ios:42,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ostream:38,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/iostream:39,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:4,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.h:2472:5: 備考: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(std::basic_string<_CharT, _Traits, _Alloc>&&, _CharT)
+     operator+(basic_string<_CharT, _Traits, _Alloc>&& __lhs,
+     ^
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/basic_string.h:2472:5: 備考:   template argument deduction/substitution failed:
+In file included from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:0:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:158:80: 備考:   types ‘std::basic_string<_CharT, _Traits, _Alloc>’ and ‘const value_type {aka const std::vector<long double>}’ have incompatible cv-qualifiers
+         Glist[i] = distance(One_point[i],max_element(One_point[i],One_point[i]+K));        
+                                                                                ^
+In file included from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/vector:65:0,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:10,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/stl_bvector.h:293:3: 備考: std::_Bit_iterator std::operator+(std::ptrdiff_t, const std::_Bit_iterator&)
+   operator+(ptrdiff_t __n, const _Bit_iterator& __x)
+   ^
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/stl_bvector.h:293:3: 備考: 第 1 引数を ‘const value_type {aka const std::vector<long double>}’ から ‘std::ptrdiff_t {aka long int}’ へ変換する方法が不明です
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/stl_bvector.h:379:3: 備考: std::_Bit_const_iterator std::operator+(std::ptrdiff_t, const std::_Bit_const_iterator&)
+   operator+(ptrdiff_t __n, const _Bit_const_iterator& __x)
+   ^
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/stl_bvector.h:379:3: 備考: 第 1 引数を ‘const value_type {aka const std::vector<long double>}’ から ‘std::ptrdiff_t {aka long int}’ へ変換する方法が不明です
+In file included from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/stl_algobase.h:67:0,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/char_traits.h:39,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ios:40,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/ostream:38,
+                 from /cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/iostream:39,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:4,
+                 from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/stl_iterator.h:902:5: 備考: template<class _Iterator, class _Container> __gnu_cxx::__normal_iterator<_Iterator, _Container> __gnu_cxx::operator+(typename __gnu_cxx::__normal_iterator<_Iterator, _Container>::difference_type, const __gnu_cxx::__normal_iterator<_Iterator, _Container>&)
+     operator+(typename __normal_iterator<_Iterator, _Container>::difference_type
+     ^
+/cm/shared/languages/GCC-4.8.4/include/c++/4.8.4/bits/stl_iterator.h:902:5: 備考:   template argument deduction/substitution failed:
+In file included from /panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:2:0:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:158:80: 備考:   mismatched types ‘const __gnu_cxx::__normal_iterator<_Iterator, _Container>’ and ‘const int’
+         Glist[i] = distance(One_point[i],max_element(One_point[i],One_point[i]+K));        
+                                                                                ^
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h: 関数 ‘void initilize_params(const std::vector<std::vector<int> >&, int, int, std::vector<std::vector<int> >&, std::vector<int>&, std::vector<long double>&, std::vector<std::vector<long double> >&, std::vector<std::vector<long double> >&, std::map<std::pair<int, int>, std::array<std::array<long double, 2ul>, 2ul> >&, std::map<std::pair<int, int>, std::array<long double, 2ul> >&, std::vector<double>&)’ 内:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:191:10: エラー: ‘i’ was not declared in this scope
+      for(i=0; i < N; i++)
+          ^
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h: 関数 ‘void compute_one_point(std::vector<std::vector<long double> >&, int, int, std::vector<std::vector<int> >, const std::vector<int>&, const std::vector<long double>&, const std::vector<std::vector<long double> >&, const std::map<std::pair<int, int>, std::array<long double, 2ul> >&, const std::vector<double>&)’ 内:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/bp.h:280:52: エラー: passing ‘const std::map<std::pair<int, int>, std::array<long double, 2ul> >’ as ‘this’ argument of ‘std::map<_Key, _Tp, _Compare, _Alloc>::mapped_type& std::map<_Key, _Tp, _Compare, _Alloc>::operator[](std::map<_Key, _Tp, _Compare, _Alloc>::key_type&&) [with _Key = std::pair<int, int>; _Tp = std::array<long double, 2ul>; _Compare = std::less<std::pair<int, int> >; _Alloc = std::allocator<std::pair<const std::pair<int, int>, std::array<long double, 2ul> > >; std::map<_Key, _Tp, _Compare, _Alloc>::mapped_type = std::array<long double, 2ul>; std::map<_Key, _Tp, _Compare, _Alloc>::key_type = std::pair<int, int>]’ discards qualifiers [-fpermissive]
+                     SIGMA1 += Cavity[make_pair(j,i)][s]*Omega[r][s]*exp(-Omega[r][s]);
+                                                    ^
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp: 関数 ‘void mexFunction(int, mxArray**, int, const mxArray**)’ 内:
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:16:12: エラー: invalid types ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}[int]’ for array subscript
+   edge[i][0] =edgeList[i]-1; 
+            ^
+/panfs/panasas01/emat/sk16722/program/lib/cpalgorithm/zm/zm_bp.cpp:17:12: エラー: invalid types ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}[int]’ for array subscript
+   edge[i][1] =edgeList[i+(int)Enum]-1; 
+            ^
+
+
+シェルが値を返しました 255
+
+続けるにはENTERを押すかコマンドを入力してください
+

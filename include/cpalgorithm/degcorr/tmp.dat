@@ -1,0 +1,83 @@
+% Discrete variant of the Borgatti-Everett algorithm 
+%
+% @version 0.1.0
+% @date 2017/02/19
+%
+% @author Sadamori Kojaku 
+classdef be_cp < cpabst
+
+	methods ( Access = public )
+
+		function [C, P, Q, Qs, score, param, cpu_time] = detect( self, G, param )
+			% --------------------------------
+			% Initialise
+			% --------------------------------
+			C= []; P = []; Q = -Inf; score = [];Qs = [];
+			ts = cputime;
+			
+			% --------------------------------
+			% Optimise node labels using the Kernighan-Lin algorithm 
+			% --------------------------------
+			for it = 1:param.numRun
+				[Ct,Pt,Qt,Qst,scoret] = self.grad_descent(G,param);
+				if Qt > Q | it == 1
+					C = Ct; P = Pt; Q = Qt; score = scoret; Qs = Qst;
+				end
+			end
+			cpu_time = cputime-ts;
+		end
+		
+		function [q,qs,score] = eval(self,G,x,varargin)
+			q = 0;qs = 0; score = 9;
+		end
+			
+		function param = initParam(self,param)
+			if ~isfield(param,'numRun');param.numRun = 20;end
+			if ~isfield(param,'name') param.name = 'be';end
+			if ~isfield(param,'disp') param.disp = false;end
+			if ~isfield(param,'sigma');param.sigma = 0.1;end
+			if ~isfield(param,'beta');param.beta = 0.1;end
+			if ~isfield(param,'mu');param.mu = 1e-4;end
+		end
+	end
+	
+	methods ( Access = private )
+		function [C, P, Q, Qs, score] = grad_descent( self, G, param )
+			A = G.adjacency_matrix('binary');
+			N = size(A,1);	
+			deg = G.degree(); M = G.numEdge();
+			
+			x = rand(N,1);x = x/sqrt(x'*x);
+			Qx = (-x'*A*x + ((deg'*x)^2)/(2*M));
+			while(true)
+				alpha = 1;	
+				while(true)
+					df = param.sigma * (-A* x + (deg)*(deg'*x)/(2*M));
+					%df = sigma * (Mod * x);
+					xnew = x - alpha * df;
+					xnew(xnew<0) = 0;
+					xnew = xnew/sqrt(xnew'*xnew);
+					Qxnew = (-xnew'*A*xnew + ((deg'*xnew)^2)/(2*M));
+					if Qxnew  - Qx  < param.sigma * df'*(xnew-x)
+						break;
+					end
+					alpha = alpha * param.beta; 
+				end
+				if abs(Qxnew  - Qx)/N < param.mu; 
+					x = xnew;
+					Qx = Qxnew;
+					break;
+				end
+				x = xnew;
+				Qx = Qxnew;
+			end
+			C = x;
+			P = 1-C;	
+			Q = -Qx;
+			Qs = Q;
+			score = x;	
+		end
+			
+	end
+		
+end
