@@ -28,7 +28,7 @@ class get_pybind_include(object):
 
 ext_modules = [
     Extension(
-        '_kmalgorithm',
+        '_cpalgorithm',
 	['src/_cpalgorithm_py.cpp'],
         include_dirs=[
             # Path to pybind11 headers
@@ -99,7 +99,7 @@ class BuildExt(build_ext):
         build_ext.build_extensions(self)
 
 setup(
-    name='kmalgorithm',
+    name='cpalgorithm',
     version=__version__,
     author='Sadamori Kojaku',
     author_email='freesailing4046@gmail.com',

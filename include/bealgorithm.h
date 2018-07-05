@@ -14,7 +14,9 @@
 	#include "cpalgorithm.h" 
 #endif
 
-class BEAlgorithm: public BEAlgorithm{
+#include <math.h> 
+
+class BEAlgorithm: public CPAlgorithm{
 public:
 	// Constructor 
 	BEAlgorithm();
@@ -31,6 +33,7 @@ public:
 	
 protected: // function needed to be implemented
 	int _num_runs; 
+	void _detect_(const Graph& G, vector<bool>& x, mt19937_64& mtrnd);
 };
 
 
@@ -51,17 +54,6 @@ BEAlgorithm::BEAlgorithm(): CPAlgorithm(){
 /*-----------------------------
 Functions inherited from the super class (CPAlgorithm)
 -----------------------------*/
-void BEAlgorithm::detect(const Graph& G){
-	
-	int N = G.get_num_nodes();
-	int M = G.get_num_edges();
-	
-	double p = (double) M / (double)(N * (N-1) / 2)
-	vector<int> tmp(N,0);	
-	
-	_detect_(G, _x, N, M, p, _mtrnd);
-}
-
 void BEAlgorithm::calc_Q(
     const Graph& G,
     const vector<int>& c,
@@ -69,76 +61,107 @@ void BEAlgorithm::calc_Q(
     double& Q,
     vector<double>& q)
 {
-	vector<vector<double>>M = G.to_matrix();
-	_calc_Q_modmat(M,c,x,Q,q);
-}
-
-/*-----------------------------
-Private functions (internal use only)
------------------------------*/
-vector<int> sortIndex(const vector<int>& Qs){
-    vector<int> y(Qs.size());
-    size_t n(0);
-    generate(std::begin(y), std::end(y), [&]{ return n++; });
-
-    sort(  std::begin(y), 
-                std::end(y),
-                [&](int i1, int i2) { return Qs[i1] > Qs[i2]; } );
-    return y;
-}
-
-void BEAlgorithm::_detect_(Graph& G,vector<bool>& X, const int N, const double M, const double p, mt19937_64 mtrnd){
-//void bealgorithm(vector<std::vector<int>>& adjList,vector<bool>& X, const int N, const double M, const double p, mt19937_64 mtrnd){
-		
-	// --------------------------------
-	// Initialise X using MINRES algorithm 
-	// --------------------------------
-	std::vector<int> deg; deg.assign(N,0);
-	for( int i = 0;i < N;i++ ) deg[i] = G.degree(i);
-
-	vector<int> ord = sortIndex(deg);	
-	double Z = M;double Zbest = numeric_limits<double>::max();
-	int kbest = 0;
-	for(int k = 0;k<N;k++){
-		Z = Z + k - 1 - deg[ ord[k] ];
-		if(Z < Zbest){
-			kbest = k;
-			Zbest = Z;
+	int N = G.get_num_nodes();
+	double M = 0.0;
+	double pa = 0;
+	double pb = 0;
+	
+	int nc = 0;
+	int mcc = 0;
+	for( int i = 0;i < N;i++ ) {
+		if(x[i]) nc++;
+	
+		int sz = G.degree(i);	
+		for( int j = 0; j < sz; j++ ) {
+			int nei = -1; double w = -1;
+			G.get_weight(i, j, nei, w);
+			if(x[i] | x[nei]) mcc++;
+			M++;
 		}
 	}
+	M = M /2;
+	double M_b = (double)(nc * (nc-1) + 2 * nc * (N -nc));
+	pa = M / (double)(N * (N-1)/2);
+	pb = M_b / (double)(N * (N-1)/2);	
 	
-	X.assign(N,false);
-	for(int k = 0;k<=kbest;k++){
-		X[ ord[k] ] = true;
+	
+	Q = ((double)mcc - pa * M_b ) / (sqrt(pa * (1-pa)) * sqrt(pa * (1-pb)));
+
+	vector<double> qtmp(1,Q);
+	q= qtmp;
+}
+
+void BEAlgorithm::detect(const Graph& G){
+    
+    double Q = -1;
+    int N = G.get_num_nodes();
+    for (int i = 0; i < _num_runs; i++) {
+        vector<int> ci(N, 0);
+        vector<bool> xi;
+        vector<double> qi;
+        double Qi = 0.0;
+        _detect_(G, xi, _mtrnd);
+		
+        calc_Q(G, ci, xi, Qi, qi);
+	
+        if (Qi > Q) {
+            _c = ci;
+            _x = xi;
+            _Q = Qi;
+            _q = qi;
+        }
+    }
+	
+}
+
+            
+void BEAlgorithm::_detect_(const Graph& G, vector<bool>& x, mt19937_64& mtrnd){
+		
+	// --------------------------------
+	// Initialise _x randomly 
+	// --------------------------------
+	int N = G.get_num_nodes();
+	double M = G.get_num_edges();
+	double p = M / (double)(N * (N - 1) / 2 ); 
+	
+	vector<bool> tmp(N, false);
+	x = tmp;
+	uniform_real_distribution<double> dis(0.0, 1.0);	
+	
+	int Nperi = N;
+	for(int i = 0;i<=N; i++){
+		if(dis(mtrnd) < 0.5) {
+			x[i] = true;
+			Nperi-=1;
+		}
 	}
-	int Nperi = N - kbest -1;
-	
+		
 	// --------------------------------
 	// Maximise the Borgatti-Everett quality function 
 	// --------------------------------
-	std::vector<bool>x = X;
-	std::vector<bool>xbest; xbest.assign(N,false);
-	std::vector<bool>fixed; fixed.assign(N,false);
-	vector<int> Dperi; Dperi.assign(N,0);
+	std::vector<bool>xt = x;
+	std::vector<bool>xbest(N, false);
+	std::vector<bool>fixed(N, false);
+	vector<int> Dperi(N, 0);
+
 	for( int j = 0;j < N;j++){
 		std::fill(fixed.begin(),fixed.end(),false);
 		Nperi = 0.0;
 		double numer = 0.0;
 		for( int i = 0; i < N;i ++ ){
-			if(!X[i]) Nperi++;
+			if(!x[i]) Nperi++;
 			Dperi[i] = 0;
 			int sz = G.degree(i);
 			for( int k = 0; k < sz;k ++ ){
-				double w;
-				G.get_weight(i, k, nei, w)
-				if( !X[nei] ) Dperi[i]++;
-				if(X[i] | X[nei]) numer++;	
+				int nei = G.get_kth_neighbour(i, k).get_node();
+				if( !x[nei] ) Dperi[i]++;
+				if(x[i] | x[nei]) numer++;	
 			}
 		}
-		numer = numer/2.0 -p*( N*(N-1.0)/2.0 - (double)Nperi*((double) Nperi-1.0)/2.0 );
-		double pb = 1 -  Nperi*(Nperi-1)/(N*(N-1));
+
+		numer = numer/2.0 -p*( (double)(N*(N-1.0))/2.0 - (double)Nperi*((double) Nperi-1.0)/2.0 );
+		double pb = 1 -  (double)Nperi*(Nperi-1)/(double)(N*(N-1));
 		double Qold = numer / sqrt(pb*(1-pb));
-		
 		
 		double dQ = 0;
 		double dQmax = -1 * std::numeric_limits<double>::max();
@@ -151,32 +174,31 @@ void BEAlgorithm::_detect_(Graph& G,vector<bool>& X, const int N, const double M
 			double numertmp = numer;
 			for(int k =0;k<N;k++){
 				if( fixed[k] ) continue;
-				double dnumer = (Dperi[k]- p * (Nperi-!!(!x[k])) ) * (2*!!(!x[k])-1);
-				double newNperi = Nperi + 2*(!!x[k])-1;
+				double dnumer = (Dperi[k]- p * (Nperi-!!(!xt[k])) ) * (2*!!(!xt[k])-1);
+				double newNperi = Nperi + 2*(!!xt[k])-1;
 				double pb = 1.0- (newNperi*(newNperi-1.0)) / (N*(N-1.0));
 				double q = (numer + dnumer) / sqrt(pb*(1-pb));
-				if(qmax < q & pb*(1-pb)>0){
+				if( (qmax < q) & (pb*(1-pb)>0)){
 					nid = k;qmax = q;numertmp = numer + dnumer;
 				}
 			}
 			numer = numertmp;	
-			Nperi+=2*!!(x[nid])-1;
+			Nperi+=2*!!(xt[nid])-1;
 	
-			int sz = G.degree(i);
+			int sz = G.degree(nid);
 			for(int k = 0;k<sz ;k++){
-				int neik = 0; double wk;
-				G.get_weight(nid, k, neik, wk);
-				Dperi[ neik ]+=2*!!(x[nid])-1;
+				int neik = G.get_kth_neighbour(nid, k).get_node();
+				Dperi[ neik ]+=2*!!(xt[nid])-1;
 			}
 		
-			x[ nid ] = !x[ nid ];
+			xt[ nid ] = !xt[ nid ];
 			
 			dQ = dQ + qmax - Qold;
 			Qold = qmax;
 	
 			//% Save the core-periphery pair if it attains the largest quality	
 			if(dQmax < dQ){
-				xbest = x;
+				xbest = xt;
 				dQmax = dQ;
 			}
 			//fixed( nid ) = true; % Fix the label of node nid
@@ -187,8 +209,8 @@ void BEAlgorithm::_detect_(Graph& G,vector<bool>& X, const int N, const double M
 			break;
 		}
 		
-		x = xbest; X = xbest;
+		xt = xbest; x = xbest;
 	}
-	X = xbest;
+	x = xbest;
 } 
 

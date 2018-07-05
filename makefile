@@ -9,8 +9,8 @@ CFLAGS := -O3 -std=c++11 -fopenmp
 
 all: km_config
 
-km_config:src/* kmalgorithm/*
-	sudo rm -rf build kmalgorithm.egg* && sudo python3 setup.py build install
+km_config:src/* cpalgorithm/*
+	sudo rm -rf build cpalgorithm.egg* && sudo python3 setup.py build install
 
 .PHONY: clean
 clean:

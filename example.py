@@ -4,7 +4,8 @@ import pandas as pd
 import networkx as nx
 
 #import km_config as kmconfig
-from kmalgorithm import km_config, km_modmat
+import cpalgorithm as cp
+#from cpalgorithm import km_config, km_modmat, be
 
 #linkfilename='example_edge_list.txt'
 #df = pd.read_csv(linkfilename, sep=' ')
@@ -22,6 +23,6 @@ w = np.array([ edge[2] for edge in edges ]).astype(float)
 if all(np.isnan(w)):
 	nx.set_edge_attributes(G, values =1, name='weight')
 	w[:] = 1.0
-cppairs = km_config(km_modmat, G, significance_level = 0.05)
+cppairs = cp.km_config(G)
 
 print(cppairs)

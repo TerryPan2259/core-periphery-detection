@@ -168,9 +168,9 @@ void KM_config::calc_Q(
 	int sz = G.degree(i);
 	double di = 0;
         for (int j = 0; j < sz; j++) {
-	    int nei = -1;
-	    double wj = -1;
-	    G.get_weight(i, j, nei, wj);
+	    Neighbour nn = G.get_kth_neighbour(i, j);
+	    int nei = nn.get_node();
+	    double wj = nn.get_w();
             q[c[i]] += wj * !!(c[i] == c[nei]) * !!(x[i] | x[nei]);
 	    di+=wj;
         }
@@ -345,9 +345,9 @@ void KM_config::_propose_new_label(
     fill(edges_to_peri.begin(), edges_to_peri.end(), 0.0);
     double selfloop = 0;
     for (int j = 0; j < neighbourNum; j++) {
-        int nei = -1;
-        double wj = -1;
-        G.get_weight(node_id, j, nei, wj);
+	Neighbour nn = G.get_kth_neighbour(node_id, j);
+	int nei = nn.get_node();
+	double wj = nn.get_w();
 	
 	if(node_id == nei){
 		selfloop+= 1;
@@ -365,9 +365,10 @@ void KM_config::_propose_new_label(
 
     dQ = 0;
     for (int j = 0; j < neighbourNum; j++) {
-        int nei = -1;
-        double wj = -1;
-        G.get_weight(node_id, j, nei, wj);
+	Neighbour nn = G.get_kth_neighbour(node_id, j);
+	int nei = nn.get_node();
+	//double wj = nn.get_w();
+
         int cid = c[nei];
 
         D_core = sum_of_deg_core[cid] - deg * (double)!!( (c[node_id] == cid) & x[node_id]);

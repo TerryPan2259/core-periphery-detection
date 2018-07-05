@@ -10,6 +10,7 @@
 /* -----------------------------------------------------
 Write the algorithms to be included in the prackage here
 ----------------------------------------------------- */
+#include <bealgorithm.h>
 #include <km_config.h>
 #include <km_modmat.h>
 
@@ -26,7 +27,7 @@ void readEdgeTable(py::array_t<int> edges_array_t, py::array_t<double> w_array_t
     auto r = edges_array_t.request();
     int M = r.shape[0];
     auto ws = w_array_t.data();
-
+	
     for(int i =0; i< M; i++){
         int sid = edges[2*i];
         int did = edges[2*i + 1];
@@ -57,9 +58,8 @@ void readEdgeTable(py::array_t<int> edges_array_t, py::array_t<double> w_array_t
     }
 }
 
-void packResults(vector<int>&c, vector<bool>& x, vector<double>&p_values, py::list& results)
+void packResults(vector<int>&c, vector<bool>& x, py::list& results)
 {
-	int K = p_values.size();
 	int N = c.size();
 	py::array_t<double> cids_array_t(N);
 	auto cids = cids_array_t.mutable_data();
@@ -67,33 +67,41 @@ void packResults(vector<int>&c, vector<bool>& x, vector<double>&p_values, py::li
 	py::array_t<double> xs_array_t(N);
 	auto xs = xs_array_t.mutable_data();
 	
-	py::array_t<double> pvals_array_t(K);
-	auto pvals = pvals_array_t.mutable_data();
-	
 	for(int i = 0; i < N; i++){
 		cids[i] = c[i];
 		xs[i] = x[i];
 	}
 
-	for(int i = 0; i < K; i++){
-		pvals[i] = p_values[i];
-	}
-
 	//py::list results(3);
 	results[0] = cids_array_t;
 	results[1] = xs_array_t;
-	results[2] = pvals_array_t;
+}
+
+
+/* BE algorithm*/
+py::list detect_be(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs){
+	
+       	Graph G(0); 
+	readEdgeTable(edges, ws, G);
+
+	BEAlgorithm be = BEAlgorithm(num_of_runs);
+
+	be.detect(G);
+	
+	vector<int>  c = be.get_c();
+	vector<bool> x = be.get_x();
+
+	py::list results(2);
+	packResults(c, x, results);	
+
+	return results;
 }
 
 /* KM algorithm based on the configuration model */
-py::list detect_config_test(py::object cpdetection, py::array_t<int> edges, py::array_t<double> ws, int num_of_runs, double significance_level, int num_of_rand_nets){
-	
-	auto kma = py::module::import("_kmalgorithm");
-	auto resultobj = kma.attr("detect_modmat")(edges, ws, num_of_runs, significance_level, num_of_rand_nets);
+py::list detect_config(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs){
 	
        	Graph G(0); 
 	readEdgeTable(edges, ws, G);
-	int N = G.get_num_nodes();
 
         //mt19937_64 mtrnd = init_random_number_generator();
 	vector<double> q;
@@ -101,83 +109,47 @@ py::list detect_config_test(py::object cpdetection, py::array_t<int> edges, py::
 	KM_config km = KM_config(num_of_runs);
 	km.detect(G);
 	
-	vector<double> pvals(N, 1.0); 
 	vector<int>c = km.get_c();
 	vector<bool>x = km.get_x();
 
-	py::list results(3);
+	py::list results(2);
 
-	packResults(c, x, pvals, results);
-	return results;
-}
-py::list detect_config(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs, double significance_level, int num_of_rand_nets){
-	
-	auto math = py::module::import("math");
-	auto resultobj = math.attr("sqrt")(2);
-	double result = resultobj.cast<double>();
-	
-       	Graph G(0); 
-	readEdgeTable(edges, ws, G);
-	int N = G.get_num_nodes();
-
-        //mt19937_64 mtrnd = init_random_number_generator();
-	vector<double> q;
-
-	KM_config km = KM_config(num_of_runs);
-	km.detect(G);
-	
-	vector<double> pvals(N, 1.0); 
-	vector<int>c = km.get_c();
-	vector<bool>x = km.get_x();
-
-	py::list results(3);
-
-	packResults(c, x, pvals, results);
+	packResults(c, x, results);
 	return results;
 }
 
 /* KM algorithm based on an arbitary null models*/
-py::list detect_modmat(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs, double significance_level, int num_of_rand_nets){
+py::list detect_modmat(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs){
 	
-	cout<<"sada"<<endl;
        	Graph G(0); 
 	readEdgeTable(edges, ws, G);
-	int N = G.get_num_nodes();
 	KM_modmat km = KM_modmat(num_of_runs);
 
 	km.detect(G);
 	
 	vector<int>  c = km.get_c();
 	vector<bool> x = km.get_x();
-	vector<double> p_values(N, 1.0);	
 
-	py::list results(3);
-	packResults(c, x, p_values, results);	
+	py::list results(2);
+	packResults(c, x, results);	
 	return results;
 }
 
-PYBIND11_MODULE(_kmalgorithm, m){
+PYBIND11_MODULE(_cpalgorithm, m){
 	m.doc() = "Core-periphery detection in networks";
-	m.def("detect_config_test", &detect_config_test, "Use the configuration model as null models",
-		py::arg("cpdetection"),
+	m.def("detect_be", &detect_be, "Borgatti-Everett algorithm",
 		py::arg("edges"),
 		py::arg("ws"),
-		py::arg("num_of_runs") = 10,
-		py::arg("significance_level") = 1.0, 
-		py::arg("num_of_rand_nets") = 500
+		py::arg("num_of_runs") = 10
 	);
 	m.def("detect_config", &detect_config, "Use the configuration model as null models",
 		py::arg("edges"),
 		py::arg("ws"),
-		py::arg("num_of_runs") = 10,
-		py::arg("significance_level") = 1.0, 
-		py::arg("num_of_rand_nets") = 500
+		py::arg("num_of_runs") = 10
 	);
 	m.def("detect_modmat", &detect_modmat, "Use the user-provided modularity matrix",
-	py::arg("edges"),
-	py::arg("ws"),
-	py::arg("num_of_runs") = 10,
-	py::arg("significance_level") = 1.0, 
-	py::arg("num_of_rand_nets") = 500
+		py::arg("edges"),
+		py::arg("ws"),
+		py::arg("num_of_runs") = 10
 	);
 }

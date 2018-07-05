@@ -2,11 +2,39 @@
 #include <vector>
 
 using namespace std;
-typedef pair<int, double> Edge; // Edge 
+//typedef pair<int, double> Edge; // Edge 
 
+class Neighbour{
+public:
+    int _node;
+    double _w; 
+    // constracter
+    Neighbour();
+    Neighbour(int node, double w);
+	
+    // Getters
+    int get_node() const;
+    double get_w() const;
+};
+
+Neighbour::Neighbour(int node, double w){
+	_node = node;
+	_w = w;
+};
+
+// Getter -----------
+int Neighbour::get_node() const{
+	return _node;
+}
+
+double Neighbour::get_w() const{
+	return _w;
+}
+
+    
 class Graph{
 public:
-    vector<vector<Edge>> _edges;
+    vector<vector<Neighbour>> _neighbours;
     
     // constracter
     Graph(int num_nodes);
@@ -17,70 +45,79 @@ public:
     int degree(int nid) const;
     double wdegree(int nid) const;
     void get_weight(int nid, int j, int& nei, double& w) const;
+
+    Neighbour get_kth_neighbour(int nid, int k) const;
+
     void print() const;
     vector<vector<double>> to_matrix() const;
     
     void addEdge(int u, int v, double w);
+    
 };
     
 Graph::Graph(int num_nodes){
-	vector<vector<Edge>> tmp(num_nodes, vector<Edge>(0));	
-	_edges = tmp;
+	vector<vector<Neighbour>> tmp(num_nodes, vector<Neighbour>(0));	
+	_neighbours = tmp;
 };
+
 
 // Getter -----------
 int Graph::get_num_nodes() const{
-	return _edges.size();
+	return _neighbours.size();
 }
 
 int Graph::get_num_edges() const{
 	int N = get_num_nodes();
 	int M = 0;
     	for (int i = 0; i < N; i++) {
-		 M+= _edges[i].size();
+		 M+= _neighbours[i].size();
 	}
 	return M/2;
 }
 
 // get the id and weight of the jth neighbour of node nid
 void Graph::get_weight(int nid, int j, int& nei, double& w) const{
-	nei = _edges[nid][j].first;
-	w = _edges[nid][j].second;
+	nei = _neighbours[nid][j].get_node();
+	w = _neighbours[nid][j].get_w();
 }
 
 // get weighted degree
 double Graph::wdegree(int nid) const{
-	int sz = _edges[nid].size();
+	int sz = _neighbours[nid].size();
 	double deg = 0;
     	for (int j = 0; j < sz; j++) {
-        	deg+= _edges[nid][j].second;
+        	deg+= _neighbours[nid][j].get_w();
 	}
 	return deg;
 }
 
 // get degree
 int Graph::degree(int nid) const{
-	return _edges[nid].size();
+	return _neighbours[nid].size();
+}
+
+Neighbour Graph::get_kth_neighbour(int nid, int k) const{
+	return _neighbours[nid][k];
 }
 
 // add 
 void Graph::addEdge(int u, int v, double w){
-	Edge ed1 = make_pair(v, w);
-	_edges[u].push_back(ed1);
+	Neighbour ed1(v, w);
+	_neighbours[u].push_back(ed1);
 	
 	if(u==v) return;
 	
-	Edge ed2 = make_pair(u, w);
-	_edges[v].push_back(ed2);
+	Neighbour ed2(u, w);
+	_neighbours[v].push_back(ed2);
 }
 
 // add 
 void Graph::print() const{
 	int N = get_num_nodes();
 	for(int i =0; i < N;i++){
-		int sz = _edges[i].size();
+		int sz = _neighbours[i].size();
 		for(int j =0; j < sz;j++){
-			cout<<i<<" "<<_edges[i][j].first<<" "<<_edges[i][j].second<<endl;
+			cout<<i<<" "<<_neighbours[i][j].get_node()<<" "<<_neighbours[i][j].get_w()<<endl;
 		}
 	
 	}
@@ -92,9 +129,9 @@ vector<vector<double>> Graph::to_matrix() const{
 	vector<vector<double>> M(N, vector<double>(N, 0));
 		
 	for(int i =0; i < N;i++){
-		int sz = _edges[i].size();
+		int sz = _neighbours[i].size();
 		for(int j =0; j < sz;j++){	
-			M[i][_edges[i][j].first] = _edges[i][j].second;
+			M[i][_neighbours[i][j].get_node()] = _neighbours[i][j].get_w();
 		}
 	}
 	return M;

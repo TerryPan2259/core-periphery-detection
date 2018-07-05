@@ -1,9 +1,8 @@
-import _kmalgorithm as km 
+import _cpalgorithm as cp 
 import numpy as np
 import networkx as nx
 
-def km_config(cpdetection, G, significance_level = 0.05, num_of_runs = 10, num_of_rand_nets = 500):
-#def km_config(G, significance_level = 0.05, num_of_runs = 10, num_of_rand_nets = 500):
+def km_config(G, num_of_runs = 10):
 	if isinstance(G,nx.classes.graph.Graph) == False:
 		print("Pass Networkx.classes.graph.Graph object")
 		return
@@ -22,12 +21,10 @@ def km_config(cpdetection, G, significance_level = 0.05, num_of_runs = 10, num_o
 		nx.set_edge_attributes(G, values =1, name='weight')
 		w[:] = 1.0
 
-	cppairs = km.detect_config_test(cpdetection = cpdetection, edges=node_pairs, ws=w, significance_level = significance_level, num_of_runs = num_of_runs, num_of_rand_nets = num_of_rand_nets)
-	#cppairs = km.detect_config(edges=node_pairs, ws=w, significance_level = significance_level, num_of_runs = num_of_runs, num_of_rand_nets = num_of_rand_nets)
+	cppairs = cp.detect_config(edges=node_pairs, ws=w, num_of_runs = num_of_runs)
 	
 	nx.relabel_nodes(G,id2node,False)
 	return {'pair_id': dict(zip( range(len(cppairs[0])), cppairs[0].astype(int))),\
-		'core_node': dict(zip( range(len(cppairs[0])), cppairs[1].astype(bool))),\
-		'cp_pair_significance':cppairs[2]}
+		'core_node': dict(zip( range(len(cppairs[0])), cppairs[1].astype(bool)))}
 
 	#return {'pair_id':, 'is_core_node':cppairs[1], 'cp_pair_significance':cppairs[2]}	
