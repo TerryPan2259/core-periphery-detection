@@ -79,14 +79,15 @@ void BEAlgorithm::calc_Q(
 			M++;
 		}
 	}
+	mcc = mcc/2;
 	M = M /2;
-	double M_b = (double)(nc * (nc-1) + 2 * nc * (N -nc));
+	double M_b = (double)(nc * (nc-1) + 2 * nc * (N -nc))/2;
 	pa = M / (double)(N * (N-1)/2);
 	pb = M_b / (double)(N * (N-1)/2);	
 	
 	
 	Q = ((double)mcc - pa * M_b ) / (sqrt(pa * (1-pa)) * sqrt(pa * (1-pb)));
-
+	Q = Q / (double)(N * (N-1)/2);
 	vector<double> qtmp(1,Q);
 	q= qtmp;
 }

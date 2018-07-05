@@ -79,7 +79,7 @@ void readCPResult(py::array_t<int> c_array_t, py::array_t<bool> x_array_t, vecto
     x = xList;
 }
 
-void packResults(vector<int>&c, vector<bool>& x, py::list& results)
+void packResults(vector<int>&c, vector<bool>& x, double& Q, vector<double>&q, py::list& results)
 {
 	int N = c.size();
 	py::array_t<double> cids_array_t(N);
@@ -92,10 +92,25 @@ void packResults(vector<int>&c, vector<bool>& x, py::list& results)
 		cids[i] = c[i];
 		xs[i] = x[i];
 	}
+	
+	int K = q.size();
+	py::array_t<double> qs_array_t(K);
+	auto qs = qs_array_t.mutable_data();
+	
+	for(int i = 0; i < K; i++){
+		qs[i] = q[i];
+	}
+	
+	py::array_t<double> Qs_array_t(1);
+	auto Qs = Qs_array_t.mutable_data();
+	
+	Qs[0] = Q;	
 
 	//py::list results(3);
 	results[0] = cids_array_t;
 	results[1] = xs_array_t;
+	results[2] = Qs_array_t;
+	results[3] = qs_array_t;
 }
 
 void pack_Q(double _Q, vector<double>& _q, py::list& results)
@@ -125,11 +140,15 @@ py::list detect_be(py::array_t<int> edges, py::array_t<double> ws, int num_of_ru
 
 	be.detect(G);
 	
+	double Q = 0;
+	vector<double>q;
+	be._calc_Q(G, Q, q);
+	
 	vector<int>  c = be.get_c();
 	vector<bool> x = be.get_x();
 
-	py::list results(2);
-	packResults(c, x, results);	
+	py::list results(4);
+	packResults(c, x, Q, q, results);	
 
 	return results;
 }
@@ -140,15 +159,19 @@ py::list detect_minres(py::array_t<int> edges, py::array_t<double> ws, int num_o
        	Graph G(0); 
 	readEdgeTable(edges, ws, G);
 
-	MINRES be = MINRES();
+	MINRES minres = MINRES();
 
-	be.detect(G);
+	minres.detect(G);
+
+	double Q = 0;
+	vector<double>q;
+	minres._calc_Q(G, Q, q);
 	
-	vector<int>  c = be.get_c();
-	vector<bool> x = be.get_x();
+	vector<int>  c = minres.get_c();
+	vector<bool> x = minres.get_x();
 
-	py::list results(2);
-	packResults(c, x, results);	
+	py::list results(4);
+	packResults(c, x, Q, q, results);	
 
 	return results;
 }
@@ -159,17 +182,19 @@ py::list detect_config(py::array_t<int> edges, py::array_t<double> ws, int num_o
 	readEdgeTable(edges, ws, G);
 
         //mt19937_64 mtrnd = init_random_number_generator();
-	vector<double> q;
-
 	KM_config km = KM_config(num_of_runs);
 	km.detect(G);
+	
+	double Q = 0;
+	vector<double>q;
+	km._calc_Q(G, Q, q);
 	
 	vector<int>c = km.get_c();
 	vector<bool>x = km.get_x();
 
-	py::list results(2);
+	py::list results(4);
 
-	packResults(c, x, results);
+	packResults(c, x, Q, q, results);
 	return results;
 }
 
@@ -182,11 +207,16 @@ py::list detect_modmat(py::array_t<int> edges, py::array_t<double> ws, int num_o
 
 	km.detect(G);
 	
+	double Q = 0;
+	vector<double>q;
+	km._calc_Q(G, Q, q);
+	
 	vector<int>  c = km.get_c();
 	vector<bool> x = km.get_x();
 
-	py::list results(2);
-	packResults(c, x, results);	
+	py::list results(4);
+	packResults(c, x, Q, q, results);	
+
 	return results;
 }
 
@@ -205,7 +235,7 @@ py::list calc_Q_config(py::array_t<int> edges, py::array_t<double> ws, py::array
 	km.calc_Q(G, c, x, Q, q);
 	
 	py::list results(2);
-	packResults(c, x, results);	
+	pack_Q(Q, q, results);	
 	return results;
 }
 
@@ -224,7 +254,7 @@ py::list calc_Q_minres(py::array_t<int> edges, py::array_t<double> ws, py::array
 	km.calc_Q(G, c, x, Q, q);
 	
 	py::list results(2);
-	packResults(c, x, results);	
+	pack_Q(Q, q, results);	
 	return results;
 }
 
@@ -243,7 +273,7 @@ py::list calc_Q_be(py::array_t<int> edges, py::array_t<double> ws, py::array_t<i
 	km.calc_Q(G, c, x, Q, q);
 	
 	py::list results(2);
-	packResults(c, x, results);	
+	pack_Q(Q, q, results);	
 	return results;
 }
 
@@ -262,7 +292,7 @@ py::list calc_Q_modmat(py::array_t<int> edges, py::array_t<double> ws, py::array
 	km.calc_Q(G, c, x, Q, q);
 	
 	py::list results(2);
-	packResults(c, x, results);	
+	pack_Q(Q, q, results);	
 	return results;
 }
 
