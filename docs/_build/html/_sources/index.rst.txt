@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to core-periphery detection in networks documentation!
-================================
+===============================================================
 
 .. toctree::
    :maxdepth: 2
