@@ -10,6 +10,7 @@ Welcome to core-periphery detection in networks documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   all-about-me
 
 
 Indices and tables
