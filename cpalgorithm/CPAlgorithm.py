@@ -33,7 +33,7 @@ class CPAlgorithm(metaclass=ABCMeta):
 		self = args[0]
 
 		if len(args) ==1:
-			return self.Q_, self.qs_
+			return self.qs_
 		else:
 			G = args[1]
 			c = args[2]

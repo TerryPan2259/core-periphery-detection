@@ -16,7 +16,7 @@ class MINRES(CPAlgorithm):
 		self.c_ = dict(zip( [id2node[i] for i in range(N)], cppairs[0].astype(int)))
 		self.x_ = dict(zip( [id2node[i] for i in range(N)], cppairs[1].astype(bool)))
 		self.Q_ = cppairs[2][0]
-		self.qs_ = cppairs[3].tolist()
+		self.qs_ = cppairs[3]
 	
 	def _score(self, G, c, x):
 

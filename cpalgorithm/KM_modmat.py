@@ -15,7 +15,7 @@ class KM_modmat(CPAlgorithm):
 		self.c_ = dict(zip( [id2node[i] for i in range(N)], cppairs[0].astype(int)))
 		self.x_ = dict(zip( [id2node[i] for i in range(N)], cppairs[1].astype(bool)))
 		self.Q_ = cppairs[2][0]
-		self.qs_ = cppairs[3]
+		self.qs_ = cppairs[3].tolist()
 
 	
 	def _score(self, G, c, x):
@@ -28,10 +28,7 @@ class KM_modmat(CPAlgorithm):
 			
 		result = _cp.calc_Q_modmat(edges=node_pairs, ws=w, c = _c, x=_x)
 
-		Q = result[0]
-		q = result[1]
+		return result[1].tolist()
 
-		return Q, q	
-	
 	def significance(self):
 		return self.pvalues	
