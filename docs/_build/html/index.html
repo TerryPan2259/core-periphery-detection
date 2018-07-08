@@ -155,23 +155,45 @@
 <li>statistical tests for detected core-periphery structure.</li>
 </ul>
 <p>Despite the importance of core-periphery structure, a few software implements core-periphery detection algorithms.
-Some authors provide the code for their algorithms, which is, however, often written in different programming languages and requires users to understand the usage of each.
+Some authors provide the code for their algorithms, which is, however, often written in different programming languages and/or different usage, making the systematic analysis difficult.
 The aim of cpalgorithm is to provide an easy access to the algorithms.</p>
 </div>
 <div class="section" id="core-periphery-structure">
 <h1>Core-periphery structure<a class="headerlink" href="#core-periphery-structure" title="Permalink to this headline">¶</a></h1>
 <p>Core-periphery structure is a mesoscale structure of networks, where core is a group of densely interconnected nodes, and periphery is a group of sparsely interconnected nodes.
 The core can be densely interconnected with the periphery or not.
-Core-periphery structure has been found in various empirical networks such as social networks, biological networks and transportation networks.
-For example, a political blog network consists of two core-periphery pairs, each of which consists of the blogs sharing the same political agenda.
+Core-periphery structure has been found in various empirical networks such as social networks, biological networks and transportation networks [1].
+For example, a political blog network consists of two core-periphery pairs, each of which consists of the blogs sharing the same political agenda [2,3].
 Each core-periphery pair consists of a set of core blogs that are linking each other and a set of peripheral blogs that links mainly to the core blogs.</p>
-<p>[some figures go here]</p>
-<p>In a worldwide airport network, there are 28 core-periphery pairs, each of which mostly consists of the airports in the same geographical region.
+<div class="figure align-center" id="id1">
+<a class="reference internal image-reference" href="_images/poliblog.png"><img alt="_images/poliblog.png" src="_images/poliblog.png" style="width: 387.20000000000005px; height: 433.6px;" /></a>
+<p class="caption"><span class="caption-text">Core-periphery structure in the political blog network.
+The filled or open circles indicate core nodes or peirpheral nodes, respectively.
+The colour of each circle indicates the core-periphery pair to which the node belongs.</span></p>
+</div>
+<p>In the worldwide airport network, there are 28 core-periphery pairs, each of which mostly consists of the airports in the same geographical region [2,3].
 The core and peripheral ports largely correspond to the hubs and regional airports.</p>
-<p>[some figures go here]</p>
+<div class="figure align-center" id="id2">
+<a class="reference internal image-reference" href="_images/airport.png"><img alt="_images/airport.png" src="_images/airport.png" style="width: 584.8000000000001px; height: 410.0px;" /></a>
+<p class="caption"><span class="caption-text">Core-periphery structure in the worldwide airport neworks.
+The circles with or without a black stroke indicate core nodes or peirpheral nodes, respectively.
+The colour of each circle indicates the core-periphery pair to which the node belongs.
+Open squares indicate the residual ports that do not belong to any core-periphery pair.
+Figure is taken from [2]</span></p>
+</div>
 <p>Core-periphery structure may play a crucial role in complex systems.
-For example, core-periphery structure is the most robust structure against random attacks to nodes.
-Transportation networks with core-periphery structure are economically efficient.</p>
+For example, core-periphery structure is the most robust structure against random attacks to nodes [4].
+Transportation networks with core-periphery structure are economically efficient [5].</p>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>[1] P. Csermely, A. London, L.-Y. Wu, and B. Uzzi, J. Complex Netw. 1, 93 (2013).</li>
+<li>[2] S. Kojaku and N. Masuda, Phys. Rev. 96, 052313 (2017).</li>
+<li>[3] S. Kojaku and N. Masuda, N. J. Phys. 20, 043012 (2018).</li>
+<li>[4] T. Peixoto and S. Bornholdt, Phys. Rev. Lett. 109, 118793 (2012)</li>
+<li>[5] T. Verma, F. Russmann, N. A. M. Araújo, J. Nagler, and H. J. Herrmann, Nat. Commun. 7, 10441 (2016).</li>
+</ul>
+</div>
 </div>
 <div class="section" id="scope">
 <h1>Scope<a class="headerlink" href="#scope" title="Permalink to this headline">¶</a></h1>
@@ -185,14 +207,11 @@ Other types of core-periphery structure such as transportation-based core-periph
 <li class="toctree-l1"><a class="reference internal" href="Reference.html">Reference</a></li>
 </ul>
 </div>
-<div class="section" id="indices-and-tables">
-<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
 <li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
 <li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
 </ul>
-</div>
 </div>
 
 
