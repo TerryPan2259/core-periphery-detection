@@ -10,7 +10,7 @@ cpalgorithm provides:
 * statistical tests for detected core-periphery structure.
 
 Despite the importance of core-periphery structure, a few software implements core-periphery detection algorithms. 
-Some authors provide the code for their algorithms, which is, however, often written in different programming languages and/or different usage, making the systematic analysis difficult. 
+Some authors provide the code for their algorithms, which are, however, often written in different programming languages and/or different usage, making the systematic analysis difficult. 
 The aim of cpalgorithm is to provide an easy access to the algorithms.  
 
 ========================
@@ -71,6 +71,7 @@ Other types of core-periphery structure such as transportation-based core-periph
    :caption: Contents:
 
    Installation 
+   Tutorial 
    Examples 
    Reference 
 

@@ -71,6 +71,7 @@ Other types of core-periphery structure such as transportation-based core-periph
    :caption: Contents:
 
    Installation 
+   Tutorial 
    Examples 
    Reference 
 
