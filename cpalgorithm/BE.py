@@ -14,7 +14,7 @@ class BE(CPAlgorithm):
 		
 		N = len(id2node) 
 		self.c_ = dict(zip( [id2node[i] for i in range(N)], cppairs[0].astype(int)))
-		self.x_ = dict(zip( [id2node[i] for i in range(N)], cppairs[1].astype(bool)))
+		self.x_ = dict(zip( [id2node[i] for i in range(N)], cppairs[1].astype(int)))
 		self.Q_ = cppairs[2][0]
 		self.qs_ = cppairs[3].tolist()
 	

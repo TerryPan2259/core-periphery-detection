@@ -47,13 +47,6 @@ private:
 	int _num_runs;
 	uniform_real_distribution<double> _udist;
 	
-	// variables for statistical test
-//	vector<double> _deg;
-//	vector<int> _deg_rank;
-//      bool _noSelfloop;
-//      bool _isunweighted;
-//      int _N;
-
 	void _km_config_label_switching(
 	    const Graph& G,
 	    const int num_of_runs,
@@ -63,8 +56,6 @@ private:
 	    vector<double>& q,
             mt19937_64& mtrnd
 		);
-
-//	void _Chung_Lu_Algorithm(const vector<double>& deg, const vector<int>& nodes, Graph& G, bool noSelfloop, bool isunweighted, mt19937_64& mtrnd);
 
 	double _calc_dQ_conf(double d_i_c,
 	    double d_i_p,
@@ -121,32 +112,6 @@ Functions inherited from the super class (CPAlgorithm)
 void KM_config::detect(const Graph& G){
 	_km_config_label_switching(G, _num_runs, _c, _x, _Q, _q, _mtrnd);
 }
-/*
-void KM_config::_init_randomised_network_generator(const Graph& G){
-
-    _noSelfloop = false;
-    _isunweighted = false;
-    _N = G.get_num_nodes();
- 
-    vector<double> tmp(_N, 0.0);
-    _deg = tmp;
-    for (int i = 0; i < _N; i++) {
-        _deg[i]= G.wdegree(i);
-    };
-
-    vector<int> tmp2(_N); // deg_rank[k] is the id of the node with the kth largest degree. 
-    iota(tmp2.begin(), tmp2.end(), 0);
-    _deg_rank = tmp2;
-    sort(
-        _deg_rank.begin(),
-        _deg_rank.end(),
-        [&](int x, int y){return _deg[x] > _deg[y];}
-    );
-}
-*/
-//void KM_config::_generate_randomised_network(Graph& G_rand, mt19937_64& mtrnd){
-	//_Chung_Lu_Algorithm(_deg, _deg_rank, G_rand, _noSelfloop, _isunweighted, mtrnd);
-//}
 
 void KM_config::calc_Q(
     const Graph& G,
@@ -189,91 +154,10 @@ void KM_config::calc_Q(
 Private functions (internal use only)
 -----------------------------*/
 
-/*
- * Chung, F. & Lu, L. 
- * Connected Components in Random Graphs with Given Expected Degree Sequences. 
- * Ann. Comb. 6, 125–145 (2002). 
- *
- * Miller, J. C. & Hagberg, A. 
- * Efficient Generation of Networks with Given Expected Degrees. 
- * in Algorithms and Models for the Web Graph (eds. Frieze, A., Horn, P. & Prałat, P.) 
- * 6732 LNCS, 115–126 (Springer Berlin Heidelberg, 2011). 
- *
-void KM_config::_Chung_Lu_Algorithm(const vector<double>& deg, const vector<int>& nodes, Graph& G, bool noSelfloop, bool isunweighted, mt19937_64& mtrnd)
-{
-    int N = deg.size();
-    double M = accumulate(deg.begin(), deg.end(), 0.0);
-    M /= 2;
-    Graph tmp(N);
-    G = tmp;
-	
-    for(int u = 0; u < N-1; u++){
-	int v = u;
-
-	if(noSelfloop){
-		v = v + 1;
-	}	
-	
-	double p = MIN(1, deg[ nodes[u] ] * deg[ nodes[v] ] / (2.0*M) );
-	while(v < N && p > 0){
-		if(p!=1){
-    			//geometric_distribution<int> gdist(p);
-			//v = v + gdist(mtrnd);
-			double r = _udist(mtrnd);
-			v = v + floor( log(r) / log(1-p) );
-		}
-		if(v < N ){
-			double q = MIN(deg[ nodes[u] ] * deg[ nodes[v] ] / (2.0*M), 1);
-			double w = 1;
-			bool addEdge = false;
-			if(isunweighted){
-				double r = _udist(mtrnd);
-				addEdge = r < q / p;	
-			}else{
-	    			poisson_distribution<int> distribution(q / p);
-	    			w = distribution(mtrnd);
-				addEdge = w>0; 	
-			}
-			if(addEdge){
-				G.addEdge(nodes[u], nodes[v], w);
-			
-				if(u!=v){
-					G.addEdge(nodes[v], nodes[u], w);
-				}
-			}
-			p = q;
-			v = v + 1;
-		}
-	}
-    }
-}
- * */
-
 /* 
 * Use this function instead if you have problem in initialising mtrnd
 * This sometimes happens when the version of gcc compiler is different from the one required by mex compiler.
 */ 
-/*
-std::mt19937_64 init_random_number_generator(){
-	int seeds[624];
-	size_t size = 624*4; //Declare size of data
-	std::ifstream urandom("/dev/urandom", std::ios::in | std::ios::binary); //Open stream
-	if (urandom) //Check if stream is open
-	{
-	    urandom.read(reinterpret_cast<char*>(seeds), size); //Read from urandom
-	    urandom.close(); //close stream
-	}
-	else //Open failed
-	{
-	    		std::cerr << "Failed to open /dev/urandom" << std::endl;
-	}
-	std::mt19937_64 mtrnd;
-	std::seed_seq seed(&seeds[0], &seeds[624]);
-	mtrnd.seed(seed);
-	return mtrnd;
-}
-*/
-
 
 void KM_config::_km_config_label_switching(
     const Graph& G,
@@ -402,9 +286,6 @@ void KM_config::_propose_new_label(
     }
 }
 
-
-
-
 void KM_config::_km_config_label_switching_core(
     const Graph& G,
     vector<int>& c,
@@ -498,4 +379,194 @@ void KM_config::_km_config_label_switching_core(
         }
         c[i] = cid;
     }
+}
+
+/* Louvain algorithm */
+
+void KM_config::_km_modmat_louvain_core(
+	const Graph& G, 
+    	vector<int>& c,
+    	vector<bool>& x,
+        mt19937_64& mtrnd
+	){
+
+	// Intiialise variables	
+	int N = G.get_num_nodes();
+	c.clear();
+	x.clear();
+    	c.assign(N, 0); 
+    	x.assign(N, true);
+    	for (int i = 0; i < N; i++) c[i] = i;
+	
+	vector<int>ct = c; // label of each node at tth iteration
+	vector<bool>xt = x; // label of each node at tth iteration. 
+	Graph cnet_G; // coarse network
+	vector<int> toLayerId; //toLayerId[i] maps 2*c[i] + x[i] to the id of node in the coarse network 
+	_coarsing(G, ct, xt, cnet_G, toLayerId); // Initialise toLayerId
+
+	double Qbest = 0; // quality of the current partition
+
+	int cnet_N;
+	do{
+		cnet_N = cnet_G.get_num_nodes();
+		
+		// Core-periphery detection	
+		vector<int> cnet_c; // label of node in the coarse network, Mt 
+		vector<bool> cnet_x; // label of node in the coarse network, Mt 
+		_km_modmat_label_switching_core(cnet_G, cnet_c, cnet_x, mtrnd);
+	
+		// Update the label of node in the original network, ct and xt.	
+		for(int i = 0; i< N; i++){
+			int cnet_id = toLayerId[2 * ct[i] + xt[i]];
+			ct[i] = cnet_c[ cnet_id ];
+			xt[i] = cnet_x[ cnet_id ];
+		}
+ 		
+		// Compute the quality       	
+		double Qt = 0; vector<double> qt;
+		calc_Q_config(cnet_G, cnet_c, cnet_x, Qt, qt);
+
+		if(Qt>=Qbest){ // if the quality is the highest among those detected so far
+			c = ct;
+			x = xt;
+			Qbest = Qt;
+		}
+	
+		// Coarsing	
+		vector<vector<double>> new_cnet_G; 
+		_coarsing(cnet_G, cnet_c, cnet_x, new_cnet_G, toLayerId);
+		cnet_G = new_cnet_G;
+		
+		int sz = cnet_G.get_num_nodes();
+		if(sz == cnet_N) break;	
+			
+	}while( true );
+
+	_relabeling(c);
+}
+
+void KM_config::_km_config_louvain(
+    const Graph& G,
+    const int num_of_runs,
+    vector<int>& c,
+    vector<bool>& x,
+    double& Q,
+    vector<double>& q,
+    mt19937_64& mtrnd
+    )
+{
+
+    int N = G.get_num_nodes();
+    c.clear();
+    x.clear();
+    c.assign(N, 0);
+    x.assign(N, true);
+
+    /* Generate \hat q^{(s)} and \hat n^{(s)} (1 \leq s \leq S) */
+    // create random number generator per each thread
+    int numthread = 1;
+    #ifdef _OPENMP
+    	# pragma omp parallel
+    	{
+    		numthread = omp_get_num_threads();
+    	}
+    #endif
+    vector<mt19937_64> mtrnd_list(numthread);
+    for(int i = 0; i < numthread; i++){
+	mt19937_64 mtrnd = _init_random_number_generator();
+	mtrnd_list[i] = mtrnd;
+    }
+
+    Q = -1;
+    #ifdef _OPENMP
+    #pragma omp parallel for shared(c, x, Q, q, N, G, mtrnd_list)
+    #endif
+    for (int i = 0; i < num_of_runs; i++) {
+        vector<int> ci;
+        vector<bool> xi;
+        vector<double> qi;
+        double Qi = 0.0;
+
+        int tid = 0;
+    	#ifdef _OPENMP
+        	tid = omp_get_thread_num();
+    	#endif
+	
+        mt19937_64 mtrnd = mtrnd_list[tid];
+        _km_config_louvain_core(G, ci, xi, mtrnd);
+
+        calc_Q_config(G, ci, xi, Qi, qi);
+
+        #pragma omp critical
+        {
+        	if (Qi > Q) {
+		    for(int i = 0; i < N; i++){
+			c[i] = ci[i];
+			x[i] = xi[i];
+		    }
+		    q.clear();
+		    int K = qi.size();
+	            vector<double> tmp(K,0.0);	
+		    q = tmp;
+		    for(int k = 0; k < K; k++){
+			q[k] = qi[k];
+		    }
+        	    Q = Qi;
+        	}
+	}
+    }
+}
+
+void KM_config::_coarsing(
+    	const Graph& G,
+    	const vector<int>& c,
+    	const vector<bool>& x,
+    	Graph& newG,
+    	vector<int>& toLayerId 
+	){
+		
+        int N = c.size();
+	vector<int> ids(N,0);
+    	int maxid = 0;
+	for(int i = 0;i<N;i++){
+		ids[i] = 2 * c[i] + x[i];
+		maxid = MAX(maxid, ids[i]);
+	}
+	_relabeling(ids);
+	toLayerId.clear();
+	toLayerId.assign(maxid+1,0);
+	for(int i = 0;i<N;i++){
+		toLayerId[2 * c[i] + x[i]] = ids[i];
+	}
+	
+	
+    	int K = *max_element(ids.begin(), ids.end()) + 1;
+	newG = Graph(K);
+
+	for(int i = 0;i<N;i++){
+		int mi = 2 * c[i] + x[i];
+		for(int j = 0;j<N;j++){
+			int mj = 2 * c[j] + x[j];
+			Neighbour nb = G.get_kth_neighbour(i, j);
+			int sid = toLayerId[mi];
+			int did = toLayerId[mj];
+			double w = nb.get_w();
+			newG.addEdge(sid, did, w);
+		}
+	}
+	
+	newG.compress();
+}
+
+int KM_config::_count_non_empty_block(
+    	vector<int>& c,
+    	vector<bool>& x
+	){
+	int N = c.size();
+	vector<int> ids(N,0);
+	for(int i = 0; i< N; i++){
+		ids[i] = 2 * c[i] + x[i];
+	}
+	sort(ids.begin(), ids.end());
+	return unique(ids.begin(), ids.end()) - ids.begin();
 }

@@ -57,6 +57,8 @@ void readEdgeTable(py::array_t<int> edges_array_t, py::array_t<double> w_array_t
 	G.addEdge(sid, did, w);
 	wid++;
     }
+	
+    G.compress();
 }
 
 void readCPResult(py::array_t<int> c_array_t, py::array_t<bool> x_array_t, vector<int>& c, vector<bool>& x)

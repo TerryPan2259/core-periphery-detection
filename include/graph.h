@@ -45,6 +45,8 @@ public:
     int degree(int nid) const;
     double wdegree(int nid) const;
     void get_weight(int nid, int j, int& nei, double& w) const;
+    
+    void compress();
 
     Neighbour get_kth_neighbour(int nid, int k) const;
 
@@ -135,4 +137,37 @@ vector<vector<double>> Graph::to_matrix() const{
 		}
 	}
 	return M;
+}
+
+// merge multiple-edges with a single weighted edge 
+void Graph::compress(){
+	
+	int N = get_num_nodes();
+	
+	// copy	
+        vector<vector<Neighbour>> prev_neibours = _neighbours;
+
+	// initialise _neighbours	
+	for(int i = 0; i < N; i++){
+		_neighbours[i].clear();
+	}
+	_neighbours.clear();
+	vector<vector<Neighbour>> tmp(num_nodes, vector<Neighbour>(0));	
+	_neighbours = tmp;
+
+	for(int i = 0 i < N; i ++){
+		int sz = prev_neighbours[i].size();
+		map<int, double> myMap;
+		for(int j =0; j < sz;j++){	
+			int nei = prev_neighbours[i][j].get_node();
+			double w = prev_neighbours[i][j].get_w();
+			if ( !myMap.insert( std::make_pair( nei, w ) ).second ) {
+				myMap[nei]+=w;
+			}
+		}
+
+		for (const auto & p : myMap) {
+			addEdge(i, p.first, p.second);	
+		}
+	}
 }
