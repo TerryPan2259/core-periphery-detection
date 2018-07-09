@@ -37,6 +37,9 @@ public:
     vector<vector<Neighbour>> _neighbours;
     
     // constracter
+    Graph();
+    
+    // constracter
     Graph(int num_nodes);
 	
     // Getters
@@ -55,6 +58,11 @@ public:
     
     void addEdge(int u, int v, double w);
     
+};
+
+Graph::Graph(){
+	vector<vector<Neighbour>> tmp(0, vector<Neighbour>(0));	
+	_neighbours = tmp;
 };
     
 Graph::Graph(int num_nodes){
@@ -104,13 +112,24 @@ Neighbour Graph::get_kth_neighbour(int nid, int k) const{
 
 // add 
 void Graph::addEdge(int u, int v, double w){
-	Neighbour ed1(v, w);
-	_neighbours[u].push_back(ed1);
 	
-	if(u==v) return;
+	int sz = _neighbours.size();
+	while( (sz <=u) | (sz <=v) ){
+		vector<Neighbour> tmp(0);
+		_neighbours.push_back(tmp);
+		sz++;
+	}
 	
-	Neighbour ed2(u, w);
-	_neighbours[v].push_back(ed2);
+	if(u==v){
+		Neighbour ed1(v, 2 * w);
+		_neighbours[u].push_back(ed1);
+	}else{
+		Neighbour ed1(v, w);
+		_neighbours[u].push_back(ed1);
+
+		Neighbour ed2(u, w);
+		_neighbours[v].push_back(ed2);
+	}
 }
 
 // add 
@@ -145,17 +164,17 @@ void Graph::compress(){
 	int N = get_num_nodes();
 	
 	// copy	
-        vector<vector<Neighbour>> prev_neibours = _neighbours;
+        vector<vector<Neighbour>> prev_neighbours = _neighbours;
 
 	// initialise _neighbours	
 	for(int i = 0; i < N; i++){
 		_neighbours[i].clear();
 	}
 	_neighbours.clear();
-	vector<vector<Neighbour>> tmp(num_nodes, vector<Neighbour>(0));	
+	vector<vector<Neighbour>> tmp(N, vector<Neighbour>(0));	
 	_neighbours = tmp;
 
-	for(int i = 0 i < N; i ++){
+	for(int i = 0; i < N; i ++){
 		int sz = prev_neighbours[i].size();
 		map<int, double> myMap;
 		for(int j =0; j < sz;j++){	
@@ -165,7 +184,7 @@ void Graph::compress(){
 				myMap[nei]+=w;
 			}
 		}
-
+selfloopmondai
 		for (const auto & p : myMap) {
 			addEdge(i, p.first, p.second);	
 		}
