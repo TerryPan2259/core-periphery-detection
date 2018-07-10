@@ -98,13 +98,14 @@ private:
 	    mt19937_64& mtrnd
 	    );
 
+/*
 	void _km_config_louvain_core(
 		const Graph& G, 
     		vector<int>& c,
     		vector<bool>& x,
         	mt19937_64& mtrnd
 		);
-
+*/
 
 	void _coarsing(
 	    	const Graph& G,
@@ -180,12 +181,6 @@ void KM_config::calc_Q(
 /*-----------------------------
 Private functions (internal use only)
 -----------------------------*/
-
-/* 
-* Use this function instead if you have problem in initialising mtrnd
-* This sometimes happens when the version of gcc compiler is different from the one required by mex compiler.
-*/ 
-
 void KM_config::_km_config_label_switching(
     const Graph& G,
     const int num_of_runs,
@@ -196,24 +191,58 @@ void KM_config::_km_config_label_switching(
     mt19937_64& mtrnd
     )
 {
+    int N = G.get_num_nodes();
+    c.clear();
+    x.clear();
+    c.assign(N, 0);
+    x.assign(N, true);
+
+    /* Generate \hat q^{(s)} and \hat n^{(s)} (1 \leq s \leq S) */
+    // create random number generator per each thread
+    int numthread = 1;
+    #ifdef _OPENMP
+    	# pragma omp parallel
+    	{
+    		numthread = omp_get_num_threads();
+    	}
+    #endif
+    cout<<numthread<<endl;
+    vector<mt19937_64> mtrnd_list(numthread);
+    for(int i = 0; i < numthread; i++){
+	mt19937_64 mtrnd = _init_random_number_generator();
+	mtrnd_list[i] = mtrnd;
+    }
 
     Q = -1;
+    #ifdef _OPENMP
+    #pragma omp parallel for shared(c, x, Q, q, N, G, mtrnd_list)
+    #endif
     for (int i = 0; i < num_of_runs; i++) {
         vector<int> ci;
         vector<bool> xi;
         vector<double> qi;
         double Qi = 0.0;
 
+        int tid = 0;
+    	#ifdef _OPENMP
+        	tid = omp_get_thread_num();
+    	#endif
+	
+        mt19937_64 mtrnd = mtrnd_list[tid];
         _km_config_label_switching_core(G, ci, xi, mtrnd);
 
         calc_Q(G, ci, xi, Qi, qi);
-	
-        if (Qi > Q) {
-            c = ci;
-            x = xi;
-            Q = Qi;
-            q = qi;
-        }
+
+        #pragma omp critical
+        {
+        	if (Qi > Q) {
+		    c = ci;
+		    x = xi;
+		    q.clear();
+		    q = qi;
+        	    Q = Qi;
+        	}
+	}
     }
 }
 
@@ -406,10 +435,13 @@ void KM_config::_km_config_label_switching_core(
 }
 
 /* Louvain algorithm */
-void KM_config::_km_config_louvain_core(
+void KM_config::_km_config_louvain(
 	const Graph& G, 
+	const int num_of_runs,
     	vector<int>& c,
     	vector<bool>& x,
+	double& Q,
+	vector<double>& q,
         mt19937_64& mtrnd
 	){
 
@@ -427,17 +459,18 @@ void KM_config::_km_config_louvain_core(
 	vector<int> toLayerId; //toLayerId[i] maps 2*c[i] + x[i] to the id of node in the coarse network 
 	_coarsing(G, ct, xt, cnet_G, toLayerId); // Initialise toLayerId
 
-	double Qbest = 0; // quality of the current partition
+	Q = 0; // quality of the current partition
 
 	int cnet_N;
-	int roopid = 0;
 	do{
 		cnet_N = cnet_G.get_num_nodes();
 		
 		// Core-periphery detection	
 		vector<int> cnet_c; // label of node in the coarse network, Mt 
 		vector<bool> cnet_x; // label of node in the coarse network, Mt 
-		_km_config_label_switching_core(cnet_G, cnet_c, cnet_x, mtrnd);
+		double Qt = 0; vector<double> qt;
+		_km_config_label_switching(cnet_G, num_of_runs, cnet_c, cnet_x, Qt, qt, mtrnd);
+		//_km_config_label_switching_core(cnet_G, cnet_c, cnet_x, mtrnd);
 	
 		// Update the label of node in the original network, ct and xt.	
 		for(int i = 0; i< N; i++){
@@ -447,13 +480,14 @@ void KM_config::_km_config_louvain_core(
 		}
  		
 		// Compute the quality       	
-		double Qt = 0; vector<double> qt;
+		//calc_Q(G, ct, xt, Qt, qt);
 		calc_Q(cnet_G, cnet_c, cnet_x, Qt, qt);
 
-		if(Qt>=Qbest){ // if the quality is the highest among those detected so far
+		if(Qt>=Q){ // if the quality is the highest among those detected so far
 			c = ct;
 			x = xt;
-			Qbest = Qt;
+			Q = Qt;
+			q = qt;
 		}
 	
 		// Coarsing	
@@ -461,77 +495,14 @@ void KM_config::_km_config_louvain_core(
 		_coarsing(cnet_G, cnet_c, cnet_x, new_cnet_G, toLayerId);
 		cnet_G = new_cnet_G;
 		
+		//cout<<"---"<<cnet_G.get_num_nodes()<<" "<<cnet_G.get_num_edges()<<" "<<G.get_num_edges()<<"---"<<endl;
+		
 		int sz = cnet_G.get_num_nodes();
 		if(sz == cnet_N) break;	
 			
 	}while( true );
 
 	_relabeling(c);
-}
-
-void KM_config::_km_config_louvain(
-    const Graph& G,
-    const int num_of_runs,
-    vector<int>& c,
-    vector<bool>& x,
-    double& Q,
-    vector<double>& q,
-    mt19937_64& mtrnd
-    )
-{
-
-    int N = G.get_num_nodes();
-    c.clear();
-    x.clear();
-    c.assign(N, 0);
-    x.assign(N, true);
-
-    /* Generate \hat q^{(s)} and \hat n^{(s)} (1 \leq s \leq S) */
-    // create random number generator per each thread
-    int numthread = 1;
-    #ifdef _OPENMP
-    	# pragma omp parallel
-    	{
-    		numthread = omp_get_num_threads();
-    	}
-    #endif
-    vector<mt19937_64> mtrnd_list(numthread);
-    for(int i = 0; i < numthread; i++){
-	mt19937_64 mtrnd = _init_random_number_generator();
-	mtrnd_list[i] = mtrnd;
-    }
-
-    Q = -1;
-    #ifdef _OPENMP
-    #pragma omp parallel for shared(c, x, Q, q, N, G, mtrnd_list)
-    #endif
-    for (int i = 0; i < num_of_runs; i++) {
-        vector<int> ci;
-        vector<bool> xi;
-        vector<double> qi;
-        double Qi = 0.0;
-
-        int tid = 0;
-    	#ifdef _OPENMP
-        	tid = omp_get_thread_num();
-    	#endif
-	
-        mt19937_64 mtrnd = mtrnd_list[tid];
-        _km_config_louvain_core(G, ci, xi, mtrnd);
-
-        calc_Q(G, ci, xi, Qi, qi);
-
-        #pragma omp critical
-        {
-        	if (Qi > Q) {
-		    c = ci;
-		    x = xi;
-		    q.clear();
-		    q = qi;
-        	    Q = Qi;
-        	}
-	}
-    }
 }
 
 void KM_config::_coarsing(
@@ -559,7 +530,6 @@ void KM_config::_coarsing(
 	
     	int K = *max_element(ids.begin(), ids.end()) + 1;
 	newG = Graph(K);
-
 	for(int i = 0;i<N;i++){
 		int mi = 2 * c[i] + x[i];
 		int sz = G.degree(i);
@@ -567,12 +537,11 @@ void KM_config::_coarsing(
 			Neighbour nb = G.get_kth_neighbour(i, j);
 			int nei = nb.get_node();
 			double w = nb.get_w();
-
+				
 			int mj = 2 * c[nei] + x[nei];
 
 			int sid = toLayerId[mi];
 			int did = toLayerId[mj];
-			//cout<< sid<<" "<<did<<" "<<w<<endl;
 			newG.addEdge(sid, did, w);
 		}
 	}

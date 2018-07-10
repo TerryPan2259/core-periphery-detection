@@ -79,7 +79,8 @@ def draw_qs_samples(G, sfunc, cpa, random_net_generator, num_of_rand_net):
 
     for i in range(num_of_rand_net):
         Gr = random_net_generator(G)
-        cpa.detect(Gr)  
+        print(i)
+        cpa.detect(Gr, n_jobs = 1)  
         q_rand = q_rand + cpa.score()
         s_rand = s_rand + sfunc(Gr, cpa.get_pair_id(), cpa.is_core()) 
     return q_rand, s_rand

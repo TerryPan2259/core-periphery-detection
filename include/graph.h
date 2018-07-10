@@ -80,7 +80,10 @@ int Graph::get_num_edges() const{
 	int N = get_num_nodes();
 	int M = 0;
     	for (int i = 0; i < N; i++) {
-		 M+= _neighbours[i].size();
+		int sz = degree(i);
+    		for (int j = 0; j < sz; j++) {
+			M+= _neighbours[i][j].get_w();
+		}
 	}
 	return M/2;
 }
@@ -114,14 +117,18 @@ Neighbour Graph::get_kth_neighbour(int nid, int k) const{
 void Graph::addEdge(int u, int v, double w){
 	
 	int sz = _neighbours.size();
-	while( (sz <=u) | (sz <=v) ){
+	while( (sz <=u) ){
 		vector<Neighbour> tmp(0);
 		_neighbours.push_back(tmp);
 		sz++;
 	}
-	
+
+	Neighbour ed1(v, w);
+	_neighbours[u].push_back(ed1);
+
+	/*	
 	if(u==v){
-		Neighbour ed1(v, 2 * w);
+		Neighbour ed1(v, w);
 		_neighbours[u].push_back(ed1);
 	}else{
 		Neighbour ed1(v, w);
@@ -129,7 +136,7 @@ void Graph::addEdge(int u, int v, double w){
 
 		Neighbour ed2(u, w);
 		_neighbours[v].push_back(ed2);
-	}
+	}*/
 }
 
 // add 
@@ -180,11 +187,10 @@ void Graph::compress(){
 		for(int j =0; j < sz;j++){	
 			int nei = prev_neighbours[i][j].get_node();
 			double w = prev_neighbours[i][j].get_w();
-			if ( !myMap.insert( std::make_pair( nei, w ) ).second ) {
+			if ( !myMap.insert( make_pair( nei, w ) ).second ) {
 				myMap[nei]+=w;
 			}
 		}
-selfloopmondai
 		for (const auto & p : myMap) {
 			addEdge(i, p.first, p.second);	
 		}
