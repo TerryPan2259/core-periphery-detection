@@ -85,6 +85,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#preparing-a-graph">Preparing a graph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#core-periphery-detection">Core-periphery detection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#statistical-test">Statistical test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples</a></li>
@@ -157,27 +158,27 @@
 <h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="preparing-a-graph">
 <h2>Preparing a graph<a class="headerlink" href="#preparing-a-graph" title="Permalink to this headline">¶</a></h2>
-<p>cpalgorithm takes a graph object implemented NetworkX as input
+<p>cpalgorithm takes a graph object implemented in NetworkX as input
 For example, making an empty graph is done by</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
 <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>One can create the graph object from a file:</p>
+<p>One can create a graph object from a file “example.csv”:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
 <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">read_edgelist</span><span class="p">(</span><span class="s2">&quot;example.csv&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The “example.csv” consists of two columns, where
+<p class="last">The “example.csv” is a space-separated file consisting of two columns, where
 each row corresponds to a pair of adjacent nodes connected by an edge.</p>
 </div>
-<p>See details in NetworkX documentation.</p>
+<p>See details in <a class="reference external" href="https://networkx.github.io/documentation/stable/">NetworkX documentation</a>.</p>
 </div>
 <div class="section" id="core-periphery-detection">
 <h2>Core-periphery detection<a class="headerlink" href="#core-periphery-detection" title="Permalink to this headline">¶</a></h2>
-<p>We’ll demonstrate how to use the KM algorithm.</p>
+<p>We’ll demonstrate how to use the KM algorithm [1].</p>
 <p>Create an object called KM_config:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cpalgorithm</span> <span class="kn">as</span> <span class="nn">cp</span>
 <span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
@@ -185,7 +186,7 @@ each row corresponds to a pair of adjacent nodes connected by an edge.</p>
 <span class="n">algorithm</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">KM_config</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Then, pass the network of interest to <code class="code python docutils literal notranslate"><span class="name"><span class="pre">detect</span></span><span class="punctuation"><span class="pre">()</span></span></code> method of the algorithm:</p>
+<p>Then, pass the network to <code class="code python docutils literal notranslate"><span class="name"><span class="pre">detect</span></span><span class="punctuation"><span class="pre">()</span></span></code> method of the algorithm:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">karate_club_graph</span><span class="p">()</span> <span class="c1"># loading the karate club network</span>
 
 <span class="n">algorithm</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
@@ -197,23 +198,64 @@ each row corresponds to a pair of adjacent nodes connected by an edge.</p>
 </pre></div>
 </div>
 <p>which gives two dictionaries <code class="code python docutils literal notranslate"><span class="name"><span class="pre">c</span></span></code> and <code class="code python docutils literal notranslate"><span class="name"><span class="pre">x</span></span></code>.
-Dictionary python:<cite>c</cite> consists of the names of nodes as keys and ID of the core-periphery pair to which the nodes belong as values, e.g.,</p>
+Dictionary <code class="code python docutils literal notranslate"><span class="name"><span class="pre">c</span></span></code> consists of the names of nodes as keys and ID of the core-periphery pair to which the nodes belong as values, e.g.,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="p">{</span><span class="n">NodeA</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">NodeB</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">NodeC</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">NodeD</span><span class="p">:</span> <span class="mi">2</span> <span class="o">...</span><span class="p">,</span>
 </pre></div>
 </div>
-<p>Dictionary python:<cite>x</cite> consists of the names of nodes as keys and flags as values, where True or False flag indicates a core or a periphery, respectively, e.g.,</p>
+<p>Dictionary <code class="code python docutils literal notranslate"><span class="name"><span class="pre">x</span></span></code> consists of the names of nodes as keys and flags as values, where <code class="code python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">True</span></span></code> or <code class="code python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">False</span></span></code> flag indicates a core or a periphery, respectively, e.g.,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="p">{</span><span class="n">NodeA</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="n">NodeB</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="n">NodeC</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="n">NodeD</span><span class="p">:</span> <span class="bp">False</span> <span class="o">...</span><span class="p">,</span>
 </pre></div>
 </div>
+<p>One can use other algorithms in the same way.
+For example, one can use the Borgatti-Everet algorithm as follows.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cpalgorithm</span> <span class="kn">as</span> <span class="nn">cp</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
+
+<span class="n">algorithm</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">BE</span><span class="p">()</span>
+
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">karate_club_graph</span><span class="p">()</span> <span class="c1"># loading the karate club network</span>
+<span class="n">algorithm</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">get_pair_id</span><span class="p">()</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">is_core</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The available algorithms are listed here.</p>
 </div>
 <div class="section" id="statistical-test">
 <h2>Statistical test<a class="headerlink" href="#statistical-test" title="Permalink to this headline">¶</a></h2>
-<p>Detected core-periphery structure may be insignificant, e.g., the core-periphery structure may not be that strong.
-To examine this point, one needs to write a line of additional code.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">significant</span><span class="p">,</span> <span class="n">p_values</span> <span class="o">=</span> <span class="n">qstest</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">)</span>
+<p>Core or peripheral nodes may largely correspond to large-degree or small-degree nodes, respectively.
+A question prompted by this observation is that does the detected core-periphery structure reveal something that cannot be explained by the degrees of nodes?
+To examine this point, cpalgorithm provides a statistical test for individual core-periphery pair [3].
+The statistical test examines to what extent can the detected core-periphery structure be explained by the degree.
+One can carry out the statistical test by writing a line of code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">significant</span><span class="p">,</span> <span class="n">p_values</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">qstest</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>where <code class="code python docutils literal notranslate"><span class="name"><span class="pre">significant</span></span></code> and <code class="code python docutils literal notranslate"><span class="name"><span class="pre">p_values</span></span></code> are list onjects.</p>
+<p>where <code class="code python docutils literal notranslate"><span class="name"><span class="pre">significant</span></span></code> and <code class="code python docutils literal notranslate"><span class="name"><span class="pre">p_values</span></span></code> are list objects.
+List <code class="code python docutils literal notranslate"><span class="name"><span class="pre">significant</span></span></code> is a boolean list, where <code class="code python docutils literal notranslate"><span class="name"><span class="pre">significant</span></span><span class="punctuation"><span class="pre">[</span></span><span class="name"><span class="pre">c</span></span><span class="punctuation"><span class="pre">]</span></span><span class="operator"><span class="pre">=</span></span><span class="name builtin pseudo"><span class="pre">True</span></span></code> or <code class="code python docutils literal notranslate"><span class="name"><span class="pre">significant</span></span><span class="punctuation"><span class="pre">[</span></span><span class="name"><span class="pre">c</span></span><span class="punctuation"><span class="pre">]</span></span><span class="operator"><span class="pre">=</span></span><span class="name builtin pseudo"><span class="pre">False</span></span></code> flag indicates that the cth core-periphery pair is significant (i.e., cannot be explained by nodes’ degrees) or insignificant (i.e., can be explained by the nodes’ degree), respectively, e.g.,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">significant</span> <span class="o">=</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>List <code class="code python docutils literal notranslate"><span class="name"><span class="pre">p_values</span></span></code> is a float list, where <code class="code python docutils literal notranslate"><span class="name"><span class="pre">p_values</span></span><span class="punctuation"><span class="pre">[</span></span><span class="name"><span class="pre">c</span></span><span class="punctuation"><span class="pre">]</span></span></code> is the p-value of the cth core-periphery pair under the configuration model, e.g.,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">p_values</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.00001</span><span class="p">,</span> <span class="mf">0.587</span><span class="p">,</span> <span class="mf">0.443</span><span class="p">,</span> <span class="mf">0.0001</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The statistical test examines the significance of each core-periphery pair individually, which causes the multiple-comparisons problem.
+To suppress the false positives, we adopt the e Šidák correction.
+In other words, the <code class="code python docutils literal notranslate"><span class="name"><span class="pre">p_values</span></span></code> is computed first. Then, we apply the Šidák correction. The result is  <code class="code python docutils literal notranslate"><span class="name"><span class="pre">significant</span></span></code>.
+The default significance level is 0.05.</p>
+</div>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>[1] S. Kojaku and N. Masuda, N. J. Phys. 20, 043012 (2018)</li>
+<li>[2] S. P. Borgatti and M. G. Everett, Soc. Netw. 21, 375 (2000)</li>
+<li>[3] S. Kojaku and N. Masuda, Sci. Rep. 8, 7351 (2018)</li>
+</ul>
 </div>
 </div>
 

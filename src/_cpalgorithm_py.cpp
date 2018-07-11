@@ -55,8 +55,11 @@ void readEdgeTable(py::array_t<int> edges_array_t, py::array_t<double> w_array_t
         int did = edgeList[i + 1];
 	double w = wList[wid];
 	G.addEdge(sid, did, w);
+	G.addEdge(did, sid, w);
 	wid++;
     }
+	
+    G.compress();
 }
 
 void readCPResult(py::array_t<int> c_array_t, py::array_t<bool> x_array_t, vector<int>& c, vector<bool>& x)
@@ -131,10 +134,18 @@ void pack_Q(double _Q, vector<double>& _q, py::list& results)
 }
 
 /* BE algorithm*/
-py::list detect_be(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs){
+py::list detect_be(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs, int n_jobs){
 	
        	Graph G(0); 
 	readEdgeTable(edges, ws, G);
+
+    	#ifdef _OPENMP
+    		# pragma omp parallel
+    		{
+		if(n_jobs<0) n_jobs = omp_get_num_threads();
+		omp_set_num_threads(n_jobs);
+    		}
+    	#endif
 
 	BEAlgorithm be = BEAlgorithm(num_of_runs);
 
@@ -154,10 +165,18 @@ py::list detect_be(py::array_t<int> edges, py::array_t<double> ws, int num_of_ru
 }
 
 /* MINRES algorithm*/
-py::list detect_minres(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs){
+py::list detect_minres(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs, int n_jobs){
 	
        	Graph G(0); 
 	readEdgeTable(edges, ws, G);
+    	
+	#ifdef _OPENMP
+    		# pragma omp parallel
+    		{
+		if(n_jobs<0) n_jobs = omp_get_num_threads();
+		omp_set_num_threads(n_jobs);
+    		}
+    	#endif
 
 	MINRES minres = MINRES();
 
@@ -176,11 +195,18 @@ py::list detect_minres(py::array_t<int> edges, py::array_t<double> ws, int num_o
 	return results;
 }
 /* KM algorithm based on the configuration model */
-py::list detect_config(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs){
+py::list detect_config(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs, int n_jobs){
 	
        	Graph G(0); 
 	readEdgeTable(edges, ws, G);
-
+	#ifdef _OPENMP
+    		# pragma omp parallel
+    		{
+		omp_set_dynamic(0);
+		if(n_jobs<0) n_jobs = omp_get_num_threads();
+		omp_set_num_threads(n_jobs);
+    		}
+    	#endif
         //mt19937_64 mtrnd = init_random_number_generator();
 	KM_config km = KM_config(num_of_runs);
 	km.detect(G);
@@ -199,11 +225,19 @@ py::list detect_config(py::array_t<int> edges, py::array_t<double> ws, int num_o
 }
 
 /* KM algorithm based on an arbitary null models*/
-py::list detect_modmat(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs){
+py::list detect_modmat(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs, int n_jobs){
 	
        	Graph G(0); 
 	readEdgeTable(edges, ws, G);
 	KM_modmat km = KM_modmat(num_of_runs);
+	
+	#ifdef _OPENMP
+    		# pragma omp parallel
+    		{
+		if(n_jobs<0) n_jobs = omp_get_num_threads();
+		omp_set_num_threads(n_jobs);
+    		}
+    	#endif
 
 	km.detect(G);
 	
@@ -303,25 +337,29 @@ PYBIND11_MODULE(_cpalgorithm, m){
 	m.def("detect_be", &detect_be, "Borgatti-Everett algorithm",
 		py::arg("edges"),
 		py::arg("ws"),
-		py::arg("num_of_runs") = 10
+		py::arg("num_of_runs") = 10,
+		py::arg("n_jobs")
 	);
 
 	m.def("detect_minres", &detect_minres, "MINRES algorithm",
 		py::arg("edges"),
 		py::arg("ws"),
-		py::arg("num_of_runs") = 10
+		py::arg("num_of_runs") = 10,
+		py::arg("n_jobs")
 	);
 
 	m.def("detect_config", &detect_config, "Use the configuration model as null models",
 		py::arg("edges"),
 		py::arg("ws"),
-		py::arg("num_of_runs") = 10
+		py::arg("num_of_runs") = 10,
+		py::arg("n_jobs")
 	);
 
 	m.def("detect_modmat", &detect_modmat, "Use the user-provided modularity matrix",
 		py::arg("edges"),
 		py::arg("ws"),
-		py::arg("num_of_runs") = 10
+		py::arg("num_of_runs") = 10,
+		py::arg("n_jobs")
 	);
 
 	// Quality functions

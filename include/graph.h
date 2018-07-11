@@ -37,6 +37,9 @@ public:
     vector<vector<Neighbour>> _neighbours;
     
     // constracter
+    Graph();
+    
+    // constracter
     Graph(int num_nodes);
 	
     // Getters
@@ -45,6 +48,8 @@ public:
     int degree(int nid) const;
     double wdegree(int nid) const;
     void get_weight(int nid, int j, int& nei, double& w) const;
+    
+    void compress();
 
     Neighbour get_kth_neighbour(int nid, int k) const;
 
@@ -53,6 +58,11 @@ public:
     
     void addEdge(int u, int v, double w);
     
+};
+
+Graph::Graph(){
+	vector<vector<Neighbour>> tmp(0, vector<Neighbour>(0));	
+	_neighbours = tmp;
 };
     
 Graph::Graph(int num_nodes){
@@ -70,7 +80,10 @@ int Graph::get_num_edges() const{
 	int N = get_num_nodes();
 	int M = 0;
     	for (int i = 0; i < N; i++) {
-		 M+= _neighbours[i].size();
+		int sz = degree(i);
+    		for (int j = 0; j < sz; j++) {
+			M+= _neighbours[i][j].get_w();
+		}
 	}
 	return M/2;
 }
@@ -102,13 +115,28 @@ Neighbour Graph::get_kth_neighbour(int nid, int k) const{
 
 // add 
 void Graph::addEdge(int u, int v, double w){
+	
+	int sz = _neighbours.size();
+	while( (sz <=u) ){
+		vector<Neighbour> tmp(0);
+		_neighbours.push_back(tmp);
+		sz++;
+	}
+
 	Neighbour ed1(v, w);
 	_neighbours[u].push_back(ed1);
-	
-	if(u==v) return;
-	
-	Neighbour ed2(u, w);
-	_neighbours[v].push_back(ed2);
+
+	/*	
+	if(u==v){
+		Neighbour ed1(v, w);
+		_neighbours[u].push_back(ed1);
+	}else{
+		Neighbour ed1(v, w);
+		_neighbours[u].push_back(ed1);
+
+		Neighbour ed2(u, w);
+		_neighbours[v].push_back(ed2);
+	}*/
 }
 
 // add 
@@ -135,4 +163,36 @@ vector<vector<double>> Graph::to_matrix() const{
 		}
 	}
 	return M;
+}
+
+// merge multiple-edges with a single weighted edge 
+void Graph::compress(){
+	
+	int N = get_num_nodes();
+	
+	// copy	
+        vector<vector<Neighbour>> prev_neighbours = _neighbours;
+
+	// initialise _neighbours	
+	for(int i = 0; i < N; i++){
+		_neighbours[i].clear();
+	}
+	_neighbours.clear();
+	vector<vector<Neighbour>> tmp(N, vector<Neighbour>(0));	
+	_neighbours = tmp;
+
+	for(int i = 0; i < N; i ++){
+		int sz = prev_neighbours[i].size();
+		map<int, double> myMap;
+		for(int j =0; j < sz;j++){	
+			int nei = prev_neighbours[i][j].get_node();
+			double w = prev_neighbours[i][j].get_w();
+			if ( !myMap.insert( make_pair( nei, w ) ).second ) {
+				myMap[nei]+=w;
+			}
+		}
+		for (const auto & p : myMap) {
+			addEdge(i, p.first, p.second);	
+		}
+	}
 }

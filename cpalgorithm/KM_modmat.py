@@ -6,14 +6,14 @@ class KM_modmat(CPAlgorithm):
 	def __init__(self):
 		self.num_runs = 10 
 	
-	def detect(self, G):
+	def detect(self, G, n_jobs = -1):
 
 		node_pairs, w, node2id, id2node = self.to_edge_list(G)
 
-		cppairs = _cp.detect_modmat(edges=node_pairs, ws=w, num_of_runs = self.num_runs)
+		cppairs = _cp.detect_modmat(edges=node_pairs, ws=w, num_of_runs = self.num_runs, n_jobs = n_jobs)
 	
 		self.c_ = dict(zip( [id2node[i] for i in range(N)], cppairs[0].astype(int)))
-		self.x_ = dict(zip( [id2node[i] for i in range(N)], cppairs[1].astype(bool)))
+		self.x_ = dict(zip( [id2node[i] for i in range(N)], cppairs[1].astype(int)))
 		self.Q_ = cppairs[2][0]
 		self.qs_ = cppairs[3].tolist()
 
