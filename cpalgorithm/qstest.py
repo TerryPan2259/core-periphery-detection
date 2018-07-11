@@ -23,19 +23,19 @@ def erdos_renyi(G):
     p = nx.density(G)
     return nx.fast_gnp_random_graph(n, p)
 
-def qstest(c, x, G, cpa, significance_level=0.05, random_net_generator = config_model, sfunc = sz_n, num_of_thread = 4, num_of_rand_net = 500 ):
+def qstest(c, x, G, cpa, significance_level=0.05, null_model = config_model, sfunc = sz_n, num_of_thread = 4, num_of_rand_net = 500 ):
     q = np.array(cpa.score(G, c, x), dtype = np.float)    
     s = np.array(sfunc(G, c, x) , dtype = np.float)
     C = len(q)
 
     alpha_corrected = 1.0 - (1.0 - significance_level) ** (1.0 / float(C))
-    
+        
     q_tilde = []
     s_tilde = []
     if num_of_thread == 1:
-        q_tilde, s_tilde = draw_qs_samples(G, sfunc, cpa, random_net_generator, num_of_rand_net)
+        q_tilde, s_tilde = draw_qs_samples(G, sfunc, cpa, null_model, num_of_rand_net)
     else:
-        private_args = [(G, sfunc, cpa, random_net_generator, int(num_of_rand_net / num_of_thread) + 1) for i in range(num_of_thread)]
+        private_args = [(G, sfunc, cpa, null_model, int(num_of_rand_net / num_of_thread) + 1) for i in range(num_of_thread)]
         pool = mp.Pool(num_of_thread)
         qs_tilde = pool.map(wrapper_draw_qs_samples, private_args)
         for i in range(num_of_thread):
@@ -54,7 +54,7 @@ def qstest(c, x, G, cpa, significance_level=0.05, random_net_generator = config_
         gamma = 0.0
     else:
         gamma = np.corrcoef(q_tilde, s_tilde)[0, 1]
-
+    
     h = float(len(q_tilde)) ** (- 1.0 / 6.0)
     p_values = [1.0] * C
     significant = [False] * C
@@ -72,15 +72,14 @@ def qstest(c, x, G, cpa, significance_level=0.05, random_net_generator = config_
 
 
 # Private function for qstest        
-def draw_qs_samples(G, sfunc, cpa, random_net_generator, num_of_rand_net):
+def draw_qs_samples(G, sfunc, cpa, null_model, num_of_rand_net):
     #deg = [x[1] for x in G.degree()]
     q_rand = []
     s_rand = []
 
     for i in range(num_of_rand_net):
-        Gr = random_net_generator(G)
-        print(i)
-        cpa.detect(Gr, n_jobs = 1)  
+        Gr = null_model(G)
+        cpa.detect(Gr)  
         q_rand = q_rand + cpa.score()
         s_rand = s_rand + sfunc(Gr, cpa.get_pair_id(), cpa.is_core()) 
     return q_rand, s_rand

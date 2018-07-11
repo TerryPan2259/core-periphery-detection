@@ -14,6 +14,7 @@ Write the algorithms to be included in the prackage here
 #include <minres.h>
 #include <km_config.h>
 #include <km_modmat.h>
+#include <km_er.h>
 
 using namespace std;
 namespace py = pybind11;
@@ -134,18 +135,10 @@ void pack_Q(double _Q, vector<double>& _q, py::list& results)
 }
 
 /* BE algorithm*/
-py::list detect_be(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs, int n_jobs){
+py::list detect_be(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs){
 	
        	Graph G(0); 
 	readEdgeTable(edges, ws, G);
-
-    	#ifdef _OPENMP
-    		# pragma omp parallel
-    		{
-		if(n_jobs<0) n_jobs = omp_get_num_threads();
-		omp_set_num_threads(n_jobs);
-    		}
-    	#endif
 
 	BEAlgorithm be = BEAlgorithm(num_of_runs);
 
@@ -165,19 +158,11 @@ py::list detect_be(py::array_t<int> edges, py::array_t<double> ws, int num_of_ru
 }
 
 /* MINRES algorithm*/
-py::list detect_minres(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs, int n_jobs){
+py::list detect_minres(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs){
 	
        	Graph G(0); 
 	readEdgeTable(edges, ws, G);
     	
-	#ifdef _OPENMP
-    		# pragma omp parallel
-    		{
-		if(n_jobs<0) n_jobs = omp_get_num_threads();
-		omp_set_num_threads(n_jobs);
-    		}
-    	#endif
-
 	MINRES minres = MINRES();
 
 	minres.detect(G);
@@ -195,19 +180,10 @@ py::list detect_minres(py::array_t<int> edges, py::array_t<double> ws, int num_o
 	return results;
 }
 /* KM algorithm based on the configuration model */
-py::list detect_config(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs, int n_jobs){
+py::list detect_config(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs){
 	
        	Graph G(0); 
 	readEdgeTable(edges, ws, G);
-	#ifdef _OPENMP
-    		# pragma omp parallel
-    		{
-		omp_set_dynamic(0);
-		if(n_jobs<0) n_jobs = omp_get_num_threads();
-		omp_set_num_threads(n_jobs);
-    		}
-    	#endif
-        //mt19937_64 mtrnd = init_random_number_generator();
 	KM_config km = KM_config(num_of_runs);
 	km.detect(G);
 	
@@ -224,21 +200,34 @@ py::list detect_config(py::array_t<int> edges, py::array_t<double> ws, int num_o
 	return results;
 }
 
+/* KM algorithm based on the Erdos-Renyi random graph */
+py::list detect_ER(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs){
+	
+       	Graph G(0); 
+	readEdgeTable(edges, ws, G);
+	KM_ER km = KM_ER(num_of_runs);
+	km.detect(G);
+	
+	double Q = 0;
+	vector<double>q;
+	km._calc_Q(G, Q, q);
+	
+	vector<int>c = km.get_c();
+	vector<bool>x = km.get_x();
+
+	py::list results(4);
+
+	packResults(c, x, Q, q, results);
+	return results;
+}
+
 /* KM algorithm based on an arbitary null models*/
-py::list detect_modmat(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs, int n_jobs){
+py::list detect_modmat(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs){
 	
        	Graph G(0); 
 	readEdgeTable(edges, ws, G);
 	KM_modmat km = KM_modmat(num_of_runs);
 	
-	#ifdef _OPENMP
-    		# pragma omp parallel
-    		{
-		if(n_jobs<0) n_jobs = omp_get_num_threads();
-		omp_set_num_threads(n_jobs);
-    		}
-    	#endif
-
 	km.detect(G);
 	
 	double Q = 0;
@@ -263,6 +252,25 @@ py::list calc_Q_config(py::array_t<int> edges, py::array_t<double> ws, py::array
 	readCPResult(_c, _x, c, x);
 	
 	KM_config km = KM_config();
+
+	double Q = -1;
+	vector<double>q;
+	km.calc_Q(G, c, x, Q, q);
+	
+	py::list results(2);
+	pack_Q(Q, q, results);	
+	return results;
+}
+
+py::list calc_Q_ER(py::array_t<int> edges, py::array_t<double> ws, py::array_t<int> _c, py::array_t<bool> _x){
+
+	vector<int> c;	
+	vector<bool> x;	
+       	Graph G(0); 
+	readEdgeTable(edges, ws, G);
+	readCPResult(_c, _x, c, x);
+	
+	KM_ER km = KM_ER();
 
 	double Q = -1;
 	vector<double>q;
@@ -337,29 +345,31 @@ PYBIND11_MODULE(_cpalgorithm, m){
 	m.def("detect_be", &detect_be, "Borgatti-Everett algorithm",
 		py::arg("edges"),
 		py::arg("ws"),
-		py::arg("num_of_runs") = 10,
-		py::arg("n_jobs")
+		py::arg("num_of_runs") = 10
 	);
 
 	m.def("detect_minres", &detect_minres, "MINRES algorithm",
 		py::arg("edges"),
 		py::arg("ws"),
-		py::arg("num_of_runs") = 10,
-		py::arg("n_jobs")
+		py::arg("num_of_runs") = 10
 	);
 
 	m.def("detect_config", &detect_config, "Use the configuration model as null models",
 		py::arg("edges"),
 		py::arg("ws"),
-		py::arg("num_of_runs") = 10,
-		py::arg("n_jobs")
+		py::arg("num_of_runs") = 10
 	);
+	m.def("detect_ER", &detect_ER, "KM algorithm",
+		py::arg("edges"),
+		py::arg("ws"),
+		py::arg("num_of_runs") = 10
+	);
+
 
 	m.def("detect_modmat", &detect_modmat, "Use the user-provided modularity matrix",
 		py::arg("edges"),
 		py::arg("ws"),
-		py::arg("num_of_runs") = 10,
-		py::arg("n_jobs")
+		py::arg("num_of_runs") = 10
 	);
 
 	// Quality functions
@@ -378,6 +388,13 @@ PYBIND11_MODULE(_cpalgorithm, m){
 	);
 
 	m.def("calc_Q_config", &calc_Q_config, "Use the configuration model as null models",
+		py::arg("edges"),
+		py::arg("ws"),
+		py::arg("c"),
+		py::arg("x")
+	);
+
+	m.def("calc_Q_ER", &calc_Q_ER, "Use the Erdos Renyi random graph as null models",
 		py::arg("edges"),
 		py::arg("ws"),
 		py::arg("c"),
