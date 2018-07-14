@@ -41,15 +41,14 @@ def qstest(c, x, G, cpa, significance_level=0.05, null_model = config_model, sfu
         for i in range(num_of_thread):
             q_tilde += qs_tilde[i][0] 
             s_tilde += qs_tilde[i][1]
- 
+     
     q_tilde = np.array(q_tilde, dtype = np.float)    
     s_tilde = np.array(s_tilde, dtype = np.float)    
-    
     q_ave = np.mean(q_tilde)
     s_ave = np.mean(s_tilde)
     q_std = np.std(q_tilde, ddof = 1)
     s_std = np.std(s_tilde, ddof = 1)
-
+	    
     if (s_std <= 1e-30) or (q_std <= 1e-30):
         gamma = 0.0
     else:
@@ -79,7 +78,7 @@ def draw_qs_samples(G, sfunc, cpa, null_model, num_of_rand_net):
 
     for i in range(num_of_rand_net):
         Gr = null_model(G)
-        cpa.detect(Gr)  
+        cpa.detect(Gr) 
         q_rand = q_rand + cpa.score()
         s_rand = s_rand + sfunc(Gr, cpa.get_pair_id(), cpa.is_core()) 
     return q_rand, s_rand

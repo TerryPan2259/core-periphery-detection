@@ -5,3 +5,5 @@ from .KM_config import *
 from .KM_ER import *
 from .KM_modmat import *
 from .qstest import *
+from .Cucuringu import * 
+from .Rombach import * 
