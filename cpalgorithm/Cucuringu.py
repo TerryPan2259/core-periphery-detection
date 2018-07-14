@@ -160,7 +160,7 @@ class LapCore(CPAlgorithm):
 			
 		Q = Q/N
 		c = dict(zip( [id2node[i] for i in range(N)], np.zeros(N)))
-		x = dict(zip( [id2node[i] for i in range(N)], x.astype(int).tolist()))
+		x = dict(zip( [id2node[i] for i in range(N)], x.astype(float).tolist()))
 		return c, x
 
 	def lap_core(self, G):
@@ -193,8 +193,8 @@ class LapCore(CPAlgorithm):
 		v = np.sign(v);
 	
 		c = dict(zip( [id2node[i] for i in range(N)], np.zeros(N)))
-		xp = dict(zip( [id2node[i] for i in range(N)], (v.T>0).astype(int).tolist()[0]))
-		xn = dict(zip( [id2node[i] for i in range(N)], (v.T<0).astype(int).tolist()[0]))
+		xp = dict(zip( [id2node[i] for i in range(N)], (v.T>0).astype(float).tolist()[0]))
+		xn = dict(zip( [id2node[i] for i in range(N)], (v.T<0).astype(float).tolist()[0]))
 		if self._score(G, c, xn) < self._score(G, c, xp):
 			x = xp
 		else:
@@ -252,8 +252,8 @@ class LapSgnCore(CPAlgorithm):
 		v = np.sign(v);
 	
 		c = dict(zip( [id2node[i] for i in range(N)], np.zeros(N)))
-		xp = dict(zip( [id2node[i] for i in range(N)], (v.T>0).astype(int).tolist()[0]))
-		xn = dict(zip( [id2node[i] for i in range(N)], (v.T<0).astype(int).tolist()[0]))
+		xp = dict(zip( [id2node[i] for i in range(N)], (v.T>0).astype(float).tolist()[0]))
+		xn = dict(zip( [id2node[i] for i in range(N)], (v.T<0).astype(float).tolist()[0]))
 		if self._score(G, c, xn) < self._score(G, c, xp):
 			x = xp
 		else:

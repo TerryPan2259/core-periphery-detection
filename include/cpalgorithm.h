@@ -27,7 +27,7 @@ public:
 	
 	// Getter
 	vector<int> get_c () const;
-	vector<bool> get_x () const;
+	vector<double> get_x () const;
 	//vector<double> get_p_values () const;
 	
 	// Setter
@@ -46,13 +46,13 @@ public:
 	virtual void calc_Q(
 	    const Graph& G,
 	    const vector<int>& c,
-	    const vector<bool>& x,
+	    const vector<double>& x,
 	    double& Q,
 	    vector<double>& q) = 0;
 	
 protected:
 	vector<int> _c; // _c[i] indicates the index of the CP pair of node i 
-	vector<bool> _x;  // x[i]=1 or x[i]=0 indicates a core or a periphery, respectively.  
+	vector<double> _x;  // x[i]=1 or x[i]=0 indicates a core or a periphery, respectively.  
 	//vector<double> _p_values; // p_values 
 	double _Q; // quality value 
 	vector<double> _q;  // quality values
@@ -120,7 +120,7 @@ mt19937_64 CPAlgorithm::_init_random_number_generator(){
 vector<int> CPAlgorithm::get_c() const{
 	return _c;
 }
-vector<bool> CPAlgorithm::get_x() const{
+vector<double> CPAlgorithm::get_x() const{
 	return _x;
 }
 

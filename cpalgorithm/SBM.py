@@ -1,16 +1,16 @@
 import _cpalgorithm as _cp
 from .CPAlgorithm import * 
 
-class MINRES(CPAlgorithm):
+class SBM(CPAlgorithm):
 	
 	def __init__(self):
-		self.num_runs = 0 
+		self.num_runs = 10 
 	
 	def detect(self, G):
 
 		node_pairs, w, node2id, id2node = self.to_edge_list(G)
-
-		cppairs = _cp.detect_minres(edges=node_pairs, ws=w)
+		
+		cppairs = _cp.detect_sbm(edges=node_pairs, ws=w, num_of_runs = self.num_runs)
 		
 		N = len(id2node) 
 		self.c_ = dict(zip( [id2node[i] for i in range(N)], cppairs[0].astype(int)))
@@ -26,8 +26,9 @@ class MINRES(CPAlgorithm):
 		_c = np.array([ c[id2node[i]]  for i in range(N) ])
 		_x = np.array([ x[id2node[i]]  for i in range(N) ])
 	
-		result = _cp.calc_Q_minres(edges=node_pairs, ws=w, c=_c, x=_x)
-		return result[1].tolist()
+		result = _cp.calc_Q_sbm(edges=node_pairs, ws=w, c=_c, x=_x)
+
+		return result[1].tolist()	
 	
 	def significance(self):
 		return self.pvalues	

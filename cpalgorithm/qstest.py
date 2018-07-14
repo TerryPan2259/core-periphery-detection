@@ -26,7 +26,9 @@ def erdos_renyi(G):
 def qstest(c, x, G, cpa, significance_level=0.05, null_model = config_model, sfunc = sz_n, num_of_thread = 4, num_of_rand_net = 500 ):
     q = np.array(cpa.score(G, c, x), dtype = np.float)    
     s = np.array(sfunc(G, c, x) , dtype = np.float)
+    
     C = len(q)
+    
 
     alpha_corrected = 1.0 - (1.0 - significance_level) ** (1.0 / float(C))
         

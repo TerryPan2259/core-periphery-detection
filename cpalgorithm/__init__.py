@@ -7,3 +7,5 @@ from .KM_modmat import *
 from .qstest import *
 from .Cucuringu import * 
 from .Rombach import * 
+from .Rossa import * 
+from .SBM import * 

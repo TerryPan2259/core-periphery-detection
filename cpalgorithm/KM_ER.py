@@ -14,7 +14,7 @@ class KM_ER(CPAlgorithm):
 
 		N = len(node2id)	
 		self.c_ = dict(zip( [id2node[i] for i in range(N)], cppairs[0].astype(int)))
-		self.x_ = dict(zip( [id2node[i] for i in range(N)], cppairs[1].astype(int)))
+		self.x_ = dict(zip( [id2node[i] for i in range(N)], cppairs[1]))
 		self.Q_ = cppairs[2][0]
 		self.qs_ = cppairs[3].tolist()
 
