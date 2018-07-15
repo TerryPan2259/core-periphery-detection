@@ -70,11 +70,11 @@ Dictionary :python:`c` consists of the names of nodes as keys and ID of the core
 
    c = {NodeA: 0, NodeB: 1, NodeC: 0, NodeD: 2 ..., 
 
-Dictionary :python:`x` consists of the names of nodes as keys and flags as values, where :python:`True` or :python:`False` flag indicates a core or a periphery, respectively, e.g.,  
+In dictionary :python:`x`, keys are the node names, and values indicate core nodes (=1) or periphery nodes (=0), respectively, e.g.,  
 
 .. code-block:: python
 
-   x = {NodeA: True, NodeB: True, NodeC: False, NodeD: False ...,
+   x = {NodeA: 1, NodeB: 1, NodeC: 0, NodeD: 1 ...,
 
 
 One can use other algorithms in the same way. 

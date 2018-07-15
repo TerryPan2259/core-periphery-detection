@@ -1,0 +1,14 @@
+.. _borgatti-everett-algorithm:
+
+
+===========================
+Borgatti-Everett algorithm
+===========================
+
+Overview
+========
+.. currentmodule:: cpalgorithm 
+.. autoclass:: BE
+
+Methods
+=======

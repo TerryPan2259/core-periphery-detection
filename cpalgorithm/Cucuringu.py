@@ -4,14 +4,71 @@ from scipy.sparse.linalg import eigs
 from .CPAlgorithm import * 
 
 class LowRankCore(CPAlgorithm):
+	"""LowRankCore algorithm.
 	
-	def __init__(self):
-		self.num_runs = 10 
-		self.beta = 0.1
+	LowRankCore algorithm introduced in Ref.~ [1]
+	
+	Parameters
+	----------
+	beta : float
+		Minimum fraction of core or peripheral nodes.
+		This parameter ensures :math:`\\beta \\leq \\frac{Nc}{N_c + N_p}, \\frac{Np}{N_c + N_p}`, where
+		:math:`N_c` and  :math:`N_p` are the number of core and peripheral nodes, respectively.  (optional, default: 0.1)
+		
+	Examples
+	--------
+	Create this object.
+
+	>>> import cpalgorithm as cpa	
+	>>> lrc = cpa.LowRankCore()
+	
+	**Core-periphery detection**
+	
+	Detect core-periphery structure in network G (i.e., NetworkX object):
+	
+	>>> lrc.detect(G) 
+	
+	Retrieve the ids of the core-periphery pair to which each node belongs:
+	
+	>>> pair_id = lrc.get_pair_id() 
+	
+	Retrieve the coreness:
+
+	>>> coreness = lrc.get_coreness() 
+		
+	.. note::
+
+	   This algorithm can accept unweighted and weighted networks.
+	   The algorithm assigns all nodes into the same core-periphery pair by construction, i.e., c[node_name] =0 for all node_name.
+
+	.. rubric:: Reference
+
+	[1] M. Cucuringu, P. Rombach, S. H. Lee, and M. A. Porter Detection of core-periphery structure in networks using spectral methods and geodesic paths. Euro. J. Appl. Math., 27:846–887, 2016.
+
+	"""
+	
+	
+	def __init__(self, beta = 0.1):
+		self.beta = beta
 	
 	def detect(self, G):
+		"""Detect a single core-periphery pair.
+	
+		Parameters
+		----------
+		G : NetworkX graph object
 		
-		self.c_, self.x_ = self.low_rank_core(G)
+		Examples
+		--------
+		>>> import networkx as nx
+		>>> import cpalgorithm as cpa
+		>>> G = nx.karate_club_graph()  # load the karate club network. 
+		>>> lrc = cp.LowRankCore()
+		>>> lrc.detect(G)
+
+		"""
+		
+		self.c_, self.x_ = self._low_rank_core(G)
 		
 		self.Q_ = self._score(G, self.c_, self.x_) 
 		self.qs_ = self.Q_
@@ -34,12 +91,8 @@ class LowRankCore(CPAlgorithm):
 		q = Mcc/float(i*(i-1)/2) + Mcp/float(i*(N-i)) - Mpp / float((N-i)*((N-i)-1)/2)
 		return [q[0,0]]
 
-	
-	def significance(self):
-		return self.pvalues
-	
 	def _find_cut(self, G, score, b):
-		node_pairs, w, node2id, id2node = self.to_edge_list(G)
+		node_pairs, w, node2id, id2node = self._to_edge_list(G)
 
 		N = nx.number_of_nodes(G)
 		M = nx.number_of_edges(G) 
@@ -75,9 +128,9 @@ class LowRankCore(CPAlgorithm):
 		x = dict(zip( [id2node[i] for i in range(N)], x.astype(int).tolist()))
 		return c, x
 
-	def low_rank_core(self, G):
+	def _low_rank_core(self, G):
 
-		node_pairs, w, node2id, id2node = self.to_edge_list(G)
+		node_pairs, w, node2id, id2node = self._to_edge_list(G)
 
 		N = nx.number_of_nodes(G)
 		M = nx.number_of_edges(G) 
@@ -92,14 +145,71 @@ class LowRankCore(CPAlgorithm):
 		return c, x
 		
 class LapCore(CPAlgorithm):
+	"""LapCore algorithm.
 	
-	def __init__(self):
-		self.num_runs = 10 
-		self.beta = 0.1
+	LapCore algorithm introduced in Ref.~ [1]
+	
+	Parameters
+	----------
+	beta : float
+		Minimum fraction of core or peripheral nodes.
+		This parameter ensures :math:`\\beta \\leq \\frac{Nc}{N_c + N_p}, \\frac{Np}{N_c + N_p}`, where
+		:math:`N_c` and  :math:`N_p` are the number of core and peripheral nodes, respectively.  (optional, default: 0.1)
+		
+	Examples
+	--------
+	Create this object.
+
+	>>> import cpalgorithm as cpa	
+	>>> lc = cpa.LapCore()
+	
+	**Core-periphery detection**
+	
+	Detect core-periphery structure in network G (i.e., NetworkX object):
+	
+	>>> lc.detect(G) 
+	
+	Retrieve the ids of the core-periphery pair to which each node belongs:
+	
+	>>> pair_id = lc.get_pair_id() 
+	
+	Retrieve the coreness:
+
+	>>> coreness = lrc.get_coreness() 
+		
+	.. note::
+
+	   This algorithm can accept unweighted and weighted networks.
+	   Also, the algorithm assigns all nodes into the same core-periphery pair by construction, i.e., c[node_name] =0 for all node_name.
+
+	.. rubric:: Reference
+
+	[1] M. Cucuringu, P. Rombach, S. H. Lee, and M. A. Porter Detection of core-periphery structure in networks using spectral methods and geodesic paths. Euro. J. Appl. Math., 27:846–887, 2016.
+
+	"""
+	
+	
+	def __init__(self, beta = 0.1):
+		self.beta = beta
 	
 	def detect(self, G):
+		"""Detect a single core-periphery pair.
+	
+		Parameters
+		----------
+		G : NetworkX graph object
 		
-		self.c_, self.x_ = self.lap_core(G)
+		Examples
+		--------
+		>>> import networkx as nx
+		>>> import cpalgorithm as cpa
+		>>> G = nx.karate_club_graph()  # load the karate club network. 
+		>>> lc = cp.LapCore()
+		>>> lc.detect(G)
+
+		"""
+		
+		self.c_, self.x_ = self._lap_core(G)
 		
 		self.Q_ = self._score(G, self.c_, self.x_) 
 		self.qs_ = self.Q_
@@ -123,11 +233,8 @@ class LapCore(CPAlgorithm):
 		return [q[0,0]]
 
 	
-	def significance(self):
-		return self.pvalues
-	
 	def _find_cut(self, G, score, b):
-		node_pairs, w, node2id, id2node = self.to_edge_list(G)
+		node_pairs, w, node2id, id2node = self._to_edge_list(G)
 
 		N = nx.number_of_nodes(G)
 		M = nx.number_of_edges(G) 
@@ -163,9 +270,9 @@ class LapCore(CPAlgorithm):
 		x = dict(zip( [id2node[i] for i in range(N)], x.astype(float).tolist()))
 		return c, x
 
-	def lap_core(self, G):
+	def _lap_core(self, G):
 
-		node_pairs, w, node2id, id2node = self.to_edge_list(G)
+		node_pairs, w, node2id, id2node = self._to_edge_list(G)
 
 		N = nx.number_of_nodes(G)
 		M = nx.number_of_edges(G) 
@@ -178,39 +285,65 @@ class LapCore(CPAlgorithm):
 		
 		c, x = self._find_cut(G, v.T[0], int(np.round(N * self.beta)) )
 		return c, x
-			
-	def lapsgn_core(self, G):
-		node_pairs, w, node2id, id2node = self.to_edge_list(G)
-
-		N = nx.number_of_nodes(G)
-		M = nx.number_of_edges(G) 
-		A = nx.to_scipy_sparse_matrix(G)
-		deg = np.array([d[1] for d in G.degree()])
-		denom =  np.zeros(N)
-		denom[deg>0] = 1.0 / (deg[deg>0] + 1.0)
-		T = diags(denom) * A -diags(np.ones(N))
-		d, v = eigs(T, k=1, which='SR');
-		v = np.sign(v);
-	
-		c = dict(zip( [id2node[i] for i in range(N)], np.zeros(N)))
-		xp = dict(zip( [id2node[i] for i in range(N)], (v.T>0).astype(float).tolist()[0]))
-		xn = dict(zip( [id2node[i] for i in range(N)], (v.T<0).astype(float).tolist()[0]))
-		if self._score(G, c, xn) < self._score(G, c, xp):
-			x = xp
-		else:
-			x = xn
-
-		return c, x	
 
 class LapSgnCore(CPAlgorithm):
+	"""LowSgnCore algorithm.
+	
+	LapSgnCore algorithm introduced in Ref.~ [1]
+		
+	Examples
+	--------
+	Create this object.
+
+	>>> import cpalgorithm as cpa	
+	>>> lsc = cpa.LapSgnCore()
+	
+	**Core-periphery detection**
+	
+	Detect core-periphery structure in network G (i.e., NetworkX object):
+	
+	>>> lsc.detect(G) 
+	
+	Retrieve the ids of the core-periphery pair to which each node belongs:
+	
+	>>> pair_id = lsc.get_pair_id() 
+	
+	Retrieve the coreness:
+
+	>>> coreness = lsc.get_coreness() 
+		
+	.. note::
+
+	   This algorithm can accept unweighted and weighted networks.
+	   Also, the algorithm assigns all nodes into the same core-periphery pair by construction, i.e., c[node_name] =0 for all node_name.
+
+	.. rubric:: Reference
+
+	[1] M. Cucuringu, P. Rombach, S. H. Lee, and M. A. Porter Detection of core-periphery structure in networks using spectral methods and geodesic paths. Euro. J. Appl. Math., 27:846–887, 2016.
+
+	"""
 	
 	def __init__(self):
-		self.num_runs = 10 
 		self.beta = 0.1
 	
 	def detect(self, G):
+		"""Detect a single core-periphery pair.
+	
+		Parameters
+		----------
+		G : NetworkX graph object
 		
-		self.c_, self.x_ = self.lapsgn_core(G)
+		Examples
+		--------
+		>>> import networkx as nx
+		>>> import cpalgorithm as cpa
+		>>> G = nx.karate_club_graph()  # load the karate club network. 
+		>>> lsc = cp.LapSgnCore()
+		>>> lsc.detect(G)
+
+		"""
+		
+		self.c_, self.x_ = self._lapsgn_core(G)
 		
 		self.Q_ = self._score(G, self.c_, self.x_) 
 		self.qs_ = self.Q_
@@ -233,13 +366,8 @@ class LapSgnCore(CPAlgorithm):
 		q = Mcc/float(i*(i-1)/2) + Mcp/float(i*(N-i)) - Mpp / float((N-i)*((N-i)-1)/2)
 		return [q[0,0]]
 
-	
-	def significance(self):
-		return self.pvalues
-	
-			
-	def lapsgn_core(self, G):
-		node_pairs, w, node2id, id2node = self.to_edge_list(G)
+	def _lapsgn_core(self, G):
+		node_pairs, w, node2id, id2node = self._to_edge_list(G)
 
 		N = nx.number_of_nodes(G)
 		M = nx.number_of_edges(G) 

@@ -1,0 +1,344 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cpalgorithm.KM_config &mdash; cpalgorithm 2.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+      <link rel="search" type="application/opensearchdescription+xml"
+            title="Search within cpalgorithm 2.0 documentation"
+            href="../_static/opensearch.xml"/>
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="cpalgorithm.qstest" href="cpalgorithm.qstest.html" />
+    <link rel="prev" title="cpalgorithm.KM_ER" href="cpalgorithm.KM_ER.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cpalgorithm
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../Reference.html">Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../Reference.html#core-periphery-detection-algorithms">Core-periphery detection algorithms</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="cpalgorithm.BE.html">cpalgorithm.BE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cpalgorithm.MINRES.html">cpalgorithm.MINRES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cpalgorithm.SBM.html">cpalgorithm.SBM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cpalgorithm.LowRankCore.html">cpalgorithm.LowRankCore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cpalgorithm.LapCore.html">cpalgorithm.LapCore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cpalgorithm.LapSgnCore.html">cpalgorithm.LapSgnCore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cpalgorithm.Rombach.html">cpalgorithm.Rombach</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cpalgorithm.Rossa.html">cpalgorithm.Rossa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cpalgorithm.KM_ER.html">cpalgorithm.KM_ER</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cpalgorithm.KM_config</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Reference.html#statistical-test">Statistical test</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cpalgorithm</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../Reference.html">Reference</a> &raquo;</li>
+        
+      <li>cpalgorithm.KM_config</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="cpalgorithm-km-config">
+<h1>cpalgorithm.KM_config<a class="headerlink" href="#cpalgorithm-km-config" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="cpalgorithm.KM_config">
+<em class="property">class </em><code class="descname">KM_config</code><span class="sig-paren">(</span><em>num_runs=10</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cpalgorithm/KM_config.html#KM_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cpalgorithm.KM_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Kojaku-Masuda algorithm with the configuration model.</p>
+<p>This algorithm finds multiple core-periphery pairs in networks.
+In the detection of core-periphery pairs, the configuration model is used as the null model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>num_runs</strong> (<em>int</em>) – Number of runs of the algorithm  (optional, default: 1).</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Create this object.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">cpalgorithm</span> <span class="k">as</span> <span class="nn">cpa</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">km</span> <span class="o">=</span> <span class="n">cpa</span><span class="o">.</span><span class="n">KM_config</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Core-periphery detection</strong></p>
+<p>Detect core-periphery structure in network G (i.e., NetworkX object):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">km</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Retrieve the ids of the core-periphery pair to which each node belongs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pair_id</span> <span class="o">=</span> <span class="n">km</span><span class="o">.</span><span class="n">get_pair_id</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Retrieve the coreness:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">coreness</span> <span class="o">=</span> <span class="n">km</span><span class="o">.</span><span class="n">get_coreness</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This algorithm can accept unweighted and weighted networks.</p>
+</div>
+<p class="rubric">Reference</p>
+<p>[1] S. Kojaku and N. Masuda. Core-periphery structure requires something else in the network. New Journal of Physics, 20(4):43012, 2018</p>
+<dl class="method">
+<dt id="cpalgorithm.KM_config.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>num_runs=10</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cpalgorithm/KM_config.html#KM_config.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cpalgorithm.KM_config.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>([num_runs])</td>
+<td>Initialize self.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">detect</span></code>(G)</td>
+<td>Detect multiple core-periphery pairs.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_coreness</span></code>()</td>
+<td>Get the coreness of each node</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_pair_id</span></code>()</td>
+<td>Get core-periphery pair ID of each node.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">score</span></code>()</td>
+<td>Get score of core-periphery pairs.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">significance</span></code>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="cpalgorithm.KM_config.detect">
+<code class="descname">detect</code><span class="sig-paren">(</span><em>G</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cpalgorithm/KM_config.html#KM_config.detect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cpalgorithm.KM_config.detect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detect multiple core-periphery pairs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>G</strong> (<em>NetworkX graph object</em>)</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">cpalgorithm</span> <span class="k">as</span> <span class="nn">cpa</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">karate_club_graph</span><span class="p">()</span>  <span class="c1"># load the karate club network.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">km</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">KM_config</span><span class="p">()</span> <span class="c1"># label switching algorithm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">km</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cpalgorithm.qstest.html" class="btn btn-neutral float-right" title="cpalgorithm.qstest" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="cpalgorithm.KM_ER.html" class="btn btn-neutral" title="cpalgorithm.KM_ER" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018-2018, Sadamori Kojaku.
+      Last updated on Jul 15, 2018.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'2.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/copybutton.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

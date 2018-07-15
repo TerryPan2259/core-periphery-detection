@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Reference &mdash; sada  documentation</title>
+  <title>Reference &mdash; cpalgorithm 2.0 documentation</title>
   
 
   
@@ -21,14 +21,19 @@
   
   
     
+      <link rel="search" type="application/opensearchdescription+xml"
+            title="Search within cpalgorithm 2.0 documentation"
+            href="_static/opensearch.xml"/>
+    
 
   
 
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Algorithms" href="Algorithms.html" />
+    <link rel="next" title="cpalgorithm.BE" href="generated/cpalgorithm.BE.html" />
     <link rel="prev" title="Examples" href="Examples.html" /> 
 
   
@@ -48,7 +53,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> sada
+            <a href="index.html" class="icon icon-home"> cpalgorithm
           
 
           
@@ -56,6 +61,10 @@
 
           
             
+            
+              <div class="version">
+                2.0
+              </div>
             
           
 
@@ -84,7 +93,23 @@
 <li class="toctree-l1"><a class="reference internal" href="Tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Algorithms.html">Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#core-periphery-detection-algorithms">Core-periphery detection algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/cpalgorithm.BE.html">cpalgorithm.BE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/cpalgorithm.MINRES.html">cpalgorithm.MINRES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/cpalgorithm.SBM.html">cpalgorithm.SBM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/cpalgorithm.LowRankCore.html">cpalgorithm.LowRankCore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/cpalgorithm.LapCore.html">cpalgorithm.LapCore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/cpalgorithm.LapSgnCore.html">cpalgorithm.LapSgnCore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/cpalgorithm.Rombach.html">cpalgorithm.Rombach</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/cpalgorithm.Rossa.html">cpalgorithm.Rossa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/cpalgorithm.KM_ER.html">cpalgorithm.KM_ER</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/cpalgorithm.KM_config.html">cpalgorithm.KM_config</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#statistical-test">Statistical test</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/cpalgorithm.qstest.html">cpalgorithm.qstest</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -101,7 +126,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">sada</a>
+          <a href="index.html">cpalgorithm</a>
         
       </nav>
 
@@ -138,8 +163,6 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/Reference.md.txt" rel="nofollow"> View page source</a>
-          
         
       </li>
     
@@ -153,11 +176,71 @@
             
   <div class="section" id="reference">
 <h1>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="Algorithms.html">Algorithms</a></li>
-</ul>
+<div class="section" id="core-periphery-detection-algorithms">
+<h2>Core-periphery detection algorithms<a class="headerlink" href="#core-periphery-detection-algorithms" title="Permalink to this headline">¶</a></h2>
+<p class="rubric">Algorithms for finding single core-periphery structure</p>
+<span class="target" id="module-cpalgorithm"></span><table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/cpalgorithm.BE.html#cpalgorithm.BE" title="cpalgorithm.BE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BE</span></code></a>([num_runs])</td>
+<td>Borgatti Everett algorithm.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/cpalgorithm.MINRES.html#cpalgorithm.MINRES" title="cpalgorithm.MINRES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MINRES</span></code></a>()</td>
+<td>MINRES algorithm.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/cpalgorithm.SBM.html#cpalgorithm.SBM" title="cpalgorithm.SBM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SBM</span></code></a>()</td>
+<td>Stochastic block model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/cpalgorithm.LowRankCore.html#cpalgorithm.LowRankCore" title="cpalgorithm.LowRankCore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LowRankCore</span></code></a>([beta])</td>
+<td>LowRankCore algorithm.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/cpalgorithm.LapCore.html#cpalgorithm.LapCore" title="cpalgorithm.LapCore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LapCore</span></code></a>([beta])</td>
+<td>LapCore algorithm.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/cpalgorithm.LapSgnCore.html#cpalgorithm.LapSgnCore" title="cpalgorithm.LapSgnCore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LapSgnCore</span></code></a>()</td>
+<td>LowSgnCore algorithm.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/cpalgorithm.Rombach.html#cpalgorithm.Rombach" title="cpalgorithm.Rombach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rombach</span></code></a>([num_runs,&nbsp;alpha,&nbsp;beta,&nbsp;algorithm])</td>
+<td>Rombach’s algorithm for finding continuous core-periphery structure.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/cpalgorithm.Rossa.html#cpalgorithm.Rossa" title="cpalgorithm.Rossa"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rossa</span></code></a>()</td>
+<td>Rossa’s algorithm for finding continuous core-periphery structure.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Algorithms for finding multiple core-periphery pairs</p>
+<span class="target" id="module-cpalgorithm"></span><table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/cpalgorithm.KM_ER.html#cpalgorithm.KM_ER" title="cpalgorithm.KM_ER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KM_ER</span></code></a>([num_runs])</td>
+<td>Kojaku-Masuda algorithm with the Erdos-Renyi random graph.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/cpalgorithm.KM_config.html#cpalgorithm.KM_config" title="cpalgorithm.KM_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KM_config</span></code></a>([num_runs])</td>
+<td>Kojaku-Masuda algorithm with the configuration model.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="statistical-test">
+<h2>Statistical test<a class="headerlink" href="#statistical-test" title="Permalink to this headline">¶</a></h2>
+<p class="rubric">Algorithms for finding single core-periphery structure</p>
+<span class="target" id="module-cpalgorithm"></span><table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/cpalgorithm.qstest.html#cpalgorithm.qstest" title="cpalgorithm.qstest"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cpalgorithm.qstest</span></code></a>(c,&nbsp;x,&nbsp;G,&nbsp;cpa[,&nbsp;…])</td>
+<td>(q,s)-test for core-periphery structure.</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 
@@ -169,7 +252,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Algorithms.html" class="btn btn-neutral float-right" title="Algorithms" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="generated/cpalgorithm.BE.html" class="btn btn-neutral float-right" title="cpalgorithm.BE" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="Examples.html" class="btn btn-neutral" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -181,7 +264,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, sada.
+        &copy; Copyright 2018-2018, Sadamori Kojaku.
+      Last updated on Jul 15, 2018.
 
     </p>
   </div>
@@ -203,17 +287,18 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'',
+            VERSION:'2.0',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
+            HAS_SOURCE:  false,
             SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/copybutton.js"></script>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   

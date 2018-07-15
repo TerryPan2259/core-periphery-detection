@@ -8,7 +8,7 @@ class KM_modmat(CPAlgorithm):
 	
 	def detect(self, G):
 
-		node_pairs, w, node2id, id2node = self.to_edge_list(G)
+		node_pairs, w, node2id, id2node = self._to_edge_list(G)
 
 		cppairs = _cp.detect_modmat(edges=node_pairs, ws=w, num_of_runs = self.num_runs)
 	
@@ -20,7 +20,7 @@ class KM_modmat(CPAlgorithm):
 	
 	def _score(self, G, c, x):
 
-		node_pairs, w, node2id, id2node = to_edge_list(G)
+		node_pairs, w, node2id, id2node = _to_edge_list(G)
 	
 		N = len(id2node)
 		_c = np.array([ c[id2node[i]]  for i in range(N) ])
