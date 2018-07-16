@@ -221,15 +221,15 @@ In the (q,s)–test, one is required to provide a function for measuring the siz
 </pre></div>
 </div>
 <p>Examine the significance of each core-periphery pair using the configuration model:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">significance</span><span class="p">,</span> <span class="n">p_values</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">qstest</span><span class="p">(</span><span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">km</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">significance</span><span class="p">,</span> <span class="n">p_values</span> <span class="o">=</span> <span class="n">cpa</span><span class="o">.</span><span class="n">qstest</span><span class="p">(</span><span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">km</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>or</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">significance</span><span class="p">,</span> <span class="n">p_values</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">qstest</span><span class="p">(</span><span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">km</span><span class="p">,</span> <span class="n">null_model</span><span class="o">=</span><span class="n">config_model</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">significance</span><span class="p">,</span> <span class="n">p_values</span> <span class="o">=</span> <span class="n">cpa</span><span class="o">.</span><span class="n">qstest</span><span class="p">(</span><span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">km</span><span class="p">,</span> <span class="n">null_model</span><span class="o">=</span><span class="n">config_model</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Examine the significance of each core-periphery pair using the Erdos-Renyi random graph:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">significance</span><span class="p">,</span> <span class="n">p_values</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">qstest</span><span class="p">(</span><span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">km</span><span class="p">,</span> <span class="n">null_model</span><span class="o">=</span><span class="n">erdos_renyi</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">significance</span><span class="p">,</span> <span class="n">p_values</span> <span class="o">=</span> <span class="n">cpa</span><span class="o">.</span><span class="n">qstest</span><span class="p">(</span><span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">km</span><span class="p">,</span> <span class="n">null_model</span><span class="o">=</span><span class="n">erdos_renyi</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="rubric">Reference</p>
@@ -259,7 +259,7 @@ Scientific Reports, 8:7351 (2018)</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2018-2018, Sadamori Kojaku.
-      Last updated on Jul 15, 2018.
+      Last updated on Jul 16, 2018.
 
     </p>
   </div>

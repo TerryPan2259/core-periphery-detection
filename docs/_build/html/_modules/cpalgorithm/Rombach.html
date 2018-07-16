@@ -287,7 +287,7 @@
 		<span class="n">cbest</span> <span class="o">=</span> <span class="mi">0</span> 
 		<span class="n">xbest</span> <span class="o">=</span> <span class="mi">0</span> 
 		<span class="n">qbest</span> <span class="o">=</span> <span class="mi">0</span> 
-		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_runs</span><span class="p">):</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_runs</span><span class="p">):</span>
 			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">==</span> <span class="s1">&#39;ls&#39;</span><span class="p">:</span>
 			
 				<span class="bp">self</span><span class="o">.</span><span class="n">_label_switching</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span>
@@ -300,12 +300,12 @@
 				<span class="n">Qbest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q_</span>	
 				<span class="n">cbest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_</span>
 				<span class="n">xbest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_</span>
-				<span class="n">qbest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_</span>
+				<span class="n">qbest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qs_</span>
 		
 		<span class="bp">self</span><span class="o">.</span><span class="n">Q_</span> <span class="o">=</span> <span class="n">Qbest</span> 	
 		<span class="bp">self</span><span class="o">.</span><span class="n">c_</span> <span class="o">=</span> <span class="n">cbest</span> 
 		<span class="bp">self</span><span class="o">.</span><span class="n">x_</span> <span class="o">=</span> <span class="n">xbest</span> 
-		<span class="bp">self</span><span class="o">.</span><span class="n">q_</span> <span class="o">=</span> <span class="n">qbest</span> </div>
+		<span class="bp">self</span><span class="o">.</span><span class="n">qs_</span> <span class="o">=</span> <span class="n">qbest</span> </div>
 		
 	<span class="k">def</span> <span class="nf">_label_switching</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
 		
@@ -365,7 +365,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2018-2018, Sadamori Kojaku.
-      Last updated on Jul 15, 2018.
+      Last updated on Jul 16, 2018.
 
     </p>
   </div>

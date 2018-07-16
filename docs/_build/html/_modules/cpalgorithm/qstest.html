@@ -239,15 +239,15 @@
 <span class="sd">    </span>
 <span class="sd">    Examine the significance of each core-periphery pair using the configuration model:	</span>
 <span class="sd">    </span>
-<span class="sd">    &gt;&gt;&gt; significance, p_values = cp.qstest(pair_id, coreness, G, km)</span>
+<span class="sd">    &gt;&gt;&gt; significance, p_values = cpa.qstest(pair_id, coreness, G, km)</span>
 <span class="sd">    </span>
 <span class="sd">    or</span>
 <span class="sd">    </span>
-<span class="sd">    &gt;&gt;&gt; significance, p_values = cp.qstest(pair_id, coreness, G, km, null_model=config_model)</span>
+<span class="sd">    &gt;&gt;&gt; significance, p_values = cpa.qstest(pair_id, coreness, G, km, null_model=config_model)</span>
 <span class="sd">    </span>
 <span class="sd">    Examine the significance of each core-periphery pair using the Erdos-Renyi random graph:</span>
 <span class="sd">    </span>
-<span class="sd">    &gt;&gt;&gt; significance, p_values = cp.qstest(pair_id, coreness, G, km, null_model=erdos_renyi)</span>
+<span class="sd">    &gt;&gt;&gt; significance, p_values = cpa.qstest(pair_id, coreness, G, km, null_model=erdos_renyi)</span>
 <span class="sd">    	</span>
 <span class="sd">    .. rubric:: Reference</span>
 <span class="sd">    </span>
@@ -314,7 +314,7 @@
         <span class="n">Gr</span> <span class="o">=</span> <span class="n">null_model</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
         <span class="n">cpa</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">Gr</span><span class="p">)</span> 
         <span class="n">q_rand</span> <span class="o">=</span> <span class="n">q_rand</span> <span class="o">+</span> <span class="n">cpa</span><span class="o">.</span><span class="n">score</span><span class="p">()</span>
-        <span class="n">s_rand</span> <span class="o">=</span> <span class="n">s_rand</span> <span class="o">+</span> <span class="n">sfunc</span><span class="p">(</span><span class="n">Gr</span><span class="p">,</span> <span class="n">cpa</span><span class="o">.</span><span class="n">get_pair_id</span><span class="p">(),</span> <span class="n">cpa</span><span class="o">.</span><span class="n">is_core</span><span class="p">())</span> 
+        <span class="n">s_rand</span> <span class="o">=</span> <span class="n">s_rand</span> <span class="o">+</span> <span class="n">sfunc</span><span class="p">(</span><span class="n">Gr</span><span class="p">,</span> <span class="n">cpa</span><span class="o">.</span><span class="n">get_pair_id</span><span class="p">(),</span> <span class="n">cpa</span><span class="o">.</span><span class="n">get_coreness</span><span class="p">())</span> 
     <span class="k">return</span> <span class="n">q_rand</span><span class="p">,</span> <span class="n">s_rand</span>
 
 
@@ -334,7 +334,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2018-2018, Sadamori Kojaku.
-      Last updated on Jul 15, 2018.
+      Last updated on Jul 16, 2018.
 
     </p>
   </div>

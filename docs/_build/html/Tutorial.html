@@ -201,7 +201,7 @@ each row corresponds to a pair of adjacent nodes connected by an edge.</p>
 </div>
 <p>Finally, retrieve the results by</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">get_pair_id</span><span class="p">()</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">is_core</span><span class="p">()</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">get_coreness</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>which gives two dictionaries <code class="code python docutils literal notranslate"><span class="name"><span class="pre">c</span></span></code> and <code class="code python docutils literal notranslate"><span class="name"><span class="pre">x</span></span></code>.
@@ -209,10 +209,11 @@ Dictionary <code class="code python docutils literal notranslate"><span class="n
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="p">{</span><span class="n">NodeA</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">NodeB</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">NodeC</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">NodeD</span><span class="p">:</span> <span class="mi">2</span> <span class="o">...</span><span class="p">,</span>
 </pre></div>
 </div>
-<p>In dictionary <code class="code python docutils literal notranslate"><span class="name"><span class="pre">x</span></span></code>, keys are the node names, and values indicate core nodes (=1) or periphery nodes (=0), respectively, e.g.,</p>
+<p>In dictionary <code class="code python docutils literal notranslate"><span class="name"><span class="pre">x</span></span></code>, keys are the node names, and values indicate coreness values, where coreness value 1 and 0 indicates a core or a peripheral node, respectively, e.g.,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="p">{</span><span class="n">NodeA</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">NodeB</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">NodeC</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">NodeD</span><span class="p">:</span> <span class="mi">1</span> <span class="o">...</span><span class="p">,</span>
 </pre></div>
 </div>
+<p>Note that coreness values can be a float value, which indicates the extent to which the node belongs to the core.</p>
 <p>One can use other algorithms in the same way.
 For example, one can use the Borgatti-Everet algorithm as follows.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cpalgorithm</span> <span class="kn">as</span> <span class="nn">cp</span>
@@ -224,10 +225,10 @@ For example, one can use the Borgatti-Everet algorithm as follows.</p>
 <span class="n">algorithm</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
 
 <span class="n">c</span> <span class="o">=</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">get_pair_id</span><span class="p">()</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">is_core</span><span class="p">()</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">get_coreness</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>The available algorithms are listed here.</p>
+<p>The available algorithms are listed in <a class="reference internal" href="Reference.html#reference"><span class="std std-ref">Reference</span></a>.</p>
 </div>
 <div class="section" id="statistical-test">
 <h2>Statistical test<a class="headerlink" href="#statistical-test" title="Permalink to this headline">¶</a></h2>
@@ -287,7 +288,7 @@ The default significance level is 0.05.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2018-2018, Sadamori Kojaku.
-      Last updated on Jul 15, 2018.
+      Last updated on Jul 16, 2018.
 
     </p>
   </div>

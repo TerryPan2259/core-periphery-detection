@@ -61,7 +61,7 @@ Finally, retrieve the results by
 .. code-block:: python
   
    c = algorithm.get_pair_id()
-   x = algorithm.is_core()
+   x = algorithm.get_coreness()
   
 which gives two dictionaries :python:`c` and :python:`x`.
 Dictionary :python:`c` consists of the names of nodes as keys and ID of the core-periphery pair to which the nodes belong as values, e.g.,  
@@ -70,12 +70,13 @@ Dictionary :python:`c` consists of the names of nodes as keys and ID of the core
 
    c = {NodeA: 0, NodeB: 1, NodeC: 0, NodeD: 2 ..., 
 
-In dictionary :python:`x`, keys are the node names, and values indicate core nodes (=1) or periphery nodes (=0), respectively, e.g.,  
+In dictionary :python:`x`, keys are the node names, and values indicate coreness values, where coreness value 1 and 0 indicates a core or a peripheral node, respectively, e.g.,  
 
 .. code-block:: python
 
    x = {NodeA: 1, NodeB: 1, NodeC: 0, NodeD: 1 ...,
 
+Note that coreness values can be a float value, which indicates the extent to which the node belongs to the core. 
 
 One can use other algorithms in the same way. 
 For example, one can use the Borgatti-Everet algorithm as follows. 
@@ -92,9 +93,9 @@ For example, one can use the Borgatti-Everet algorithm as follows.
    algorithm.detect(G)
  
    c = algorithm.get_pair_id()
-   x = algorithm.is_core()
+   x = algorithm.get_coreness()
 
-The available algorithms are listed here. 
+The available algorithms are listed in :ref:`reference`. 
 
 
 Statistical test

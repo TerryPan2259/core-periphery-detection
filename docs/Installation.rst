@@ -2,10 +2,32 @@
 Installation
 ############
 
-I'm Daniele Procida, a Django user and developer.
+.. role:: python(code)
+    :language: python
 
-I've contributed to:
+cpalgorithm requires Python 3.4 or above.
+We assume you have the latest :python:`pip` (a package manager for Python).
 
-*   django CMS
-*   Arkestra
-*   Django
+To install cpalgorithm, flag::
+
+.. code-block:: bash
+
+  $ pip3 install cpalgorithm
+
+If you don't have a root access, try :python:`--user` flag:
+
+.. code-block:: bash
+
+  $ pip3 install --user cpalgorithm
+
+You can upgrade a newer release by 
+  
+.. code-block:: bash
+
+  $ pip3 install --upgrade cpalgorithm
+
+
+.. note:: 
+
+  
+  
