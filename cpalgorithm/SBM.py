@@ -61,7 +61,7 @@ class SBM(CPAlgorithm):
 
 		node_pairs, w, node2id, id2node = self._to_edge_list(G)
 		
-		cppairs = _cp.detect_sbm(edges=node_pairs, ws=w, num_of_runs = self.num_runs)
+		cppairs = _cp.detect_sbm(edges=node_pairs, ws=w, num_of_runs = 1)
 		
 		N = len(id2node) 
 		self.c_ = dict(zip( [id2node[i] for i in range(N)], cppairs[0].astype(int)))

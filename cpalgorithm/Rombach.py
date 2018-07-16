@@ -131,7 +131,7 @@ class Rombach(CPAlgorithm):
 		cbest = 0 
 		xbest = 0 
 		qbest = 0 
-		for i in range(self._num_runs):
+		for i in range(self.num_runs):
 			if self.algorithm == 'ls':
 			
 				self._label_switching(G, self.alpha, self.beta)
@@ -144,12 +144,12 @@ class Rombach(CPAlgorithm):
 				Qbest = self.Q_	
 				cbest = self.c_
 				xbest = self.x_
-				qbest = self.q_
+				qbest = self.qs_
 		
 		self.Q_ = Qbest 	
 		self.c_ = cbest 
 		self.x_ = xbest 
-		self.q_ = qbest 
+		self.qs_ = qbest 
 		
 	def _label_switching(self, G, alpha, beta):
 		

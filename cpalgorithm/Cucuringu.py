@@ -175,7 +175,7 @@ class LapCore(CPAlgorithm):
 	
 	Retrieve the coreness:
 
-	>>> coreness = lrc.get_coreness() 
+	>>> coreness = lc.get_coreness() 
 		
 	.. note::
 

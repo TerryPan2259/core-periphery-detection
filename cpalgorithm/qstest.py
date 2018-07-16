@@ -83,15 +83,15 @@ def qstest(c, x, G, cpa, significance_level=0.05, null_model = config_model, sfu
     
     Examine the significance of each core-periphery pair using the configuration model:	
     
-    >>> significance, p_values = cp.qstest(pair_id, coreness, G, km)
+    >>> significance, p_values = cpa.qstest(pair_id, coreness, G, km)
     
     or
     
-    >>> significance, p_values = cp.qstest(pair_id, coreness, G, km, null_model=config_model)
+    >>> significance, p_values = cpa.qstest(pair_id, coreness, G, km, null_model=config_model)
     
     Examine the significance of each core-periphery pair using the Erdos-Renyi random graph:
     
-    >>> significance, p_values = cp.qstest(pair_id, coreness, G, km, null_model=erdos_renyi)
+    >>> significance, p_values = cpa.qstest(pair_id, coreness, G, km, null_model=erdos_renyi)
     	
     .. rubric:: Reference
     
@@ -158,7 +158,7 @@ def draw_qs_samples(G, sfunc, cpa, null_model, num_of_rand_net):
         Gr = null_model(G)
         cpa.detect(Gr) 
         q_rand = q_rand + cpa.score()
-        s_rand = s_rand + sfunc(Gr, cpa.get_pair_id(), cpa.is_core()) 
+        s_rand = s_rand + sfunc(Gr, cpa.get_pair_id(), cpa.get_coreness()) 
     return q_rand, s_rand
 
 

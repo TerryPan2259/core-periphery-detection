@@ -519,7 +519,7 @@ PYBIND11_MODULE(_cpalgorithm, m){
 		py::arg("x")
 	);
 
-	m.def("calc_Q_sbm,", &calc_Q_rombach, "Quality function for the Stochastic block model",
+	m.def("calc_Q_sbm", &calc_Q_sbm, "Quality function for the Stochastic block model",
 		py::arg("edges"),
 		py::arg("ws"),
 		py::arg("c"),
