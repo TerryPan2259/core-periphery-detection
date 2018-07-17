@@ -1,0 +1,384 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cpalgorithm.qstest &mdash; cpalgorithm 2.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+      <link rel="search" type="application/opensearchdescription+xml"
+            title="Search within cpalgorithm 2.0 documentation"
+            href="../../_static/opensearch.xml"/>
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> cpalgorithm
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Reference.html">Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">cpalgorithm</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>cpalgorithm.qstest</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for cpalgorithm.qstest</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="k">as</span> <span class="nn">mp</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">norm</span>
+
+<span class="k">def</span> <span class="nf">sz_n</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">sz_degree</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="o">+</span><span class="mi">1</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+       <span class="n">w</span><span class="p">[</span><span class="n">val</span><span class="p">]</span><span class="o">+=</span><span class="n">network</span><span class="o">.</span><span class="n">degree</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">w</span> 
+
+<span class="k">def</span> <span class="nf">config_model</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+    <span class="n">deg</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">degree</span><span class="p">()]</span>
+    <span class="k">return</span> <span class="n">nx</span><span class="o">.</span><span class="n">configuration_model</span><span class="p">(</span><span class="n">deg</span><span class="p">)</span>	
+
+<span class="k">def</span> <span class="nf">erdos_renyi</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">density</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">nx</span><span class="o">.</span><span class="n">fast_gnp_random_graph</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+
+<div class="viewcode-block" id="qstest"><a class="viewcode-back" href="../../generated/cpalgorithm.qstest.html#cpalgorithm.qstest">[docs]</a><span class="k">def</span> <span class="nf">qstest</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">cpa</span><span class="p">,</span> <span class="n">significance_level</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">null_model</span> <span class="o">=</span> <span class="n">config_model</span><span class="p">,</span> <span class="n">sfunc</span> <span class="o">=</span> <span class="n">sz_n</span><span class="p">,</span> <span class="n">num_of_thread</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">num_of_rand_net</span> <span class="o">=</span> <span class="mi">500</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;(q,s)-test for core-periphery structure.</span>
+<span class="sd">    </span>
+<span class="sd">    This function computes the significance of individual core-periphery pairs using either the Erdos-Renyi or the configuration model as the null model. </span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    c : dict</span>
+<span class="sd">	keys and values of which are node names and IDs of core-periphery pairs, respectively.</span>
+<span class="sd">    </span>
+<span class="sd">    x : dict</span>
+<span class="sd">	keys and values of which are node names and coreness, respectively. </span>
+<span class="sd">    </span>
+<span class="sd">    G : NetworkX graph object </span>
+<span class="sd">	</span>
+<span class="sd">    cpa : CPAlgorithm class object</span>
+<span class="sd">	Core-periphery detection algorithm </span>
+<span class="sd">    </span>
+<span class="sd">    significance_level : float</span>
+<span class="sd">	Significance level (optional, default 0.5) </span>
+<span class="sd">    </span>
+<span class="sd">    null_model : function</span>
+<span class="sd">	Null model for generating randomised networks.</span>
+<span class="sd">       	Provide either config_model or erdos_renyi (optional, default config_model). </span>
+<span class="sd">       	One can use another null models. </span>
+<span class="sd">       	Specifically, one needs to define a function taking NetworkX graph object as input and randomised network as its output. </span>
+<span class="sd">       	Then, one gives the defined function, say myfunc,  to qstest by null_model=myfunc.</span>
+<span class="sd">    </span>
+<span class="sd">    sfunc : function</span>
+<span class="sd">	Size function (optional, default sz_n)</span>
+<span class="sd">       In the (q,s)--test, one is required to provide a function for measuring the size of an individual core-periphery pair. By default, this function is the number of nodes in the core-periphery pair (i.e., sz_n). One can set sz_degree, which measures the size as the sum of the degree of nodes belonging to the core-periphery pair.  </span>
+<span class="sd">    </span>
+<span class="sd">    num_of_thread : function</span>
+<span class="sd">	Number of thread (optional, default 4)</span>
+<span class="sd">     </span>
+<span class="sd">    	The (q,s)--test uses multiple threads to compute the significance. </span>
+<span class="sd">    </span>
+<span class="sd">    num_of_rand_net : int</span>
+<span class="sd">	Number of randomised networks (optional, default 500)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    significance : list </span>
+<span class="sd">	significance[i] = True or significance[i] = False indicates core-periphery pair i is significant or insignificant, respectively.</span>
+<span class="sd">    </span>
+<span class="sd">    p_values : list</span>
+<span class="sd">	p_values[i] is the p-value of core-periphery pair i.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Detect core-periphery pairs in the karate club network.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; import cpalgorithm as cpa	</span>
+<span class="sd">    &gt;&gt;&gt; km = cpa.KM_config()</span>
+<span class="sd">    &gt;&gt;&gt; km.detect(G) </span>
+<span class="sd">    &gt;&gt;&gt; pair_id = km.get_pair_id() </span>
+<span class="sd">    &gt;&gt;&gt; coreness = km.get_coreness()</span>
+<span class="sd">    </span>
+<span class="sd">    Examine the significance of each core-periphery pair using the configuration model:	</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; significance, p_values = cpa.qstest(pair_id, coreness, G, km)</span>
+<span class="sd">    </span>
+<span class="sd">    or</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; significance, p_values = cpa.qstest(pair_id, coreness, G, km, null_model=config_model)</span>
+<span class="sd">    </span>
+<span class="sd">    Examine the significance of each core-periphery pair using the Erdos-Renyi random graph:</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; significance, p_values = cpa.qstest(pair_id, coreness, G, km, null_model=erdos_renyi)</span>
+<span class="sd">    	</span>
+<span class="sd">    .. rubric:: Reference</span>
+<span class="sd">    </span>
+<span class="sd">    Sadamori Kojaku and Naoki Masuda.</span>
+<span class="sd">    A generalised significance test for individual communities in networks.</span>
+<span class="sd">    Scientific Reports, 8:7351 (2018)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+   
+    <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cpa</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>    
+    <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sfunc</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+    
+    <span class="n">C</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    
+
+    <span class="n">alpha_corrected</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">significance_level</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">C</span><span class="p">))</span>
+        
+    <span class="n">q_tilde</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">s_tilde</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">num_of_thread</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">q_tilde</span><span class="p">,</span> <span class="n">s_tilde</span> <span class="o">=</span> <span class="n">draw_qs_samples</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">sfunc</span><span class="p">,</span> <span class="n">cpa</span><span class="p">,</span> <span class="n">null_model</span><span class="p">,</span> <span class="n">num_of_rand_net</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">private_args</span> <span class="o">=</span> <span class="p">[(</span><span class="n">G</span><span class="p">,</span> <span class="n">sfunc</span><span class="p">,</span> <span class="n">cpa</span><span class="p">,</span> <span class="n">null_model</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">num_of_rand_net</span> <span class="o">/</span> <span class="n">num_of_thread</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_of_thread</span><span class="p">)]</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">num_of_thread</span><span class="p">)</span>
+        <span class="n">qs_tilde</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">wrapper_draw_qs_samples</span><span class="p">,</span> <span class="n">private_args</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_of_thread</span><span class="p">):</span>
+            <span class="n">q_tilde</span> <span class="o">+=</span> <span class="n">qs_tilde</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> 
+            <span class="n">s_tilde</span> <span class="o">+=</span> <span class="n">qs_tilde</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+     
+    <span class="n">q_tilde</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">q_tilde</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>    
+    <span class="n">s_tilde</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">s_tilde</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>    
+    <span class="n">q_ave</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">q_tilde</span><span class="p">)</span>
+    <span class="n">s_ave</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">s_tilde</span><span class="p">)</span>
+    <span class="n">q_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">q_tilde</span><span class="p">,</span> <span class="n">ddof</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">s_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">s_tilde</span><span class="p">,</span> <span class="n">ddof</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+	    
+    <span class="k">if</span> <span class="p">(</span><span class="n">s_std</span> <span class="o">&lt;=</span> <span class="mf">1e-30</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">q_std</span> <span class="o">&lt;=</span> <span class="mf">1e-30</span><span class="p">):</span>
+        <span class="n">gamma</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">q_tilde</span><span class="p">,</span> <span class="n">s_tilde</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    
+    <span class="n">h</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">q_tilde</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mf">6.0</span><span class="p">)</span>
+    <span class="n">p_values</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span> <span class="o">*</span> <span class="n">C</span>
+    <span class="n">significant</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">]</span> <span class="o">*</span> <span class="n">C</span>
+    <span class="k">for</span> <span class="n">cid</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">C</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">s_std</span> <span class="o">&lt;=</span> <span class="mf">1e-30</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">q_std</span> <span class="o">&lt;=</span> <span class="mf">1e-30</span><span class="p">):</span>
+            <span class="k">continue</span>    
+        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span> <span class="p">(</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">cid</span><span class="p">]</span> <span class="o">-</span> <span class="n">s_tilde</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">h</span> <span class="o">*</span> <span class="n">s_std</span><span class="p">)</span> <span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">cd</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span> <span class="p">(</span> <span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">cid</span><span class="p">]</span> <span class="o">-</span> <span class="n">q_tilde</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">h</span> <span class="o">*</span> <span class="n">q_std</span><span class="p">)</span> <span class="o">-</span> <span class="n">gamma</span> <span class="o">*</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">cid</span><span class="p">]</span> <span class="o">-</span> <span class="n">s_tilde</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">h</span> <span class="o">*</span> <span class="n">s_std</span><span class="p">)</span> <span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">gamma</span><span class="p">)</span> <span class="p">)</span>    
+        <span class="n">denom</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>    
+        <span class="k">if</span> <span class="n">denom</span> <span class="o">&lt;=</span> <span class="mf">1e-30</span><span class="p">:</span>
+            <span class="k">continue</span>    
+        <span class="n">p_values</span><span class="p">[</span><span class="n">cid</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="nb">sum</span><span class="p">(</span> <span class="n">w</span> <span class="o">*</span> <span class="n">cd</span> <span class="p">)</span> <span class="o">/</span> <span class="n">denom</span><span class="p">)</span>
+        <span class="n">significant</span><span class="p">[</span><span class="n">cid</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_values</span><span class="p">[</span><span class="n">cid</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">alpha_corrected</span>
+    <span class="k">return</span> <span class="n">significant</span><span class="p">,</span> <span class="n">p_values</span></div>
+
+
+<span class="c1"># Private function for qstest        </span>
+<span class="k">def</span> <span class="nf">draw_qs_samples</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">sfunc</span><span class="p">,</span> <span class="n">cpa</span><span class="p">,</span> <span class="n">null_model</span><span class="p">,</span> <span class="n">num_of_rand_net</span><span class="p">):</span>
+    <span class="c1">#deg = [x[1] for x in G.degree()]</span>
+    <span class="n">q_rand</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">s_rand</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_of_rand_net</span><span class="p">):</span>
+        <span class="n">Gr</span> <span class="o">=</span> <span class="n">null_model</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+        <span class="n">cpa</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">Gr</span><span class="p">)</span> 
+        <span class="n">q_rand</span> <span class="o">=</span> <span class="n">q_rand</span> <span class="o">+</span> <span class="n">cpa</span><span class="o">.</span><span class="n">score</span><span class="p">()</span>
+        <span class="n">s_rand</span> <span class="o">=</span> <span class="n">s_rand</span> <span class="o">+</span> <span class="n">sfunc</span><span class="p">(</span><span class="n">Gr</span><span class="p">,</span> <span class="n">cpa</span><span class="o">.</span><span class="n">get_pair_id</span><span class="p">(),</span> <span class="n">cpa</span><span class="o">.</span><span class="n">get_coreness</span><span class="p">())</span> 
+    <span class="k">return</span> <span class="n">q_rand</span><span class="p">,</span> <span class="n">s_rand</span>
+
+
+<span class="c1"># Private function for qstest        </span>
+<span class="k">def</span> <span class="nf">wrapper_draw_qs_samples</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">draw_qs_samples</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>    
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018-2018, Sadamori Kojaku.
+      Last updated on Jul 16, 2018.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'2.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/copybutton.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

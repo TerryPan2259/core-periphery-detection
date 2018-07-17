@@ -24,7 +24,7 @@ public:
 	void calc_Q(
 	    const Graph& G,
 	    const vector<int>& c,
-	    const vector<bool>& x,
+	    const vector<double>& x,
 	    double& Q,
 	    vector<double>& q);
 private:
@@ -67,9 +67,9 @@ void MINRES::detect(const Graph& G){
 	}
 	
 	// set
-	vector<bool> tmp2(N, false);
+	vector<double> tmp2(N, 0.0);
 	for(int k = 0;k<=kbest;k++){
-		tmp2[ ord[k] ] = true;
+		tmp2[ ord[k] ] = 1.0;
 	}
 	_x = tmp2;
 	
@@ -83,7 +83,7 @@ void MINRES::detect(const Graph& G){
 void MINRES::calc_Q(
     const Graph& G,
     const vector<int>& c,
-    const vector<bool>& x,
+    const vector<double>& x,
     double& Q,
     vector<double>& q)
 {
@@ -99,14 +99,10 @@ void MINRES::calc_Q(
 		for(int j = 0; j < sz; j++){
 			int nei = -1; double w = -1;
 			G.get_weight(i, j, nei, w);
-			if(x[i] & x[j]){	
-				mcc++;
-			}
-			if(!x[i] & !x[j]){	
-				mpp++;
-			}
+			mcc+=x[i] * x[j];
+			mpp+= (1-x[i]) * (1- x[j]);
 		}
-		if(x[i]) ncc+=1;
+		ncc+=x[i];
 	}
 	
 	//(ncc * ncc - mcc) number of absent edges in core

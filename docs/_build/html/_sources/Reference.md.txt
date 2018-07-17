@@ -2,8 +2,20 @@
 Reference
 ############
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+Algorithms
+----------
 
-   Algorithms 
+- Discrete core-periphery structure 
+
+   - :ref:`borgatti-everett-algorithm`.
+   - MINRES 
+   - Stochatic block model 
+   - LowRankCore
+   - LapCore 
+   - LapSgnCore 
+   - Kojaku-Masuda algorithm
+
+- Continuous core-periphery structure 
+
+   - Rossa algorithm
+   - Rombach algorithm  
