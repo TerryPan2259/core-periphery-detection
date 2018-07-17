@@ -17,7 +17,7 @@ The aim of cpalgorithm is to provide an access to the algorithms, making core-pe
 Core-periphery structure
 ========================
 
-Core-periphery structure is a mesoscale structure of networks, where core is a group of densely interconnected nodes, and periphery is a group of sparsely interconnected nodes. 
+Core-periphery structure is a mesoscale structure of networks, where a core is a group of densely interconnected nodes, and a periphery is a group of sparsely interconnected nodes. 
 The core can be densely interconnected with the periphery or not.
 Core-periphery structure has been found in various empirical networks such as social networks, biological networks and transportation networks [1].
 For example, a political blog network [2] consists of two core-periphery pairs, each of which consists of the blogs sharing the same political agenda [3,4].
@@ -55,7 +55,7 @@ References
 - [2] L. A. Adamic and N. Glance, in Proceedings of the 3rd International Workshop on Link Discovery (ACM, New York, 2005), pp. 36–43.
 - [3] S. Kojaku and N. Masuda, Phys. Rev. 96, 052313 (2017).
 - [4] S. Kojaku and N. Masuda, N. J. Phys. 20, 043012 (2018).
-  [5] T. Opsahl, “Why Anchorage is not (that) impor- tant: Binary ties and sample selection” (2011) [https://toreopsahl.com/2011/08/12/why-anchorage-is-not- that-important-binary-ties-and-sample-selection]. 
+- [5] T. Opsahl, “Why Anchorage is not (that) impor- tant: Binary ties and sample selection” (2011) [https://toreopsahl.com/2011/08/12/why-anchorage-is-not- that-important-binary-ties-and-sample-selection]. 
 - [6] T. Peixoto and S. Bornholdt, Phys. Rev. Lett. 109, 118793 (2012) 
 - [7] T. Verma, F. Russmann, N. A. M. Araújo, J. Nagler, and H. J. Herrmann, Nat. Commun. 7, 10441 (2016).
 
@@ -63,8 +63,8 @@ References
 Scope
 ========================
 
-Among various algorithms, cpalgorithm focuses on the algorithms for finding density-based core-periphery structure in networks.
-Other types of core-periphery structure such as transportation-based core-periphery structure is out of scope in the current version. 
+Among various algorithms, cpalgorithm focuses density-based core-periphery structure.
+Other types of core-periphery structure such as transportation-based core-periphery structure is left for future update.
 
  
 .. toctree::

@@ -13,8 +13,6 @@
 
   
   
-  
-  
 
   
 
@@ -24,21 +22,28 @@
 
   
 
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Examples" href="Examples.html" />
-    <link rel="prev" title="Installation" href="Installation.html" /> 
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="sada  documentation" href="index.html"/>
+        <link rel="next" title="Examples" href="Examples.html"/>
+        <link rel="prev" title="Installation" href="Installation.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav">
+<body class="wy-body-for-nav" role="document">
 
-   
   <div class="wy-grid-for-nav">
 
     
@@ -75,10 +80,7 @@
           
             
             
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+                <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
@@ -101,54 +103,34 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">sada</a>
-        
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">sada</a>
       </nav>
 
 
+      
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           
 
-
-
-
-
-
-
-
-
-
-
-
+ 
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
-
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-      <li>Tutorial</li>
-    
-    
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Tutorial</li>
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/Tutorial.md.txt" rel="nofollow"> View page source</a>
           
         
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -158,7 +140,7 @@
 <h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="preparing-a-graph">
 <h2>Preparing a graph<a class="headerlink" href="#preparing-a-graph" title="Permalink to this headline">¶</a></h2>
-<p>cpalgorithm takes a graph object implemented in NetworkX as input
+<p>cpalgorithm takes a graph object implemented in NetworkX as input.
 For example, making an empty graph is done by</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
 <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
@@ -172,9 +154,9 @@ For example, making an empty graph is done by</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The “example.csv” is a space-separated file consisting of two columns, where
-each row corresponds to a pair of adjacent nodes connected by an edge.</p>
+each row has two strings separated by a space indicating the names of adjacent nodes.
+See details in <a class="reference external" href="https://networkx.github.io/documentation/stable/">NetworkX documentation</a>.</p>
 </div>
-<p>See details in <a class="reference external" href="https://networkx.github.io/documentation/stable/">NetworkX documentation</a>.</p>
 </div>
 <div class="section" id="core-periphery-detection">
 <h2>Core-periphery detection<a class="headerlink" href="#core-periphery-detection" title="Permalink to this headline">¶</a></h2>
@@ -198,14 +180,18 @@ each row corresponds to a pair of adjacent nodes connected by an edge.</p>
 </pre></div>
 </div>
 <p>which gives two dictionaries <code class="code python docutils literal notranslate"><span class="name"><span class="pre">c</span></span></code> and <code class="code python docutils literal notranslate"><span class="name"><span class="pre">x</span></span></code>.
-Dictionary <code class="code python docutils literal notranslate"><span class="name"><span class="pre">c</span></span></code> consists of the names of nodes as keys and ID of the core-periphery pair to which the nodes belong as values, e.g.,</p>
+Dictionary <code class="code python docutils literal notranslate"><span class="name"><span class="pre">c</span></span></code> consists of the names of nodes as keys and ID of the core-periphery pair to which the nodes belong as values.
+For example,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="p">{</span><span class="n">NodeA</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">NodeB</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">NodeC</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">NodeD</span><span class="p">:</span> <span class="mi">2</span> <span class="o">...</span><span class="p">,</span>
 </pre></div>
 </div>
-<p>Dictionary <code class="code python docutils literal notranslate"><span class="name"><span class="pre">x</span></span></code> consists of the names of nodes as keys and flags as values, where <code class="code python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">True</span></span></code> or <code class="code python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">False</span></span></code> flag indicates a core or a periphery, respectively, e.g.,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="p">{</span><span class="n">NodeA</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="n">NodeB</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="n">NodeC</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="n">NodeD</span><span class="p">:</span> <span class="bp">False</span> <span class="o">...</span><span class="p">,</span>
+<p>NodeA and NodeC belong to core-periphery pair 0, NodeB belongs to core-periphery pair 1, and NodeC belongs to core-periphery pair 2.</p>
+<p>In dictionary <code class="code python docutils literal notranslate"><span class="name"><span class="pre">x</span></span></code>, keys are the node names, and values indicate core nodes (=1) or periphery nodes (=0), respectively.
+For example,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="p">{</span><span class="n">NodeA</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">NodeB</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">NodeC</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">NodeD</span><span class="p">:</span> <span class="mi">1</span> <span class="o">...</span><span class="p">,</span>
 </pre></div>
 </div>
+<p>NodeA, NodeB and NodeD are core nodes. NodeC is a peripheral node.</p>
 <p>One can use other algorithms in the same way.
 For example, one can use the Borgatti-Everet algorithm as follows.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cpalgorithm</span> <span class="kn">as</span> <span class="nn">cp</span>
@@ -233,10 +219,12 @@ One can carry out the statistical test by writing a line of code:</p>
 </pre></div>
 </div>
 <p>where <code class="code python docutils literal notranslate"><span class="name"><span class="pre">significant</span></span></code> and <code class="code python docutils literal notranslate"><span class="name"><span class="pre">p_values</span></span></code> are list objects.
-List <code class="code python docutils literal notranslate"><span class="name"><span class="pre">significant</span></span></code> is a boolean list, where <code class="code python docutils literal notranslate"><span class="name"><span class="pre">significant</span></span><span class="punctuation"><span class="pre">[</span></span><span class="name"><span class="pre">c</span></span><span class="punctuation"><span class="pre">]</span></span><span class="operator"><span class="pre">=</span></span><span class="name builtin pseudo"><span class="pre">True</span></span></code> or <code class="code python docutils literal notranslate"><span class="name"><span class="pre">significant</span></span><span class="punctuation"><span class="pre">[</span></span><span class="name"><span class="pre">c</span></span><span class="punctuation"><span class="pre">]</span></span><span class="operator"><span class="pre">=</span></span><span class="name builtin pseudo"><span class="pre">False</span></span></code> flag indicates that the cth core-periphery pair is significant (i.e., cannot be explained by nodes’ degrees) or insignificant (i.e., can be explained by the nodes’ degree), respectively, e.g.,</p>
+List <code class="code python docutils literal notranslate"><span class="name"><span class="pre">significant</span></span></code> is a boolean list, where <code class="code python docutils literal notranslate"><span class="name"><span class="pre">significant</span></span><span class="punctuation"><span class="pre">[</span></span><span class="name"><span class="pre">c</span></span><span class="punctuation"><span class="pre">]</span></span><span class="operator"><span class="pre">=</span></span><span class="name builtin pseudo"><span class="pre">True</span></span></code> or <code class="code python docutils literal notranslate"><span class="name"><span class="pre">significant</span></span><span class="punctuation"><span class="pre">[</span></span><span class="name"><span class="pre">c</span></span><span class="punctuation"><span class="pre">]</span></span><span class="operator"><span class="pre">=</span></span><span class="name builtin pseudo"><span class="pre">False</span></span></code> flag indicates that the cth core-periphery pair is significant (i.e., cannot be explained by nodes’ degrees) or insignificant (i.e., can be explained by the nodes’ degree), respectively.
+For example, if one obtains</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">significant</span> <span class="o">=</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
 </pre></div>
 </div>
+<p>then core-periphery pairs 0 and 3 are significant and core-periphery pairs 1 and 2 are insignificant.</p>
 <p>List <code class="code python docutils literal notranslate"><span class="name"><span class="pre">p_values</span></span></code> is a float list, where <code class="code python docutils literal notranslate"><span class="name"><span class="pre">p_values</span></span><span class="punctuation"><span class="pre">[</span></span><span class="name"><span class="pre">c</span></span><span class="punctuation"><span class="pre">]</span></span></code> is the p-value of the cth core-periphery pair under the configuration model, e.g.,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">p_values</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.00001</span><span class="p">,</span> <span class="mf">0.587</span><span class="p">,</span> <span class="mf">0.443</span><span class="p">,</span> <span class="mf">0.0001</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
 </pre></div>
@@ -261,16 +249,15 @@ The default significance level is 0.05.</p>
 
 
            </div>
-           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="Installation.html" class="btn btn-neutral" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Installation.html" class="btn btn-neutral" title="Installation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -283,7 +270,7 @@ The default significance level is 0.05.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -302,11 +289,9 @@ The default significance level is 0.05.</p>
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
             VERSION:'',
-            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
+            HAS_SOURCE:  true
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
@@ -316,13 +301,19 @@ The default significance level is 0.05.</p>
 
   
 
-  <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
 
+  
+  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
+          SphinxRtdTheme.StickyNav.enable();
       });
-  </script> 
+  </script>
+   
 
 </body>
 </html>
