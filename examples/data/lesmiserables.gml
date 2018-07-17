@@ -1,6 +1,6 @@
-Creator "Mark Newman on Fri Jul 21 12:44:53 2006"
 graph
 [
+  directed 0
   node
   [
     id 0
