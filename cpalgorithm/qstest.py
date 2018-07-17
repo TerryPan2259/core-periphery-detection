@@ -23,17 +23,17 @@ def erdos_renyi(G):
     p = nx.density(G)
     return nx.fast_gnp_random_graph(n, p)
 
-def qstest(c, x, G, cpa, significance_level=0.05, null_model = config_model, sfunc = sz_n, num_of_thread = 4, num_of_rand_net = 500 ):
+def qstest(pair_id, coreness, G, cpa, significance_level=0.05, null_model = config_model, sfunc = sz_n, num_of_thread = 4, num_of_rand_net = 500 ):
     """(q,s)-test for core-periphery structure.
     
     This function computes the significance of individual core-periphery pairs using either the Erdos-Renyi or the configuration model as the null model. 
     
     Parameters
     ----------
-    c : dict
+    pair_id : dict
 	keys and values of which are node names and IDs of core-periphery pairs, respectively.
     
-    x : dict
+    coreness : dict
 	keys and values of which are node names and coreness, respectively. 
     
     G : NetworkX graph object 
@@ -65,6 +65,12 @@ def qstest(c, x, G, cpa, significance_level=0.05, null_model = config_model, sfu
     
     Returns
     -------
+    sig_pair_id : dict
+	keys and values of which are node names and IDs of core-periphery pairs, respectively. If nodes belong to insignificant core-periphery pair, then the values are None. 
+
+    sig_coreness : dict 
+	significance[i] = True or significance[i] = False indicates core-periphery pair i is significant or insignificant, respectively. If nodes belong to insignificant core-periphery pair, then the values are None.
+
     significance : list 
 	significance[i] = True or significance[i] = False indicates core-periphery pair i is significant or insignificant, respectively.
     
@@ -83,15 +89,15 @@ def qstest(c, x, G, cpa, significance_level=0.05, null_model = config_model, sfu
     
     Examine the significance of each core-periphery pair using the configuration model:	
     
-    >>> significance, p_values = cpa.qstest(pair_id, coreness, G, km)
+    >>> sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, km)
     
     or
     
-    >>> significance, p_values = cpa.qstest(pair_id, coreness, G, km, null_model=config_model)
+    >>> sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, km, null_model=config_model)
     
     Examine the significance of each core-periphery pair using the Erdos-Renyi random graph:
     
-    >>> significance, p_values = cpa.qstest(pair_id, coreness, G, km, null_model=erdos_renyi)
+    >>>  sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, km, null_model=erdos_renyi)
     	
     .. rubric:: Reference
     
@@ -100,8 +106,8 @@ def qstest(c, x, G, cpa, significance_level=0.05, null_model = config_model, sfu
     Scientific Reports, 8:7351 (2018)
     """
    
-    q = np.array(cpa.score(G, c, x), dtype = np.float)    
-    s = np.array(sfunc(G, c, x) , dtype = np.float)
+    q = np.array(cpa.score(G, pair_id, coreness), dtype = np.float)    
+    s = np.array(sfunc(G, pair_id, coreness) , dtype = np.float)
     
     C = len(q)
     
@@ -135,6 +141,9 @@ def qstest(c, x, G, cpa, significance_level=0.05, null_model = config_model, sfu
     h = float(len(q_tilde)) ** (- 1.0 / 6.0)
     p_values = [1.0] * C
     significant = [False] * C
+
+    cidx = 0
+    cid2newcid = - np.ones(C)
     for cid in range(C):
         if (s_std <= 1e-30) or (q_std <= 1e-30):
             continue    
@@ -145,7 +154,22 @@ def qstest(c, x, G, cpa, significance_level=0.05, null_model = config_model, sfu
             continue    
         p_values[cid] = 1.0 - (sum( w * cd ) / denom)
         significant[cid] = p_values[cid] <= alpha_corrected
-    return significant, p_values
+        
+        if significant[cid]:
+            cid2newcid[cid] = cidx
+            cidx+=1 
+        
+    sig_pair_id = pair_id
+    sig_coreness = coreness
+    
+    for k, v in sig_pair_id.items():
+        if significant[v]:
+            sig_pair_id[k]=cid2newcid[ pair_id[k] ]
+        else:
+            sig_pair_id[k]=None
+            sig_coreness[k]=None
+        
+    return sig_pair_id, sig_coreness, significant, p_values
 
 
 # Private function for qstest        

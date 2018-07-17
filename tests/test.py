@@ -10,7 +10,7 @@ def test_BE():
 	be.detect(G)
 	pair_id = be.get_pair_id()
 	coreness = be.get_coreness()
-	significance, p_values = cpa.qstest(pair_id, coreness, G, be)
+	sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, be)
 
 def test_MINRES():
 	# MINRES =========================
@@ -20,7 +20,7 @@ def test_MINRES():
 	mrs.detect(G)
 	pair_id = mrs.get_pair_id()
 	coreness = mrs.get_coreness()
-	significance, p_values = cpa.qstest(pair_id, coreness, G, mrs)
+	sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, mrs)
 	
 def test_SBM():
 	# SBM =========================
@@ -30,7 +30,7 @@ def test_SBM():
 	sbm.detect(G)
 	pair_id = sbm.get_pair_id()
 	coreness = sbm.get_coreness()
-	significance, p_values = cpa.qstest(pair_id, coreness, G, sbm)
+	sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, sbm)
 	
 def test_LowRankCore():
 	# LowRankCore =========================
@@ -40,7 +40,7 @@ def test_LowRankCore():
 	lrc.detect(G)
 	pair_id = lrc.get_pair_id()
 	coreness = lrc.get_coreness()
-	significance, p_values = cpa.qstest(pair_id, coreness, G, lrc)
+	sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, lrc)
 	
 def test_LapCore():
 	# LapCore =========================
@@ -50,7 +50,7 @@ def test_LapCore():
 	lc.detect(G)
 	pair_id = lc.get_pair_id()
 	coreness = lc.get_coreness()
-	significance, p_values = cpa.qstest(pair_id, coreness, G, lc)
+	sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, lc)
 	
 def test_LapSgnCore():
 	# LapSgnCore =========================
@@ -60,7 +60,7 @@ def test_LapSgnCore():
 	lsc.detect(G)
 	pair_id = lsc.get_pair_id()
 	coreness = lsc.get_coreness()
-	significance, p_values = cpa.qstest(pair_id, coreness, G, lsc)
+	sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, lsc)
 	
 def test_Rombach():
 	# Rombach =========================
@@ -70,7 +70,7 @@ def test_Rombach():
 	rb.detect(G)
 	pair_id = rb.get_pair_id()
 	coreness = rb.get_coreness()
-	significance, p_values = cpa.qstest(pair_id, coreness, G, rb)
+	sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, rb)
 	
 def test_Rossa():
 	# Rossa =========================
@@ -80,7 +80,7 @@ def test_Rossa():
 	rs.detect(G)
 	pair_id = rs.get_pair_id()
 	coreness = rs.get_coreness()
-	significance, p_values = cpa.qstest(pair_id, coreness, G, rs)
+	sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, rs)
 	
 def test_KM_ER():
 	# KM--ER =========================
@@ -90,7 +90,7 @@ def test_KM_ER():
 	km.detect(G)
 	pair_id = km.get_pair_id()
 	coreness = km.get_coreness()
-	significance, p_values = cpa.qstest(pair_id, coreness, G, km)
+	sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, km)
 	
 def test_KM_config():
 	# KM--config =========================
@@ -100,4 +100,6 @@ def test_KM_config():
 	km.detect(G)
 	pair_id = km.get_pair_id()
 	coreness = km.get_coreness()
-	significance, p_values = cpa.qstest(pair_id, coreness, G, km)
+	sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, km)
+
+test_KM_config()
