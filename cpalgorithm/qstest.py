@@ -111,7 +111,6 @@ def qstest(pair_id, coreness, G, cpa, significance_level=0.05, null_model = conf
     
     C = len(q)
     
-
     alpha_corrected = 1.0 - (1.0 - significance_level) ** (1.0 / float(C))
         
     q_tilde = []

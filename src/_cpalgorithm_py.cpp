@@ -357,11 +357,11 @@ py::list calc_Q_be(py::array_t<int> edges, py::array_t<double> ws, py::array_t<i
 	readEdgeTable(edges, ws, G);
 	readCPResult(_c, _x, c, x);
 	
-	BEAlgorithm km = BEAlgorithm();
+	BEAlgorithm be = BEAlgorithm();
 
 	double Q = -1;
 	vector<double>q;
-	km.calc_Q(G, c, x, Q, q);
+	be.calc_Q(G, c, x, Q, q);
 	
 	py::list results(2);
 	pack_Q(Q, q, results);	

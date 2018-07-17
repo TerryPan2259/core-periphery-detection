@@ -77,7 +77,6 @@ class BE(CPAlgorithm):
 		self.qs_ = cppairs[3].tolist()
 
 	def _score(self, G, c, x):
-
 		node_pairs, w, node2id, id2node = self._to_edge_list(G)
 	
 		N = len(id2node)

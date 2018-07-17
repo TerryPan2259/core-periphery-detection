@@ -65,17 +65,17 @@ void BEAlgorithm::calc_Q(
 	double M = 0.0;
 	double pa = 0;
 	double pb = 0;
-	
 	int nc = 0;
 	int mcc = 0;
 	for( int i = 0;i < N;i++ ) {
-		if(x[i]) nc++;
+		nc+=x[i];
 	
 		int sz = G.degree(i);	
-		for( int j = 0; j < sz; j++ ) {
-			int nei = -1; double w = -1;
-			G.get_weight(i, j, nei, w);
-			mcc+=(x[i]+x[nei] - x[i] * x[nei]);
+		for( int k = 0; k < sz; k++ ) {
+			Neighbour nei = G.get_kth_neighbour(i, k);
+			int j = nei.get_node(); 
+			double w = nei.get_w(); 
+			mcc+=w * (x[i]+x[j] - x[i] * x[j]);
 			M++;
 		}
 	}
@@ -130,7 +130,7 @@ void BEAlgorithm::_detect_(const Graph& G, vector<double>& x, mt19937_64& mtrnd)
 	uniform_real_distribution<double> dis(0.0, 1.0);	
 	
 	int Nperi = N;
-	for(int i = 0;i<=N; i++){
+	for(int i = 0;i<N; i++){
 		if(dis(mtrnd) < 0.5) {
 			x[i] = 1;
 			Nperi-=1;
@@ -142,7 +142,7 @@ void BEAlgorithm::_detect_(const Graph& G, vector<double>& x, mt19937_64& mtrnd)
 	// --------------------------------
 	std::vector<double>xt = x;
 	std::vector<double>xbest(N, 0.0);
-	std::vector<double>fixed(N, 0.0);
+	std::vector<bool>fixed(N, false);
 	vector<int> Dperi(N, 0);
 
 	for( int j = 0;j < N;j++){
@@ -150,7 +150,7 @@ void BEAlgorithm::_detect_(const Graph& G, vector<double>& x, mt19937_64& mtrnd)
 		Nperi = 0.0;
 		double numer = 0.0;
 		for( int i = 0; i < N;i ++ ){
-			if(!x[i]) Nperi++;
+			Nperi+=(1-x[i]);
 			Dperi[i] = 0;
 			int sz = G.degree(i);
 			for( int k = 0; k < sz;k ++ ){
