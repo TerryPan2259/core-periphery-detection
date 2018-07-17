@@ -14,13 +14,16 @@ def profiling_cp_structure(G, alg, null_model):
 	alg.detect(G) 
 
 	# retrieve result	
+	print('detect')
 	pair_id = alg.get_pair_id()
 	coreness = alg.get_coreness()
 
+	print('stest')
 	# statistical test	
-	pair_id, coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, alg, null_model=null_model, num_of_thread  = 1)
+	pair_id, coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, alg, null_model=null_model, num_of_rand_net = 10 )
 
-	
+	print('get stat')
+		
 	# Number of pairs
 	C = len(significance)
 	
@@ -50,11 +53,18 @@ def profiling_cp_structure(G, alg, null_model):
 	return C, Csig, fc, corr
 
 
+# loading graphs
+Glist = {"karate":nx.karate_club_graph(),\
+	"dolphins":nx.read_gml("data/dolphins.gml"),\
+	"book":nx.read_gml("data/polbooks.gml"),\
+	"celegans":nx.read_gml("data/celegansneural.gml"),\
+	#"jazz":nx.read_pajek("data/jazz.net"),\
+	"lesmiserables":nx.read_pajek("data/lesmiserables.gml"),\
+	"polblogs":nx.read_pajek("data/polblogs.gml"),\
+	"power":nx.read_pajek("data/power.gml")};
 
-G=nx.karate_club_graph()
-
-
-km = cpa.BE()
-
-
-profiling_cp_structure(G, km, cpa.erdos_renyi)
+alg = cpa.KM_config()
+for name, G in Glist.items():
+	G = G.to_undirected()	
+	print(name, G)
+	profiling_cp_structure(G, alg, cpa.config_model)
