@@ -3,7 +3,7 @@ import abc
 import networkx as nx
 import numpy as np
 
-class CPAlgorithm(object, metaclass=ABCMeta):
+class CPAlgorithm(metaclass=ABCMeta):
 
 	def __init__(self):
 		self.x_ = [] 
