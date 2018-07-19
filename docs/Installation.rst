@@ -27,7 +27,3 @@ You can upgrade a newer release by
   $ pip3 install --upgrade cpalgorithm
 
 
-.. note:: 
-
-  
-  

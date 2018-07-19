@@ -102,9 +102,9 @@ copyright = '2018-{}, Sadamori Kojaku'.format(date.today().year)
 #
 # The short X.Y version.
 import cpalgorithm
-version = cpalgorithm.__version__
+version = "0.0.1" 
 # The full version, including dev info
-release = cpalgorithm.__version__.replace('_', '')
+release = "0.0.1" 
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:

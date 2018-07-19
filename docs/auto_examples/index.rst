@@ -5,7 +5,7 @@
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Borgatti Everett algorithm">
+    <div class="sphx-glr-thumbcontainer" tooltip="Detect core">
 
 .. only:: html
 

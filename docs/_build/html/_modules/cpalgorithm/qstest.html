@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cpalgorithm.qstest &mdash; cpalgorithm 2.0 documentation</title>
+  <title>cpalgorithm.qstest &mdash; cpalgorithm 0.0.1 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
   
     
       <link rel="search" type="application/opensearchdescription+xml"
-            title="Search within cpalgorithm 2.0 documentation"
+            title="Search within cpalgorithm 0.0.1 documentation"
             href="../../_static/opensearch.xml"/>
     
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                2.0
+                0.0.1
               </div>
             
           
@@ -179,17 +179,17 @@
     <span class="n">p</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">density</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">nx</span><span class="o">.</span><span class="n">fast_gnp_random_graph</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
 
-<div class="viewcode-block" id="qstest"><a class="viewcode-back" href="../../generated/cpalgorithm.qstest.html#cpalgorithm.qstest">[docs]</a><span class="k">def</span> <span class="nf">qstest</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">cpa</span><span class="p">,</span> <span class="n">significance_level</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">null_model</span> <span class="o">=</span> <span class="n">config_model</span><span class="p">,</span> <span class="n">sfunc</span> <span class="o">=</span> <span class="n">sz_n</span><span class="p">,</span> <span class="n">num_of_thread</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">num_of_rand_net</span> <span class="o">=</span> <span class="mi">500</span> <span class="p">):</span>
+<div class="viewcode-block" id="qstest"><a class="viewcode-back" href="../../generated/cpalgorithm.qstest.html#cpalgorithm.qstest">[docs]</a><span class="k">def</span> <span class="nf">qstest</span><span class="p">(</span><span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">cpa</span><span class="p">,</span> <span class="n">significance_level</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">null_model</span> <span class="o">=</span> <span class="n">config_model</span><span class="p">,</span> <span class="n">sfunc</span> <span class="o">=</span> <span class="n">sz_n</span><span class="p">,</span> <span class="n">num_of_thread</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">num_of_rand_net</span> <span class="o">=</span> <span class="mi">500</span> <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;(q,s)-test for core-periphery structure.</span>
 <span class="sd">    </span>
 <span class="sd">    This function computes the significance of individual core-periphery pairs using either the Erdos-Renyi or the configuration model as the null model. </span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    c : dict</span>
+<span class="sd">    pair_id : dict</span>
 <span class="sd">	keys and values of which are node names and IDs of core-periphery pairs, respectively.</span>
 <span class="sd">    </span>
-<span class="sd">    x : dict</span>
+<span class="sd">    coreness : dict</span>
 <span class="sd">	keys and values of which are node names and coreness, respectively. </span>
 <span class="sd">    </span>
 <span class="sd">    G : NetworkX graph object </span>
@@ -221,6 +221,12 @@
 <span class="sd">    </span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
+<span class="sd">    sig_pair_id : dict</span>
+<span class="sd">	keys and values of which are node names and IDs of core-periphery pairs, respectively. If nodes belong to insignificant core-periphery pair, then the values are None. </span>
+
+<span class="sd">    sig_coreness : dict </span>
+<span class="sd">	significance[i] = True or significance[i] = False indicates core-periphery pair i is significant or insignificant, respectively. If nodes belong to insignificant core-periphery pair, then the values are None.</span>
+
 <span class="sd">    significance : list </span>
 <span class="sd">	significance[i] = True or significance[i] = False indicates core-periphery pair i is significant or insignificant, respectively.</span>
 <span class="sd">    </span>
@@ -239,15 +245,15 @@
 <span class="sd">    </span>
 <span class="sd">    Examine the significance of each core-periphery pair using the configuration model:	</span>
 <span class="sd">    </span>
-<span class="sd">    &gt;&gt;&gt; significance, p_values = cpa.qstest(pair_id, coreness, G, km)</span>
+<span class="sd">    &gt;&gt;&gt; sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, km)</span>
 <span class="sd">    </span>
 <span class="sd">    or</span>
 <span class="sd">    </span>
-<span class="sd">    &gt;&gt;&gt; significance, p_values = cpa.qstest(pair_id, coreness, G, km, null_model=config_model)</span>
+<span class="sd">    &gt;&gt;&gt; sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, km, null_model=config_model)</span>
 <span class="sd">    </span>
 <span class="sd">    Examine the significance of each core-periphery pair using the Erdos-Renyi random graph:</span>
 <span class="sd">    </span>
-<span class="sd">    &gt;&gt;&gt; significance, p_values = cpa.qstest(pair_id, coreness, G, km, null_model=erdos_renyi)</span>
+<span class="sd">    &gt;&gt;&gt;  sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, km, null_model=erdos_renyi)</span>
 <span class="sd">    	</span>
 <span class="sd">    .. rubric:: Reference</span>
 <span class="sd">    </span>
@@ -256,12 +262,10 @@
 <span class="sd">    Scientific Reports, 8:7351 (2018)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
    
-    <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cpa</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>    
-    <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sfunc</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
-    
+    <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cpa</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>    
+    <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sfunc</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">)</span> <span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">cpa</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">))</span> 
     <span class="n">C</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
-    
-
     <span class="n">alpha_corrected</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">significance_level</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">C</span><span class="p">))</span>
         
     <span class="n">q_tilde</span> <span class="o">=</span> <span class="p">[]</span>
@@ -275,22 +279,28 @@
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_of_thread</span><span class="p">):</span>
             <span class="n">q_tilde</span> <span class="o">+=</span> <span class="n">qs_tilde</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> 
             <span class="n">s_tilde</span> <span class="o">+=</span> <span class="n">qs_tilde</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-     
+    
     <span class="n">q_tilde</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">q_tilde</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>    
     <span class="n">s_tilde</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">s_tilde</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>    
     <span class="n">q_ave</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">q_tilde</span><span class="p">)</span>
     <span class="n">s_ave</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">s_tilde</span><span class="p">)</span>
     <span class="n">q_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">q_tilde</span><span class="p">,</span> <span class="n">ddof</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">s_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">s_tilde</span><span class="p">,</span> <span class="n">ddof</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+   
+    <span class="nb">print</span><span class="p">(</span><span class="n">q_ave</span><span class="p">,</span> <span class="n">q_std</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">s_ave</span><span class="p">,</span> <span class="n">s_std</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
 	    
     <span class="k">if</span> <span class="p">(</span><span class="n">s_std</span> <span class="o">&lt;=</span> <span class="mf">1e-30</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">q_std</span> <span class="o">&lt;=</span> <span class="mf">1e-30</span><span class="p">):</span>
         <span class="n">gamma</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">s_std</span> <span class="o">=</span> <span class="mf">1e-20</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">q_tilde</span><span class="p">,</span> <span class="n">s_tilde</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-    
+     
     <span class="n">h</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">q_tilde</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mf">6.0</span><span class="p">)</span>
     <span class="n">p_values</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span> <span class="o">*</span> <span class="n">C</span>
     <span class="n">significant</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">]</span> <span class="o">*</span> <span class="n">C</span>
+
+    <span class="n">cidx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">cid2newcid</span> <span class="o">=</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">cid</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">C</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">s_std</span> <span class="o">&lt;=</span> <span class="mf">1e-30</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">q_std</span> <span class="o">&lt;=</span> <span class="mf">1e-30</span><span class="p">):</span>
             <span class="k">continue</span>    
@@ -301,7 +311,23 @@
             <span class="k">continue</span>    
         <span class="n">p_values</span><span class="p">[</span><span class="n">cid</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="nb">sum</span><span class="p">(</span> <span class="n">w</span> <span class="o">*</span> <span class="n">cd</span> <span class="p">)</span> <span class="o">/</span> <span class="n">denom</span><span class="p">)</span>
         <span class="n">significant</span><span class="p">[</span><span class="n">cid</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_values</span><span class="p">[</span><span class="n">cid</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">alpha_corrected</span>
-    <span class="k">return</span> <span class="n">significant</span><span class="p">,</span> <span class="n">p_values</span></div>
+        
+        <span class="k">if</span> <span class="n">significant</span><span class="p">[</span><span class="n">cid</span><span class="p">]:</span>
+            <span class="n">cid2newcid</span><span class="p">[</span><span class="n">cid</span><span class="p">]</span> <span class="o">=</span> <span class="n">cidx</span>
+            <span class="n">cidx</span><span class="o">+=</span><span class="mi">1</span> 
+        
+    <span class="n">sig_pair_id</span> <span class="o">=</span> <span class="n">pair_id</span>
+    <span class="n">sig_coreness</span> <span class="o">=</span> <span class="n">coreness</span>
+   
+	 
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">sig_pair_id</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">significant</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
+            <span class="n">sig_pair_id</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">=</span><span class="n">cid2newcid</span><span class="p">[</span> <span class="n">pair_id</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sig_pair_id</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span>
+            <span class="n">sig_coreness</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span>
+        
+    <span class="k">return</span> <span class="n">sig_pair_id</span><span class="p">,</span> <span class="n">sig_coreness</span><span class="p">,</span> <span class="n">significant</span><span class="p">,</span> <span class="n">p_values</span></div>
 
 
 <span class="c1"># Private function for qstest        </span>
@@ -334,7 +360,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2018-2018, Sadamori Kojaku.
-      Last updated on Jul 16, 2018.
+      Last updated on Jul 19, 2018.
 
     </p>
   </div>
@@ -356,7 +382,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'2.0',
+            VERSION:'0.0.1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

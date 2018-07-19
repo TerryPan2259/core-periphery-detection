@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cpalgorithm.qstest &mdash; cpalgorithm 2.0 documentation</title>
+  <title>cpalgorithm.qstest &mdash; cpalgorithm 0.0.1 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
   
     
       <link rel="search" type="application/opensearchdescription+xml"
-            title="Search within cpalgorithm 2.0 documentation"
+            title="Search within cpalgorithm 0.0.1 documentation"
             href="../_static/opensearch.xml"/>
     
 
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                2.0
+                0.0.1
               </div>
             
           
@@ -167,7 +167,7 @@
 <h1>cpalgorithm.qstest<a class="headerlink" href="#cpalgorithm-qstest" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="cpalgorithm.qstest">
-<code class="descname">qstest</code><span class="sig-paren">(</span><em>c</em>, <em>x</em>, <em>G</em>, <em>cpa</em>, <em>significance_level=0.05</em>, <em>null_model=&lt;function config_model&gt;</em>, <em>sfunc=&lt;function sz_n&gt;</em>, <em>num_of_thread=4</em>, <em>num_of_rand_net=500</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cpalgorithm/qstest.html#qstest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cpalgorithm.qstest" title="Permalink to this definition">¶</a></dt>
+<code class="descname">qstest</code><span class="sig-paren">(</span><em>pair_id</em>, <em>coreness</em>, <em>G</em>, <em>cpa</em>, <em>significance_level=0.05</em>, <em>null_model=&lt;function config_model&gt;</em>, <em>sfunc=&lt;function sz_n&gt;</em>, <em>num_of_thread=4</em>, <em>num_of_rand_net=500</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cpalgorithm/qstest.html#qstest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cpalgorithm.qstest" title="Permalink to this definition">¶</a></dt>
 <dd><p>(q,s)-test for core-periphery structure.</p>
 <p>This function computes the significance of individual core-periphery pairs using either the Erdos-Renyi or the configuration model as the null model.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -175,9 +175,9 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first">
-<li><p class="first"><strong>c</strong> (<em>dict</em>) – keys and values of which are node names and IDs of core-periphery pairs, respectively.</p>
+<li><p class="first"><strong>pair_id</strong> (<em>dict</em>) – keys and values of which are node names and IDs of core-periphery pairs, respectively.</p>
 </li>
-<li><p class="first"><strong>x</strong> (<em>dict</em>) – keys and values of which are node names and coreness, respectively.</p>
+<li><p class="first"><strong>coreness</strong> (<em>dict</em>) – keys and values of which are node names and coreness, respectively.</p>
 </li>
 <li><p class="first"><strong>G</strong> (<em>NetworkX graph object</em>)</p>
 </li>
@@ -203,6 +203,8 @@ In the (q,s)–test, one is required to provide a function for measuring the siz
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>sig_pair_id</strong> (<em>dict</em>) – keys and values of which are node names and IDs of core-periphery pairs, respectively. If nodes belong to insignificant core-periphery pair, then the values are None.</li>
+<li><strong>sig_coreness</strong> (<em>dict</em>) – significance[i] = True or significance[i] = False indicates core-periphery pair i is significant or insignificant, respectively. If nodes belong to insignificant core-periphery pair, then the values are None.</li>
 <li><strong>significance</strong> (<em>list</em>) – significance[i] = True or significance[i] = False indicates core-periphery pair i is significant or insignificant, respectively.</li>
 <li><strong>p_values</strong> (<em>list</em>) – p_values[i] is the p-value of core-periphery pair i.</li>
 </ul>
@@ -221,15 +223,15 @@ In the (q,s)–test, one is required to provide a function for measuring the siz
 </pre></div>
 </div>
 <p>Examine the significance of each core-periphery pair using the configuration model:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">significance</span><span class="p">,</span> <span class="n">p_values</span> <span class="o">=</span> <span class="n">cpa</span><span class="o">.</span><span class="n">qstest</span><span class="p">(</span><span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">km</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sig_pair_id</span><span class="p">,</span> <span class="n">sig_coreness</span><span class="p">,</span> <span class="n">significance</span><span class="p">,</span> <span class="n">p_values</span> <span class="o">=</span> <span class="n">cpa</span><span class="o">.</span><span class="n">qstest</span><span class="p">(</span><span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">km</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>or</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">significance</span><span class="p">,</span> <span class="n">p_values</span> <span class="o">=</span> <span class="n">cpa</span><span class="o">.</span><span class="n">qstest</span><span class="p">(</span><span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">km</span><span class="p">,</span> <span class="n">null_model</span><span class="o">=</span><span class="n">config_model</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sig_pair_id</span><span class="p">,</span> <span class="n">sig_coreness</span><span class="p">,</span> <span class="n">significance</span><span class="p">,</span> <span class="n">p_values</span> <span class="o">=</span> <span class="n">cpa</span><span class="o">.</span><span class="n">qstest</span><span class="p">(</span><span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">km</span><span class="p">,</span> <span class="n">null_model</span><span class="o">=</span><span class="n">config_model</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Examine the significance of each core-periphery pair using the Erdos-Renyi random graph:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">significance</span><span class="p">,</span> <span class="n">p_values</span> <span class="o">=</span> <span class="n">cpa</span><span class="o">.</span><span class="n">qstest</span><span class="p">(</span><span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">km</span><span class="p">,</span> <span class="n">null_model</span><span class="o">=</span><span class="n">erdos_renyi</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">sig_pair_id</span><span class="p">,</span> <span class="n">sig_coreness</span><span class="p">,</span> <span class="n">significance</span><span class="p">,</span> <span class="n">p_values</span> <span class="o">=</span> <span class="n">cpa</span><span class="o">.</span><span class="n">qstest</span><span class="p">(</span><span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">km</span><span class="p">,</span> <span class="n">null_model</span><span class="o">=</span><span class="n">erdos_renyi</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="rubric">Reference</p>
@@ -259,7 +261,7 @@ Scientific Reports, 8:7351 (2018)</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2018-2018, Sadamori Kojaku.
-      Last updated on Jul 16, 2018.
+      Last updated on Jul 19, 2018.
 
     </p>
   </div>
@@ -281,7 +283,7 @@ Scientific Reports, 8:7351 (2018)</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'2.0',
+            VERSION:'0.0.1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
