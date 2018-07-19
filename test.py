@@ -102,4 +102,4 @@ def test_KM_config():
 	coreness = km.get_coreness()
 	sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, km)
 
-test_LowRankCore()
+test_SBM()
