@@ -7,14 +7,7 @@ if sys.version_info[:2] < (2, 7):
 del sys
 
 # Release data
-__author__ = '%s <%s>\n%s <%s>\n%s <%s>' % \
-    (release.authors['Hagberg'] + release.authors['Schult'] +
-        release.authors['Swart'])
-__license__ = release.license
-
-__version__ = 0.1 
-
-
+__author__ = "Sadamori Kojaku"
 
 
 from .CPAlgorithm import *
