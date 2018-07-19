@@ -171,9 +171,17 @@ void SBM::calc_Q(
 	rho = (Mcc + Mcp + Mpp) / (double) (N * N);
 	
 	int Np = N - Nc;
+
+		
 	double rhocc = (double)Mcc / (double)(Nc * Nc);	
 	double rhocp = (double)Mcp / (double)(2 * Nc * Np);	
 	double rhopp = (double)Mpp / (double)(Np * Np);
+	if(Nc==0){
+		rhocc = 0; rhocp = 0;
+	}
+	if(Np==0){
+		rhopp = 0; rhocp = 0;
+	}
 	
 	Q = Nc * Nc * _klent(rhocc, rho) + 2 * Nc * Np * _klent(rhocp, rho) + Np * Np * _klent(rhopp, rho);
 	
