@@ -51,7 +51,6 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx_gallery.gen_gallery',
     'nb2plots',
-    'sphinxcontrib.bibtex',
     'texext',
 ]
 autodoc_default_flags = ["members"]
