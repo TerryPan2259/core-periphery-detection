@@ -69,7 +69,7 @@ class Rossa(CPAlgorithm):
 		xx = np.zeros((len(nodes),1))
 		for idx, nd in enumerate(nodes):	
 			xx[idx] = x[nd]
-		return [2 * (np.sum(xx) - np.max(xx)) / max(1, len(xx) -2)]
+		return [1-np.sum(xx) / len(nodes)]
 
 	def _detect(self, G):
 		
@@ -104,7 +104,7 @@ class Rossa(CPAlgorithm):
 
 			alpha[idx] = bk / max(1, ak)
 			
-		c = dict(zip( [id2node[i] for i in range(N)], np.zeros(N)))
+		c = dict(zip( [id2node[i] for i in range(N)], np.zeros(N).astype(int)))
 		x = dict(zip( [id2node[i] for i in range(N)], alpha))
 		return c, x
 	

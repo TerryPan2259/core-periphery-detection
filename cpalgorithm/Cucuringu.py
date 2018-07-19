@@ -124,7 +124,7 @@ class LowRankCore(CPAlgorithm):
 			x[od[0:idx_p]] = 0
 			
 		Q = Q/N
-		c = dict(zip( [id2node[i] for i in range(N)], np.zeros(N)))
+		c = dict(zip( [id2node[i] for i in range(N)], np.zeros(N).astype(int)))
 		x = dict(zip( [id2node[i] for i in range(N)], x.astype(int).tolist()))
 		return c, x
 
@@ -266,7 +266,7 @@ class LapCore(CPAlgorithm):
 			x[od[0:idx_p]] = 0
 			
 		Q = Q/N
-		c = dict(zip( [id2node[i] for i in range(N)], np.zeros(N)))
+		c = dict(zip( [id2node[i] for i in range(N)], np.zeros(N).astype(int)))
 		x = dict(zip( [id2node[i] for i in range(N)], x.astype(float).tolist()))
 		return c, x
 
@@ -379,7 +379,7 @@ class LapSgnCore(CPAlgorithm):
 		d, v = eigs(T, k=1, which='SR');
 		v = np.sign(v);
 	
-		c = dict(zip( [id2node[i] for i in range(N)], np.zeros(N)))
+		c = dict(zip( [id2node[i] for i in range(N)], np.zeros(N).astype(int)))
 		xp = dict(zip( [id2node[i] for i in range(N)], (v.T>0).astype(float).tolist()[0]))
 		xn = dict(zip( [id2node[i] for i in range(N)], (v.T<0).astype(float).tolist()[0]))
 		if self._score(G, c, xn) < self._score(G, c, xp):
