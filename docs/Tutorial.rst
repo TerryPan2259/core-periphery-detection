@@ -138,3 +138,13 @@ References
 - [1] S. Kojaku and N. Masuda, N. J. Phys. 20, 043012 (2018)
 - [2] S. P. Borgatti and M. G. Everett, Soc. Netw. 21, 375 (2000) 
 - [3] S. Kojaku and N. Masuda, Sci. Rep. 8, 7351 (2018)
+
+
+.. toctree::
+   :maxdepth: 2 
+   :caption: Contents:
+
+   Installation 
+   Tutorial 
+   Examples 
+   Reference 

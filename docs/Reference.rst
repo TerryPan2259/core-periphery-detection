@@ -57,3 +57,12 @@ Statistical test
    .. autosummary::
 
 	cpalgorithm.qstest
+
+.. toctree::
+   :maxdepth: 2 
+   :caption: Contents:
+
+   Installation 
+   Tutorial 
+   Examples 
+   Reference 
