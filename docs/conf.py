@@ -216,13 +216,13 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
-latex_documents = [
-    (master_doc, 'sada.tex', 'sada Documentation',
-     'sada', 'manual'),
-]
-
-
-latex_appendices = ['tutorial']
+#latex_documents = [
+#    (master_doc, 'sada.tex', 'sada Documentation',
+#     'sada', 'manual'),
+#]
+#
+#
+#latex_appendices = ['tutorial']
 
 # Intersphinx mapping
 intersphinx_mapping = {'https://docs.python.org/2/': None,
