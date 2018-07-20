@@ -140,11 +140,3 @@ References
 - [3] S. Kojaku and N. Masuda, Sci. Rep. 8, 7351 (2018)
 
 
-.. toctree::
-   :maxdepth: 2 
-   :caption: Contents:
-
-   Installation 
-   Tutorial 
-   Examples 
-   Reference 
