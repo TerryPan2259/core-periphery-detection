@@ -108,7 +108,7 @@ setup(
     url='https://github.com/skojaku/core-periphery-detection',
     ext_modules=ext_modules,
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
-    install_requires=['pybind11>=2.2', 'networkx>=2.0', 'numpy>=1.14.2'],
+    install_requires=['pybind11>=2.2', 'networkx>=2.0', 'numpy>=1.14.2', 'simanneal==0.42'],
     cmdclass={'build_ext': BuildExt},
     zip_safe=False,
     include_package_data=True,
