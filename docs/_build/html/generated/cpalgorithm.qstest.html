@@ -1,0 +1,296 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cpalgorithm.qstest &mdash; cpalgorithm 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+      <link rel="search" type="application/opensearchdescription+xml" title="Search within cpalgorithm 0.0.1 documentation" href="../_static/opensearch.xml"/>
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="cpalgorithm 0.0.1 documentation" href="../index.html"/>
+        <link rel="up" title="Reference" href="../Reference.html"/>
+        <link rel="prev" title="cpalgorithm.KM_config" href="cpalgorithm.KM_config.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cpalgorithm
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../Reference.html">Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../Reference.html#core-periphery-detection-algorithms">Core-periphery detection algorithms</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../Reference.html#statistical-test">Statistical test</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cpalgorithm.qstest</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">cpalgorithm</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../Reference.html">Reference</a> &raquo;</li>
+      
+    <li>cpalgorithm.qstest</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="cpalgorithm-qstest">
+<h1>cpalgorithm.qstest<a class="headerlink" href="#cpalgorithm-qstest" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="cpalgorithm.qstest">
+<code class="descname">qstest</code><span class="sig-paren">(</span><em>pair_id</em>, <em>coreness</em>, <em>G</em>, <em>cpa</em>, <em>significance_level=0.05</em>, <em>null_model=&lt;function config_model&gt;</em>, <em>sfunc=&lt;function sz_n&gt;</em>, <em>num_of_thread=4</em>, <em>num_of_rand_net=500</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cpalgorithm/qstest.html#qstest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cpalgorithm.qstest" title="Permalink to this definition">¶</a></dt>
+<dd><p>(q,s)-test for core-periphery structure.</p>
+<p>This function computes the significance of individual core-periphery pairs using either the Erdos-Renyi or the configuration model as the null model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first">
+<li><p class="first"><strong>pair_id</strong> (<em>dict</em>) – keys and values of which are node names and IDs of core-periphery pairs, respectively.</p>
+</li>
+<li><p class="first"><strong>coreness</strong> (<em>dict</em>) – keys and values of which are node names and coreness, respectively.</p>
+</li>
+<li><p class="first"><strong>G</strong> (<em>NetworkX graph object</em>)</p>
+</li>
+<li><p class="first"><strong>cpa</strong> (<em>CPAlgorithm class object</em>) – Core-periphery detection algorithm</p>
+</li>
+<li><p class="first"><strong>significance_level</strong> (<em>float</em>) – Significance level (optional, default 0.5)</p>
+</li>
+<li><p class="first"><strong>null_model</strong> (<em>function</em>) – Null model for generating randomised networks.
+Provide either config_model or erdos_renyi (optional, default config_model).
+One can use another null models.
+Specifically, one needs to define a function taking NetworkX graph object as input and randomised network as its output.
+Then, one gives the defined function, say myfunc,  to qstest by null_model=myfunc.</p>
+</li>
+<li><p class="first"><strong>sfunc</strong> (<em>function</em>) –  Size function (optional, default sz_n)
+In the (q,s)–test, one is required to provide a function for measuring the size of an individual core-periphery pair. By default, this function is the number of nodes in the core-periphery pair (i.e., sz_n). One can set sz_degree, which measures the size as the sum of the degree of nodes belonging to the core-periphery pair.</p>
+</li>
+<li><p class="first"><strong>num_of_thread</strong> (<em>function</em>) – Number of thread (optional, default 4)</p>
+<p>The (q,s)–test uses multiple threads to compute the significance.</p>
+</li>
+<li><p class="first"><strong>num_of_rand_net</strong> (<em>int</em>) – Number of randomised networks (optional, default 500)</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>sig_pair_id</strong> (<em>dict</em>) – keys and values of which are node names and IDs of core-periphery pairs, respectively. If nodes belong to insignificant core-periphery pair, then the values are None.</li>
+<li><strong>sig_coreness</strong> (<em>dict</em>) – significance[i] = True or significance[i] = False indicates core-periphery pair i is significant or insignificant, respectively. If nodes belong to insignificant core-periphery pair, then the values are None.</li>
+<li><strong>significance</strong> (<em>list</em>) – significance[i] = True or significance[i] = False indicates core-periphery pair i is significant or insignificant, respectively.</li>
+<li><strong>p_values</strong> (<em>list</em>) – p_values[i] is the p-value of core-periphery pair i.</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Detect core-periphery pairs in the karate club network.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">cpalgorithm</span> <span class="k">as</span> <span class="nn">cpa</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">km</span> <span class="o">=</span> <span class="n">cpa</span><span class="o">.</span><span class="n">KM_config</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">km</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pair_id</span> <span class="o">=</span> <span class="n">km</span><span class="o">.</span><span class="n">get_pair_id</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coreness</span> <span class="o">=</span> <span class="n">km</span><span class="o">.</span><span class="n">get_coreness</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Examine the significance of each core-periphery pair using the configuration model:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sig_pair_id</span><span class="p">,</span> <span class="n">sig_coreness</span><span class="p">,</span> <span class="n">significance</span><span class="p">,</span> <span class="n">p_values</span> <span class="o">=</span> <span class="n">cpa</span><span class="o">.</span><span class="n">qstest</span><span class="p">(</span><span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">km</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sig_pair_id</span><span class="p">,</span> <span class="n">sig_coreness</span><span class="p">,</span> <span class="n">significance</span><span class="p">,</span> <span class="n">p_values</span> <span class="o">=</span> <span class="n">cpa</span><span class="o">.</span><span class="n">qstest</span><span class="p">(</span><span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">km</span><span class="p">,</span> <span class="n">null_model</span><span class="o">=</span><span class="n">config_model</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Examine the significance of each core-periphery pair using the Erdos-Renyi random graph:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">sig_pair_id</span><span class="p">,</span> <span class="n">sig_coreness</span><span class="p">,</span> <span class="n">significance</span><span class="p">,</span> <span class="n">p_values</span> <span class="o">=</span> <span class="n">cpa</span><span class="o">.</span><span class="n">qstest</span><span class="p">(</span><span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">km</span><span class="p">,</span> <span class="n">null_model</span><span class="o">=</span><span class="n">erdos_renyi</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">Reference</p>
+<p>Sadamori Kojaku and Naoki Masuda.
+A generalised significance test for individual communities in networks.
+Scientific Reports, 8:7351 (2018)</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="cpalgorithm.KM_config.html" class="btn btn-neutral" title="cpalgorithm.KM_config" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018-2018, Sadamori Kojaku.
+      Last updated on Jul 20, 2018.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/copybutton.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

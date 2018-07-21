@@ -27,13 +27,13 @@ public:
 	void calc_Q(
 	    const Graph& G,
 	    const vector<int>& c,
-	    const vector<bool>& x,
+	    const vector<double>& x,
 	    double& Q,
 	    vector<double>& q);
 	
 protected: // function needed to be implemented
 	int _num_runs; 
-	void _detect_(const Graph& G, vector<bool>& x, mt19937_64& mtrnd);
+	void _detect_(const Graph& G, vector<double>& x, mt19937_64& mtrnd);
 };
 
 
@@ -57,7 +57,7 @@ Functions inherited from the super class (CPAlgorithm)
 void BEAlgorithm::calc_Q(
     const Graph& G,
     const vector<int>& c,
-    const vector<bool>& x,
+    const vector<double>& x,
     double& Q,
     vector<double>& q)
 {
@@ -65,17 +65,17 @@ void BEAlgorithm::calc_Q(
 	double M = 0.0;
 	double pa = 0;
 	double pb = 0;
-	
 	int nc = 0;
 	int mcc = 0;
 	for( int i = 0;i < N;i++ ) {
-		if(x[i]) nc++;
+		nc+=x[i];
 	
 		int sz = G.degree(i);	
-		for( int j = 0; j < sz; j++ ) {
-			int nei = -1; double w = -1;
-			G.get_weight(i, j, nei, w);
-			if(x[i] | x[nei]) mcc++;
+		for( int k = 0; k < sz; k++ ) {
+			Neighbour nei = G.get_kth_neighbour(i, k);
+			int j = nei.get_node(); 
+			double w = nei.get_w(); 
+			mcc+=w * (x[i]+x[j] - x[i] * x[j]);
 			M++;
 		}
 	}
@@ -98,7 +98,7 @@ void BEAlgorithm::detect(const Graph& G){
     int N = G.get_num_nodes();
     for (int i = 0; i < _num_runs; i++) {
         vector<int> ci(N, 0);
-        vector<bool> xi;
+        vector<double> xi;
         vector<double> qi;
         double Qi = 0.0;
         _detect_(G, xi, _mtrnd);
@@ -116,7 +116,7 @@ void BEAlgorithm::detect(const Graph& G){
 }
 
             
-void BEAlgorithm::_detect_(const Graph& G, vector<bool>& x, mt19937_64& mtrnd){
+void BEAlgorithm::_detect_(const Graph& G, vector<double>& x, mt19937_64& mtrnd){
 		
 	// --------------------------------
 	// Initialise _x randomly 
@@ -125,14 +125,14 @@ void BEAlgorithm::_detect_(const Graph& G, vector<bool>& x, mt19937_64& mtrnd){
 	double M = G.get_num_edges();
 	double p = M / (double)(N * (N - 1) / 2 ); 
 	
-	vector<bool> tmp(N, false);
+	vector<double> tmp(N, 0.0);
 	x = tmp;
 	uniform_real_distribution<double> dis(0.0, 1.0);	
 	
 	int Nperi = N;
-	for(int i = 0;i<=N; i++){
+	for(int i = 0;i<N; i++){
 		if(dis(mtrnd) < 0.5) {
-			x[i] = true;
+			x[i] = 1;
 			Nperi-=1;
 		}
 	}
@@ -140,8 +140,8 @@ void BEAlgorithm::_detect_(const Graph& G, vector<bool>& x, mt19937_64& mtrnd){
 	// --------------------------------
 	// Maximise the Borgatti-Everett quality function 
 	// --------------------------------
-	std::vector<bool>xt = x;
-	std::vector<bool>xbest(N, false);
+	std::vector<double>xt = x;
+	std::vector<double>xbest(N, 0.0);
 	std::vector<bool>fixed(N, false);
 	vector<int> Dperi(N, 0);
 
@@ -150,13 +150,13 @@ void BEAlgorithm::_detect_(const Graph& G, vector<bool>& x, mt19937_64& mtrnd){
 		Nperi = 0.0;
 		double numer = 0.0;
 		for( int i = 0; i < N;i ++ ){
-			if(!x[i]) Nperi++;
+			Nperi+=(1-x[i]);
 			Dperi[i] = 0;
 			int sz = G.degree(i);
 			for( int k = 0; k < sz;k ++ ){
 				int nei = G.get_kth_neighbour(i, k).get_node();
-				if( !x[nei] ) Dperi[i]++;
-				if(x[i] | x[nei]) numer++;	
+				Dperi[i]+=1-x[nei];
+				numer+= x[i] + x[nei] - x[i] * x[nei];
 			}
 		}
 
@@ -175,8 +175,8 @@ void BEAlgorithm::_detect_(const Graph& G, vector<bool>& x, mt19937_64& mtrnd){
 			double numertmp = numer;
 			for(int k =0;k<N;k++){
 				if( fixed[k] ) continue;
-				double dnumer = (Dperi[k]- p * (Nperi-!!(!xt[k])) ) * (2*!!(!xt[k])-1);
-				double newNperi = Nperi + 2*(!!xt[k])-1;
+				double dnumer = (Dperi[k]- p * (Nperi-!!(1-xt[k])) ) * (2*(1-xt[k])-1);
+				double newNperi = Nperi + 2*xt[k]-1;
 				double pb = 1.0- (newNperi*(newNperi-1.0)) / (N*(N-1.0));
 				double q = (numer + dnumer) / sqrt(pb*(1-pb));
 				if( (qmax < q) & (pb*(1-pb)>0)){
@@ -184,15 +184,15 @@ void BEAlgorithm::_detect_(const Graph& G, vector<bool>& x, mt19937_64& mtrnd){
 				}
 			}
 			numer = numertmp;	
-			Nperi+=2*!!(xt[nid])-1;
+			Nperi+=2*xt[nid]-1;
 	
 			int sz = G.degree(nid);
 			for(int k = 0;k<sz ;k++){
 				int neik = G.get_kth_neighbour(nid, k).get_node();
-				Dperi[ neik ]+=2*!!(xt[nid])-1;
+				Dperi[ neik ]+=2*xt[nid]-1;
 			}
 		
-			xt[ nid ] = !xt[ nid ];
+			xt[ nid ] = 1-xt[ nid ];
 			
 			dQ = dQ + qmax - Qold;
 			Qold = qmax;

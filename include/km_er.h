@@ -37,7 +37,7 @@ public:
 	void calc_Q(
 	    const Graph& G,
 	    const vector<int>& c,
-	    const vector<bool>& x,
+	    const vector<double>& x,
 	    double& Q,
 	    vector<double>& q);
 	
@@ -51,7 +51,7 @@ private:
 	    const Graph& G,
 	    const int num_of_runs,
 	    vector<int>& c,
-	    vector<bool>& x,
+	    vector<double>& x,
 	    double& Q,
 	    vector<double>& q,
             mt19937_64& mtrnd
@@ -62,19 +62,19 @@ private:
 	    double N_c,
 	    double N_p,
 	    double selfloop,
-	    bool x,
+	    double x,
 	    const double rho);
 	
 	void _propose_new_label(
 	    const Graph& G,
 	    const vector<int>& c,
-	    const vector<bool>& x,
+	    const vector<double>& x,
 	    const vector<double>& sz_core,
 	    const vector<double>& sz_peri,
 	    const double rho,
 	    const int node_id,
 	    int& cprime,
-	    bool& xprime,
+	    double& xprime,
 	    double& dQ,
 	    mt19937_64& mtrnd
 	    );
@@ -83,7 +83,7 @@ private:
 	void _km_ER_label_switching_core(
 	    const Graph& G,
 	    vector<int>& c,
-	    vector<bool>& x,
+	    vector<double>& x,
 	    mt19937_64& mtrnd
 	    );
 
@@ -91,7 +91,7 @@ private:
 	    const Graph& G,
 	    const int num_of_runs,
 	    vector<int>& c,
-	    vector<bool>& x,
+	    vector<double>& x,
 	    double& Q,
 	    vector<double>& q,
 	    mt19937_64& mtrnd
@@ -101,7 +101,7 @@ private:
 	void _km_ER_louvain_core(
 		const Graph& G, 
     		vector<int>& c,
-    		vector<bool>& x,
+    		vector<double>& x,
         	mt19937_64& mtrnd
 		);
 */
@@ -109,7 +109,7 @@ private:
 	void _coarsing(
 	    	const Graph& G,
 	    	const vector<int>& c,
-	    	const vector<bool>& x,
+	    	const vector<double>& x,
 	    	Graph& newG,
 	    	vector<int>& toLayerId 
 		);
@@ -145,7 +145,7 @@ void KM_ER::detect(const Graph& G){
 void KM_ER::calc_Q(
     const Graph& G,
     const vector<int>& c,
-    const vector<bool>& x,
+    const vector<double>& x,
     double& Q,
     vector<double>& q)
 {
@@ -162,11 +162,11 @@ void KM_ER::calc_Q(
 	    Neighbour nn = G.get_kth_neighbour(i, j);
 	    int nei = nn.get_node();
 	    double wj = nn.get_w();
-            q[c[i]] += wj * !!(c[i] == c[nei]) * !!(x[i] | x[nei]);
+            q[c[i]] += wj * !!(c[i] == c[nei]) * (x[i] + x[nei] - x[i] * x[nei]);
 	    double_M += wj;
         }
-	Nc[c[i]]+=!!(x[i]);
-	Np[c[i]]+=!!(!x[i]);
+	Nc[c[i]]+=x[i];
+	Np[c[i]]+=(1-x[i]);
     }
     Q = 0;
     double rho = double_M / (double)(N * N); 
@@ -183,7 +183,7 @@ void KM_ER::_km_ER_label_switching(
     const Graph& G,
     const int num_of_runs,
     vector<int>& c,
-    vector<bool>& x,
+    vector<double>& x,
     double& Q,
     vector<double>& q,
     mt19937_64& mtrnd
@@ -193,12 +193,12 @@ void KM_ER::_km_ER_label_switching(
     c.clear();
     x.clear();
     c.assign(N, 0);
-    x.assign(N, true);
+    x.assign(N, 1);
 
     Q = -1;
     for (int i = 0; i < num_of_runs; i++) {
         vector<int> ci;
-        vector<bool> xi;
+        vector<double> xi;
         vector<double> qi;
         double Qi = 0.0;
 
@@ -219,7 +219,7 @@ void KM_ER::_km_ER_label_switching(
     const Graph& G,
     const int num_of_runs,
     vector<int>& c,
-    vector<bool>& x,
+    vector<double>& x,
     double& Q,
     vector<double>& q,
     mt19937_64& mtrnd
@@ -253,7 +253,7 @@ void KM_ER::_km_ER_label_switching(
     #endif
     for (int i = 0; i < num_of_runs; i++) {
         vector<int> ci;
-        vector<bool> xi;
+        vector<double> xi;
         vector<double> qi;
         double Qi = 0.0;
 
@@ -286,23 +286,23 @@ double KM_ER::_calc_dQ_ER(double d_i_c,
     double N_c,
     double N_p,
     double selfloop,
-    bool x,
+    double x,
     const double rho)
 {
-    return 2 * (d_i_c + d_i_p * (!!(x)) - rho * (N_c  + N_p * !!(x)) ) + !!(x) * (selfloop - 2 * rho);
+    return 2 * (d_i_c + d_i_p * (x) - rho * (N_c  + N_p * x) ) + x * (selfloop - 2 * rho);
 }
 
 
 void KM_ER::_propose_new_label(
     const Graph& G,
     const vector<int>& c,
-    const vector<bool>& x,
+    const vector<double>& x,
     const vector<double>& sz_core,
     const vector<double>& sz_peri,
     const double rho,
     const int node_id,
     int& cprime,
-    bool& xprime,
+    double& xprime,
     double& dQ,
     mt19937_64& mtrnd)
 {
@@ -323,12 +323,12 @@ void KM_ER::_propose_new_label(
 		continue;
 	}
 	
-        edges_to_core[c[nei]] += wj * (double)!!(x[nei]);
-        edges_to_peri[c[nei]] += wj * (double)!!(!x[nei]);
+        edges_to_core[c[nei]] += wj * x[nei];
+        edges_to_peri[c[nei]] += wj * (1-x[nei]);
     }
 
-    double N_core = sz_core[c[node_id]] -  (double)!!(x[node_id]);
-    double N_peri = sz_peri[c[node_id]] -  (double)!!(!x[node_id]);
+    double N_core = sz_core[c[node_id]] -  x[node_id];
+    double N_peri = sz_peri[c[node_id]] -  (1-x[node_id]);
 
     double dQold = _calc_dQ_ER(edges_to_core[c[node_id]], edges_to_peri[c[node_id]],
         N_core, N_peri, selfloop, x[node_id], rho);
@@ -341,13 +341,13 @@ void KM_ER::_propose_new_label(
 
         int cid = c[nei];
 
-        N_core = sz_core[cid] - (double)!!( (c[node_id] == cid) & x[node_id]);
-        N_peri = sz_peri[cid] - (double)!!( (c[node_id] == cid) & !x[node_id]);
+        N_core = sz_core[cid] - x[node_id] * (double)!!( c[node_id] == cid);
+        N_peri = sz_peri[cid] - (1-x[node_id]) * (double)!!(c[node_id] == cid);
 
         double Q_i_core = _calc_dQ_ER(edges_to_core[cid], edges_to_peri[cid],
-            N_core, N_peri, selfloop, true, rho);
+            N_core, N_peri, selfloop, 1, rho);
         double Q_i_peri = _calc_dQ_ER(edges_to_core[cid], edges_to_peri[cid],
-            N_core, N_peri, selfloop, false, rho);
+            N_core, N_peri, selfloop, 0, rho);
         Q_i_core -= dQold;
         Q_i_peri -= dQold;
 
@@ -355,18 +355,22 @@ void KM_ER::_propose_new_label(
             continue;
 
         if (Q_i_peri < Q_i_core) {
-            xprime = true;
+            xprime = 1.0;
             cprime = cid;
             dQ = Q_i_core;
         }
         else if (Q_i_peri > Q_i_core) {
-            xprime = false;
+            xprime = 0.0;
             cprime = cid;
             dQ = Q_i_peri;
         }
         else {
             cprime = cid;
-            xprime = _udist(mtrnd) < 0.5;
+	    if(_udist(mtrnd) < 0.5){
+		xprime = 1;
+	    }else{
+		xprime = 0;
+	    }
             dQ = Q_i_core;
         }
     }
@@ -375,7 +379,7 @@ void KM_ER::_propose_new_label(
 void KM_ER::_km_ER_label_switching_core(
     const Graph& G,
     vector<int>& c,
-    vector<bool>& x,
+    vector<double>& x,
     mt19937_64& mtrnd
     )
 {
@@ -389,12 +393,12 @@ void KM_ER::_km_ER_label_switching_core(
     c.clear();
     x.clear();
     c.assign(N, 0);
-    x.assign(N, true);
+    x.assign(N, 1.0);
     for (int i = 0; i < N; i++) {
         order[i] = i;
         c[i] = i;
-        sz_core[i] += (double)!!(x[i]);
-        sz_peri[i] += (double)!!(!x[i]);
+        sz_core[i] += x[i];
+        sz_peri[i] += 1-x[i];
         M += G.wdegree(i);
     };
     double rho = M / (double)( N * N );
@@ -409,7 +413,7 @@ void KM_ER::_km_ER_label_switching_core(
             int i = order[scan_count];
 
             int cprime = c[i]; // c'
-            bool xprime = x[i]; // x'
+            double xprime = x[i]; // x'
 
             double dQ = 0;
             _propose_new_label(G, c, x, sz_core, sz_peri,
@@ -421,19 +425,11 @@ void KM_ER::_km_ER_label_switching_core(
             if ( (c[i] == cprime) & (x[i] == xprime) )
                 continue;
 
-            if (x[i]) {
-                sz_core[c[i]] -= 1;
-            }
-            else {
-                sz_peri[c[i]] -= 1;
-            }
+            sz_core[c[i]] -= x[i];
+            sz_peri[c[i]] -= 1-x[i];
 
-            if (xprime) {
-                sz_core[cprime] += 1;
-            }
-            else {
-                sz_peri[cprime] += 1;
-            }
+            sz_core[cprime] += xprime;
+            sz_peri[cprime] += (1-xprime);
 
             c[i] = cprime;
             x[i] = xprime;
@@ -468,7 +464,7 @@ void KM_ER::_km_ER_louvain(
 	const Graph& G, 
 	const int num_of_runs,
     	vector<int>& c,
-    	vector<bool>& x,
+    	vector<double>& x,
 	double& Q,
 	vector<double>& q,
         mt19937_64& mtrnd
@@ -479,11 +475,11 @@ void KM_ER::_km_ER_louvain(
 	c.clear();
 	x.clear();
     	c.assign(N, 0); 
-    	x.assign(N, true);
+    	x.assign(N, 1);
     	for (int i = 0; i < N; i++) c[i] = i;
 	
 	vector<int>ct = c; // label of each node at tth iteration
-	vector<bool>xt = x; // label of each node at tth iteration. 
+	vector<double>xt = x; // label of each node at tth iteration. 
 	Graph cnet_G; // coarse network
 	vector<int> toLayerId; //toLayerId[i] maps 2*c[i] + x[i] to the id of node in the coarse network 
 	_coarsing(G, ct, xt, cnet_G, toLayerId); // Initialise toLayerId
@@ -496,14 +492,14 @@ void KM_ER::_km_ER_louvain(
 		
 		// Core-periphery detection	
 		vector<int> cnet_c; // label of node in the coarse network, Mt 
-		vector<bool> cnet_x; // label of node in the coarse network, Mt 
+		vector<double> cnet_x; // label of node in the coarse network, Mt 
 		double Qt = 0; vector<double> qt;
 		_km_ER_label_switching(cnet_G, num_of_runs, cnet_c, cnet_x, Qt, qt, mtrnd);
 		//_km_ER_label_switching_core(cnet_G, cnet_c, cnet_x, mtrnd);
 	
 		// Update the label of node in the original network, ct and xt.	
 		for(int i = 0; i< N; i++){
-			int cnet_id = toLayerId[2 * ct[i] + xt[i]];
+			int cnet_id = toLayerId[2 * ct[i] + (int)xt[i]];
 			ct[i] = cnet_c[ cnet_id ];
 			xt[i] = cnet_x[ cnet_id ];
 		}
@@ -537,7 +533,7 @@ void KM_ER::_km_ER_louvain(
 void KM_ER::_coarsing(
     	const Graph& G,
     	const vector<int>& c,
-    	const vector<bool>& x,
+    	const vector<double>& x,
     	Graph& newG,
     	vector<int>& toLayerId 
 	){
@@ -546,28 +542,28 @@ void KM_ER::_coarsing(
 	vector<int> ids(N,0);
     	int maxid = 0;
 	for(int i = 0;i<N;i++){
-		ids[i] = 2 * c[i] + x[i];
+		ids[i] = 2 * c[i] + (int)x[i];
 		maxid = MAX(maxid, ids[i]);
 	}
 	_relabeling(ids);
 	toLayerId.clear();
 	toLayerId.assign(maxid+1,0);
 	for(int i = 0;i<N;i++){
-		toLayerId[2 * c[i] + x[i]] = ids[i];
+		toLayerId[2 * c[i] + (int)x[i]] = ids[i];
 	}
 	
 	
     	int K = *max_element(ids.begin(), ids.end()) + 1;
 	newG = Graph(K);
 	for(int i = 0;i<N;i++){
-		int mi = 2 * c[i] + x[i];
+		int mi = 2 * c[i] + (int)x[i];
 		int sz = G.degree(i);
 		for(int j = 0;j<sz;j++){
 			Neighbour nb = G.get_kth_neighbour(i, j);
 			int nei = nb.get_node();
 			double w = nb.get_w();
 				
-			int mj = 2 * c[nei] + x[nei];
+			int mj = 2 * c[nei] + (int)x[nei];
 
 			int sid = toLayerId[mi];
 			int did = toLayerId[mj];

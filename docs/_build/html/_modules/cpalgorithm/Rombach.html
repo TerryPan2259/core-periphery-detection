@@ -1,0 +1,402 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cpalgorithm.Rombach &mdash; cpalgorithm 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+      <link rel="search" type="application/opensearchdescription+xml" title="Search within cpalgorithm 0.0.1 documentation" href="../../_static/opensearch.xml"/>
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="cpalgorithm 0.0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> cpalgorithm
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Reference.html">Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">cpalgorithm</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>cpalgorithm.Rombach</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for cpalgorithm.Rombach</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">_cpalgorithm</span> <span class="k">as</span> <span class="nn">_cp</span>
+<span class="kn">from</span> <span class="nn">simanneal</span> <span class="k">import</span> <span class="n">Annealer</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">.CPAlgorithm</span> <span class="k">import</span> <span class="o">*</span> 
+
+<span class="k">class</span> <span class="nc">SimAlg</span><span class="p">(</span><span class="n">Annealer</span><span class="p">):</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">=</span><span class="n">x</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">A</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">Tmax</span> <span class="o">=</span> <span class="mi">1</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">Tmin</span> <span class="o">=</span> <span class="mf">1e-8</span> 
+		<span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">=</span> <span class="mi">10000</span> 
+		<span class="bp">self</span><span class="o">.</span><span class="n">updates</span> <span class="o">=</span> <span class="mi">100</span>	
+
+	<span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Swaps two nodes&quot;&quot;&quot;</span>
+		<span class="n">a</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+		<span class="n">b</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[[</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[[</span><span class="n">b</span><span class="p">,</span><span class="n">a</span><span class="p">]]</span>
+		
+	<span class="k">def</span> <span class="nf">energy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>		
+	
+	<span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">od</span><span class="p">):</span>
+		
+		<span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">corevector</span><span class="p">(</span><span class="n">od</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span>
+		
+		<span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">asscalar</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+	
+
+	<span class="k">def</span> <span class="nf">corevector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
+		<span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+		<span class="n">bn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">beta</span> <span class="o">*</span> <span class="n">N</span><span class="p">)</span>
+		<span class="n">cx</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">&lt;=</span><span class="n">bn</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+		<span class="n">px</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">&gt;</span><span class="n">bn</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+		<span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">bn</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">cx</span> <span class="o">+</span> <span class="p">((</span><span class="n">x</span> <span class="o">*</span> <span class="n">px</span> <span class="o">-</span> <span class="n">bn</span> <span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="n">bn</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">px</span><span class="p">;</span>
+		<span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asmatrix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="p">)))</span>
+
+
+
+<div class="viewcode-block" id="Rombach"><a class="viewcode-back" href="../../generated/cpalgorithm.Rombach.html#cpalgorithm.Rombach">[docs]</a><span class="k">class</span> <span class="nc">Rombach</span><span class="p">(</span><span class="n">CPAlgorithm</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Rombach&#39;s algorithm for finding continuous core-periphery structure.</span>
+<span class="sd">	</span>
+<span class="sd">	Parameters</span>
+<span class="sd">	----------</span>
+<span class="sd">	num_runs : int</span>
+<span class="sd">		Number of runs of the algorithm  (optional, default: 1).  </span>
+
+<span class="sd">	alpha : float</span>
+<span class="sd">		Sharpness of core-periphery boundary (optional, default: 0.5). </span>
+<span class="sd">	    </span>
+<span class="sd">	    alpha=0 or alpha=1 gives the fuzziest or sharpest boundary, respectively.   </span>
+
+<span class="sd">	beta : float</span>
+<span class="sd">		Fraction of peripheral nodes (optional, default: 0.8) </span>
+
+<span class="sd">	algorithm : str</span>
+<span class="sd">		Optimisation algorithm (optional, default: &#39;ls&#39;) </span>
+<span class="sd">	    	In the original paper [1], the authors adopted a simulated annealing to optimise the objective function, which is computationally demanding. </span>
+<span class="sd">	    	To mitigate the computational cost, a label switching algorithm is implemented in cpalgorithm.</span>
+<span class="sd">	    	One can choose either algorithm by specifying algorithm=&#39;ls&#39; (i.e., label switching) or algorithm=&#39;sa&#39; (i.e., simulated annealing).</span>
+
+<span class="sd">	.. note::</span>
+
+<span class="sd">	   The parameters of the simulated annealing such as the initial temperature and cooling schedule are different from those used in the original paper [1]. </span>
+<span class="sd">	</span>
+<span class="sd">	</span>
+<span class="sd">	Examples</span>
+<span class="sd">	--------</span>
+<span class="sd">	Create this object.</span>
+
+<span class="sd">	&gt;&gt;&gt; import cpalgorithm as cpa	</span>
+<span class="sd">	&gt;&gt;&gt; rb = cpa.Rombach()</span>
+<span class="sd">	</span>
+<span class="sd">	**Core-periphery detection**</span>
+<span class="sd">	</span>
+<span class="sd">	Detect core-periphery structure in network G (i.e., NetworkX object):</span>
+<span class="sd">	</span>
+<span class="sd">	&gt;&gt;&gt; rb.detect(G) </span>
+<span class="sd">	</span>
+<span class="sd">	Retrieve the ids of the core-periphery pair to which each node belongs:</span>
+<span class="sd">	</span>
+<span class="sd">	&gt;&gt;&gt; pair_id = rb.get_pair_id() </span>
+<span class="sd">	</span>
+<span class="sd">	Retrieve the coreness:</span>
+
+<span class="sd">	&gt;&gt;&gt; coreness = rb.get_coreness() </span>
+<span class="sd">		</span>
+<span class="sd">	.. note::</span>
+
+<span class="sd">	   This algorithm can accept unweighted and weighted networks.</span>
+<span class="sd">	   The algorithm assigns all nodes into the same core-periphery pair by construction, i.e., c[node_name] =0 for all node_name.</span>
+
+<span class="sd">	.. rubric:: Reference</span>
+
+<span class="sd">        [1] P. Rombach, M. A. Porter, J. H. Fowler, and P. J. Mucha. Core-Periphery Structure in Networks (Revisited). SIAM Review, 59(3):619–646, 2017	</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
+	
+<div class="viewcode-block" id="Rombach.__init__"><a class="viewcode-back" href="../../generated/cpalgorithm.Rombach.html#cpalgorithm.Rombach.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_runs</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;ls&#39;</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">num_runs</span> <span class="o">=</span> <span class="n">num_runs</span> 
+		<span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="n">algorithm</span></div>
+	
+<div class="viewcode-block" id="Rombach.detect"><a class="viewcode-back" href="../../generated/cpalgorithm.Rombach.html#cpalgorithm.Rombach.detect">[docs]</a>	<span class="k">def</span> <span class="nf">detect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Detect a single core-periphery pair.</span>
+<span class="sd">	</span>
+<span class="sd">		Parameters</span>
+<span class="sd">		----------</span>
+<span class="sd">		G : NetworkX graph object</span>
+<span class="sd">		</span>
+<span class="sd">		Examples</span>
+<span class="sd">		--------</span>
+<span class="sd">		&gt;&gt;&gt; import networkx as nx</span>
+<span class="sd">		&gt;&gt;&gt; import cpalgorithm as cpa</span>
+<span class="sd">		&gt;&gt;&gt; G = nx.karate_club_graph()  # load the karate club network. </span>
+<span class="sd">		&gt;&gt;&gt; rb = cp.Rombach(algorithm=&#39;ls&#39;) # label switching algorithm</span>
+<span class="sd">		&gt;&gt;&gt; rb.detect(G)</span>
+<span class="sd">		&gt;&gt;&gt; rb = cp.Rombach(algorithm=&#39;sa&#39;) # simulated annealing  </span>
+<span class="sd">		&gt;&gt;&gt; rb.detect(G)</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
+		
+		<span class="n">Qbest</span> <span class="o">=</span> <span class="o">-</span><span class="mi">100</span>	
+		<span class="n">cbest</span> <span class="o">=</span> <span class="mi">0</span> 
+		<span class="n">xbest</span> <span class="o">=</span> <span class="mi">0</span> 
+		<span class="n">qbest</span> <span class="o">=</span> <span class="mi">0</span> 
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_runs</span><span class="p">):</span>
+			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">==</span> <span class="s1">&#39;ls&#39;</span><span class="p">:</span>
+			
+				<span class="bp">self</span><span class="o">.</span><span class="n">_label_switching</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span>
+	
+			<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">==</span> <span class="s1">&#39;sa&#39;</span><span class="p">:</span>
+	
+				<span class="bp">self</span><span class="o">.</span><span class="n">_simaneal</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span>
+	
+			<span class="k">if</span> <span class="n">Qbest</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q_</span><span class="p">:</span>
+				<span class="n">Qbest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q_</span>	
+				<span class="n">cbest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_</span>
+				<span class="n">xbest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_</span>
+				<span class="n">qbest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qs_</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">Q_</span> <span class="o">=</span> <span class="n">Qbest</span> 	
+		<span class="bp">self</span><span class="o">.</span><span class="n">c_</span> <span class="o">=</span> <span class="n">cbest</span> 
+		<span class="bp">self</span><span class="o">.</span><span class="n">x_</span> <span class="o">=</span> <span class="n">xbest</span> 
+		<span class="bp">self</span><span class="o">.</span><span class="n">qs_</span> <span class="o">=</span> <span class="n">qbest</span> </div>
+		
+	<span class="k">def</span> <span class="nf">_label_switching</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
+		
+		<span class="n">node_pairs</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">node2id</span><span class="p">,</span> <span class="n">id2node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_edge_list</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+		<span class="n">cppairs</span> <span class="o">=</span> <span class="n">_cp</span><span class="o">.</span><span class="n">detect_rombach_ls</span><span class="p">(</span><span class="n">edges</span><span class="o">=</span><span class="n">node_pairs</span><span class="p">,</span> <span class="n">ws</span><span class="o">=</span><span class="n">w</span><span class="p">,</span> <span class="n">num_of_runs</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span><span class="p">)</span>
+
+		<span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">node2id</span><span class="p">)</span>	
+		<span class="bp">self</span><span class="o">.</span><span class="n">c_</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span> <span class="p">[</span><span class="n">id2node</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)],</span> <span class="n">cppairs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">x_</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span> <span class="p">[</span><span class="n">id2node</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)],</span> <span class="n">cppairs</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">Q_</span> <span class="o">=</span> <span class="n">cppairs</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">qs_</span> <span class="o">=</span> <span class="n">cppairs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+			
+	
+	<span class="k">def</span> <span class="nf">_simaneal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
+		
+		<span class="n">node_pairs</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">node2id</span><span class="p">,</span> <span class="n">id2node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_edge_list</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+		
+		<span class="n">A</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">to_scipy_sparse_matrix</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+		<span class="n">N</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+		<span class="n">nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
+		<span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+		<span class="n">nodes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+		
+		<span class="n">sa</span> <span class="o">=</span> <span class="n">SimAlg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span>
+	
+		<span class="n">od</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q_</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">anneal</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">Q_</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+		
+		<span class="n">x</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">corevector</span><span class="p">(</span><span class="n">od</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span>
+		<span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">c_</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span> <span class="p">[</span><span class="n">id2node</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)],</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">x_</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span> <span class="p">[</span><span class="n">id2node</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)],</span> <span class="n">x</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">qs_</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">sa</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">od</span><span class="p">)]</span>
+	
+	<span class="k">def</span> <span class="nf">_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+		<span class="n">A</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">to_scipy_sparse_matrix</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+				
+		<span class="n">N</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+		<span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+		<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">nd</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">()):</span>	
+			<span class="n">xx</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">nd</span><span class="p">]</span>
+		
+		<span class="k">return</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">asscalar</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">A</span><span class="p">,</span> <span class="n">xx</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])]</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018-2018, Sadamori Kojaku.
+      Last updated on Jul 20, 2018.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/copybutton.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

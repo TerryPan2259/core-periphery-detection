@@ -6,7 +6,7 @@ import setuptools
 import os
 from setuptools import setup, find_packages
 
-__version__ = '0.0.1'
+__version__ = '0.0.11'
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
@@ -41,7 +41,6 @@ ext_modules = [
 	extra_compile_args=['-fopenmp']
     ),
 ]
-print(ext_modules)
 
 # As of Python 3.6, CCompiler has a `has_flag` method.
 # cf http://bugs.python.org/issue26689
@@ -104,11 +103,15 @@ setup(
     author='Sadamori Kojaku',
     author_email='freesailing4046@gmail.com',
     description='Algorithm for finding multiple core-periphery pairs in networks',
-    long_description=read('README.md'),
+    long_description="sada",
     url='https://github.com/skojaku/core-periphery-detection',
     ext_modules=ext_modules,
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
+<<<<<<< HEAD
     install_requires=['pybind11>=2.2', 'networkx>=2.0', 'numpy>=1.14.2', 'simanneal==0.42'],
+=======
+    install_requires=['pybind11>=2.2', 'networkx>=2.0', 'numpy>=1.14.2', 'scipy>=1.1.0', 'simanneal'],
+>>>>>>> 1c6385d438de4990f86278690e663c229911f7db
     cmdclass={'build_ext': BuildExt},
     zip_safe=False,
     include_package_data=True,

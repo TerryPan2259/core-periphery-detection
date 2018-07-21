@@ -1,7 +1,6 @@
 # core-periphery-detection
-Python library for finding core-periphery structure in networks
+[![Build Status](https://travis-ci.org/skojaku/cpalgorithm.svg?branch=master)](https://travis-ci.org/skojaku/cpalgorithm)
 
-The code will be available in few days.
+This Python library contains various algorithms for finding core-periphery structure in networks.
 
-In this project, I'll implement a python library for various core-periphery detection algorithms in networks, including 
-the gold-standard Borgatti-Everett algorithm, MINRES, Rombach's algorithm for finding continuous core-periphery structure and Kojaku-Masuda algorithms.  
+Currently, I'm testing code, which will be finished til at the end of July 2018.
