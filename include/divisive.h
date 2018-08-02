@@ -38,15 +38,14 @@ public:
 	
 protected: // function needed to be implemented
 	int _num_runs; 
-	void _detect_(const Graph& G, vector<double>& x, mt19937_64& mtrnd);
-	void _community_detection(const Graph& G, vector<int>& c, vector<double>& x, mt19937_64& mtrnd);
-	void _louvain(const Graph& G, const int num_of_runs, vector<vector<bool>>& xlist, mt19937_64& mtrnd);
+	void _detect_(const Graph& G, vector<int>& c, vector<double>& x, double Q, vector<double>& qs);
+	void _louvain(const Graph& G, const int num_of_runs, vector<int>& c, mt19937_64& mtrnd);
 	void _louvain_core(const Graph& G, vector<int>& C, const double M, mt19937_64& mtrnd);
 	double _calc_dQmod( double d, double degi, double D, double selfw, const double M );
 	double _calc_Qmod(const Graph& G, vector<int>& C, const double M);
 	void _coarsing(const Graph& G, const vector<int>& c,Graph& newG);
 	void _modularity_label_switching(const Graph& G,vector<int>& C, const double M,mt19937_64& mtrnd);
-	
+	void _subgraph(const Graph& G, vector<bool>&slice, Graph& Gs );	
 };
 
 
@@ -107,126 +106,91 @@ void Divisive::calc_Q(
 
 void Divisive::detect(const Graph& G){
     
-    double Q = -1;
-    int N = G.get_num_nodes();
-    for (int i = 0; i < _num_runs; i++) {
-        vector<int> ci(N, 0);
-        vector<double> xi;
-        vector<double> qi;
-        double Qi = 0.0;
-        _detect_(G, xi, _mtrnd);
-		
-        calc_Q(G, ci, xi, Qi, qi);
-	
-        if (Qi > Q) {
-            _c = ci;
-            _x = xi;
-            _Q = Qi;
-            _q = qi;
-        }
-    }
-	
+	_detect_(G, _c, _x, _Q, _q);		
 }
 
             
-void Divisive::_detect_(const Graph& G, vector<double>& x, mt19937_64& mtrnd){
+void Divisive::_detect_(const Graph& G, vector<int>& c, vector<double>& x, double Q, vector<double>& qs){
 		
-	// --------------------------------
-	// Initialise _x randomly 
-	// --------------------------------
+	//Initialise _x and c randomly 
 	int N = G.get_num_nodes();
-	double M = G.get_num_edges();
-	double p = M / (double)(N * (N - 1) / 2 ); 
-	
 	vector<double> tmp(N, 0.0);
+	vector<int> tmpc(N, 0);
 	x = tmp;
+	c = tmpc;
 	uniform_real_distribution<double> dis(0.0, 1.0);	
 	
-	int Nperi = N;
-	for(int i = 0;i<N; i++){
-		if(dis(mtrnd) < 0.5) {
-			x[i] = 1;
-			Nperi-=1;
-		}
-	}
+	for(int i = 0;i<N; i++) c[i] = i;
+	
+	// Detect communities
+	_louvain(G, _num_runs, c, _mtrnd); 
+	
+	
+	// perform the BE algorithm for each community
+	BEAlgorithm be = BEAlgorithm(_num_runs);
+	
+    	int K = *max_element(c.begin(), c.end()) + 1;	
+	vector<double> tmp3(K,0.0);
+	_q = tmp3;
+	_Q = 0;
+	for(int k = 0; k < K; k++){
+		vector<bool> slice(N,false);
 		
-	// --------------------------------
-	// Maximise the Borgatti-Everett quality function 
-	// --------------------------------
-	std::vector<double>xt = x;
-	std::vector<double>xbest(N, 0.0);
-	std::vector<bool>fixed(N, false);
-	vector<int> Dperi(N, 0);
-
-	for( int j = 0;j < N;j++){
-		std::fill(fixed.begin(),fixed.end(),false);
-		Nperi = 0.0;
-		double numer = 0.0;
-		for( int i = 0; i < N;i ++ ){
-			Nperi+=(1-x[i]);
-			Dperi[i] = 0;
-			int sz = G.degree(i);
-			for( int k = 0; k < sz;k ++ ){
-				int nei = G.get_kth_neighbour(i, k).get_node();
-				Dperi[i]+=1-x[nei];
-				numer+= x[i] + x[nei] - x[i] * x[nei];
+		for(int i = 0; i < N; i++){
+			if(c[i] == k){
+				slice[i] = true;
 			}
 		}
 
-		numer = numer/2.0 -p*( (double)(N*(N-1.0))/2.0 - (double)Nperi*((double) Nperi-1.0)/2.0 );
-		double pb = 1 -  (double)Nperi*(Nperi-1)/(double)(N*(N-1));
-		double Qold = numer / sqrt(pb*(1-pb));
+		Graph Gs(0);
+		_subgraph(G, slice, Gs);
+		be.detect(Gs);
 		
-		double dQ = 0;
-		double dQmax = -1 * std::numeric_limits<double>::max();
-		int nid = 0;
-		
-		for( int i = 0;i < N;i++){
-			double qmax = -1 * std::numeric_limits<double>::max();
-			
-			// select a node of which we update the label 
-			double numertmp = numer;
-			for(int k =0;k<N;k++){
-				if( fixed[k] ) continue;
-				double dnumer = (Dperi[k]- p * (Nperi-!!(1-xt[k])) ) * (2*(1-xt[k])-1);
-				double newNperi = Nperi + 2*xt[k]-1;
-				double pb = 1.0- (newNperi*(newNperi-1.0)) / (N*(N-1.0));
-				double q = (numer + dnumer) / sqrt(pb*(1-pb));
-				if( (qmax < q) & (pb*(1-pb)>0)){
-					nid = k;qmax = q;numertmp = numer + dnumer;
-				}
+		vector<double> xs = be.get_x();
+		vector<double> qss;
+		double Qs;
+		be.calc_Q(Gs, c, xs, Qs, qss);
+		_q[k] = Qs;
+		_Q+=Qs;
+				
+		int idx = 0;
+		for(int i = 0; i < N; i++){
+			if(c[i] == k){
+				x[i] = xs[idx];
+				idx++;
 			}
-			numer = numertmp;	
-			Nperi+=2*xt[nid]-1;
-	
-			int sz = G.degree(nid);
-			for(int k = 0;k<sz ;k++){
-				int neik = G.get_kth_neighbour(nid, k).get_node();
-				Dperi[ neik ]+=2*xt[nid]-1;
-			}
-		
-			xt[ nid ] = 1-xt[ nid ];
-			
-			dQ = dQ + qmax - Qold;
-			Qold = qmax;
-	
-			//% Save the core-periphery pair if it attains the largest quality	
-			if(dQmax < dQ){
-				xbest = xt;
-				dQmax = dQ;
-			}
-			//fixed( nid ) = true; % Fix the label of node nid
-			fixed[ nid ] = true; //% Fix the label of node nid
 		}
-		 	
-		if (dQmax <= std::numeric_limits<double>::epsilon()){
-			break;
-		}
-		
-		xt = xbest; x = xbest;
-	}
-	x = xbest;
+	}	
 } 
+
+void Divisive::_subgraph(const Graph& G, vector<bool>&slice, Graph& Gs ){
+	int N = G.get_num_nodes();
+		
+	int Ns = 0;
+	vector<int> node2id(N,0);
+	int idx = 0;
+	for(int i = 0; i < N; i ++){
+		if(slice[i]){
+			node2id[i] = idx;
+			Ns++;
+			idx+=1;
+		}
+	}
+	
+	Graph tt(Ns);
+	Gs = tt;
+	for(int i =0; i < N;i++){
+		int sz = G.degree(i);
+		for(int j =0; j < sz;j++){
+			Neighbour n = G.get_kth_neighbour(i,j);
+			int nei = n.get_node();
+			double w = n.get_node();;
+			if(slice[i] &  slice[nei]){
+				Gs.addEdge(node2id[i], node2id[nei], w);
+			}	
+		}
+	}
+}	
 
 
 double Divisive::_calc_dQmod( double d, double degi, double D, double selfw, const double M ){
@@ -274,7 +238,6 @@ void Divisive::_coarsing(
 	){
 		
         int N = c.size();
-    	int maxid = 0;
 	
     	int K = *max_element(c.begin(), c.end()) + 1;
 	newG = Graph(K);
@@ -343,12 +306,11 @@ void Divisive::_modularity_label_switching(
 				}	
 			}
 			
-			double dQold = calc_dQmod( toC[ncid], deg[nid], D[ncid] - deg[nid], selfw, M );
+			double dQold = _calc_dQmod( toC[ncid], deg[nid], D[ncid] - deg[nid], selfw, M );
 			double dQ = 0;
 			for(int j = 0;j<neighbourNum;j++){
 				Neighbour nb = G.get_kth_neighbour(nid, j);
 				int nei = nb.get_node();
-				double w = nb.get_w();
 				int cid = C[nei];
 				if(nei==nid) continue;
 					
@@ -436,17 +398,13 @@ void Divisive::_louvain_core(
 void Divisive::_louvain(
     const Graph& G,
     const int num_of_runs,
-    vector<vector<bool>>& xlist,
+    vector<int>& C,
     mt19937_64& mtrnd
     ){
 
     int N = G.get_num_nodes();
-    vector<int> C(N);
-    int K = xlist.size();
-    for(int k = 0;k < K;k++){
-        xlist[k].clear();
-    }
-    xlist.clear();
+    vector<int> tmp(N,0);
+    C = tmp;
 
     double M = 0;
     for(int i =0;i<N;i++){
@@ -469,12 +427,5 @@ void Divisive::_louvain(
             cbest = ci;
         }
     }
-    K = *max_element(cbest.begin(),cbest.end()) + 1; 
-    for(int k = 0; k < K; k++){
-	vector<bool> tmp(N);
-    	for(int i = 0; i < N; i++){
-		tmp[i] = cbest[i]==k;
-    	}	
-	xlist.push_back(tmp);	
-    }
+    C = cbest;
 }

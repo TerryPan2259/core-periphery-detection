@@ -50,6 +50,7 @@ public:
     void get_weight(int nid, int j, int& nei, double& w) const;
     
     void compress();
+    void subgraph(vector<bool>& slice, Graph& Gs);
 
     Neighbour get_kth_neighbour(int nid, int k) const;
 
@@ -193,6 +194,35 @@ void Graph::compress(){
 		}
 		for (const auto & p : myMap) {
 			addEdge(i, p.first, p.second);	
+		}
+	}
+}
+
+
+void Graph::subgraph(vector<bool>& slice, Graph& Gs){
+	int N = get_num_nodes();
+		
+	int Ns = 0;
+	vector<int> node2id(N,0);
+	int idx = 0;
+	for(int i = 0; i < N; i ++){
+		if(slice[i]){
+			node2id[i] = idx;
+			Ns++;
+			idx+=1;
+		}
+	}
+	
+	Graph tt(Ns);
+	Gs = tt;
+	for(int i =0; i < N;i++){
+		int sz = _neighbours[i].size();
+		for(int j =0; j < sz;j++){
+			int nei = _neighbours[i][j].get_node();
+			double w = _neighbours[i][j].get_node();;
+			if(slice[i] &  slice[nei]){
+				Gs.addEdge(node2id[i], node2id[nei], w);
+			}	
 		}
 	}
 }

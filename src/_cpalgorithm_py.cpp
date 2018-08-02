@@ -142,6 +142,29 @@ void pack_Q(double _Q, vector<double>& _q, py::list& results)
 }
 
 /* BE algorithm*/
+py::list detect_divisive(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs){
+	
+       	Graph G(0); 
+	readEdgeTable(edges, ws, G);
+
+	Divisive dv = Divisive(num_of_runs);
+
+	dv.detect(G);
+	
+	double Q = 0;
+	vector<double>q;
+	dv._calc_Q(G, Q, q);
+	
+	vector<int>  c = dv.get_c();
+	vector<double> x = dv.get_x();
+
+	py::list results(4);
+	packResults(c, x, Q, q, results);	
+
+	return results;
+}
+
+/* BE algorithm*/
 py::list detect_be(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs){
 	
        	Graph G(0); 
@@ -296,6 +319,26 @@ py::list detect_sbm(py::array_t<int> edges, py::array_t<double> ws, int num_of_r
 
 	return results;
 }
+
+py::list calc_Q_divisive(py::array_t<int> edges, py::array_t<double> ws, py::array_t<int> _c, py::array_t<double> _x){
+
+	vector<int> c;	
+	vector<double> x;	
+       	Graph G(0); 
+	readEdgeTable(edges, ws, G);
+	readCPResult(_c, _x, c, x);
+	
+	Divisive dv = Divisive();
+
+	double Q = -1;
+	vector<double>q;
+	dv.calc_Q(G, c, x, Q, q);
+	
+	py::list results(2);
+	pack_Q(Q, q, results);	
+	return results;
+}
+
 
 py::list calc_Q_config(py::array_t<int> edges, py::array_t<double> ws, py::array_t<int> _c, py::array_t<double> _x){
 
@@ -525,6 +568,13 @@ PYBIND11_MODULE(_cpalgorithm, m){
 	);
 
 	m.def("calc_Q_sbm", &calc_Q_sbm, "Quality function for the Stochastic block model",
+		py::arg("edges"),
+		py::arg("ws"),
+		py::arg("c"),
+		py::arg("x")
+	);
+	
+	m.def("calc_Q_divisive", &calc_Q_sbm, "Quality function for the Divisive algorithm",
 		py::arg("edges"),
 		py::arg("ws"),
 		py::arg("c"),

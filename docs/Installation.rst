@@ -8,7 +8,7 @@ Installation
 cpalgorithm requires Python 3.4 or above.
 We assume you have the latest :python:`pip` (a package manager for Python).
 
-To install cpalgorithm, flag::
+To install cpalgorithm, 
 
 .. code-block:: bash
 

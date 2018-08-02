@@ -1,8 +1,6 @@
 import _cpalgorithm as _cp
 from .CPAlgorithm import * 
 
-import community as coms
-
 class Divisive(CPAlgorithm):
 	"""Divisive algorithm.
 
@@ -73,11 +71,8 @@ class Divisive(CPAlgorithm):
 		node_pairs, w, node2id, id2node = self._to_edge_list(G)
 		
 		# divide a network into communities
-		coms = com.best_partition(network)
-	
-		for c in range(C):
-			
-			cppairs = _cp.detect_be(edges=node_pairs, ws=w, num_of_runs = self.num_runs)
+		cppairs = _cp.detect_dv(edges=node_pairs, ws=w, num_of_runs = self.num_runs)
+		
 		
 		N = len(id2node) 
 		self.c_ = dict(zip( [id2node[i] for i in range(N)], cppairs[0].astype(int)))

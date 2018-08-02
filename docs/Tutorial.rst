@@ -76,7 +76,7 @@ In dictionary :python:`x`, keys are the node names, and values indicate coreness
 
    x = {NodeA: 1, NodeB: 1, NodeC: 0, NodeD: 1 ...,
 
-Note that coreness values can be a float value, which indicates the extent to which the node belongs to the core. 
+Note that coreness values can be float values, indicating the extent to which the node belongs to the core. 
 
 One can use other algorithms in the same way. 
 For example, one can use the Borgatti-Everet algorithm as follows. 

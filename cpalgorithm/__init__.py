@@ -14,5 +14,4 @@ from .Rombach import *
 from .Rossa import * 
 from .SBM import * 
 
-import community as com 
 #from cpalgorithm import *

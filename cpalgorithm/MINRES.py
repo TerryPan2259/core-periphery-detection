@@ -57,7 +57,7 @@ class MINRES(CPAlgorithm):
 		>>> import networkx as nx
 		>>> import cpalgorithm as cpa
 		>>> G = nx.karate_club_graph()  # load the karate club network. 
-		>>> mrs = cp.MINRES(0)
+		>>> mrs = cp.MINRES()
 		>>> mrs.detect(G)
 		
 		
