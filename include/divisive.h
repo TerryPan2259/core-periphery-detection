@@ -125,7 +125,6 @@ void Divisive::_detect_(const Graph& G, vector<int>& c, vector<double>& x, doubl
 	// Detect communities
 	_louvain(G, _num_runs, c, _mtrnd); 
 	
-	
 	// perform the BE algorithm for each community
 	BEAlgorithm be = BEAlgorithm(_num_runs);
 	
@@ -370,16 +369,15 @@ void Divisive::_louvain_core(
 	vector<int>Ct = C;
 	unsigned int prevGraphSize = C.size();
 	double Qbest = _calc_Qmod(newG, Zt, M); 
+
 	do{
 		prevGraphSize = newG.get_num_nodes();
 		
 	 	_modularity_label_switching(newG, Zt, M, mtrnd);
 		double Qt = _calc_Qmod(newG, Zt, M);
-		
 		Graph g;	
 		_coarsing(newG, Zt, g);
 		newG = g;
-		
 		// update C
 		// Ct = Ct*Zt;
 		int Ctsize = Ct.size();
@@ -392,7 +390,6 @@ void Divisive::_louvain_core(
 			Qbest = Qt;
 		}
 	}while( newG.get_num_nodes()!= prevGraphSize);
-		
 }
 
 void Divisive::_louvain(

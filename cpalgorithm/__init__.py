@@ -13,5 +13,6 @@ from .Cucuringu import *
 from .Rombach import * 
 from .Rossa import * 
 from .SBM import * 
+from .Divisive import * 
 
 #from cpalgorithm import *

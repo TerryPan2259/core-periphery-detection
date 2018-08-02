@@ -524,6 +524,12 @@ PYBIND11_MODULE(_cpalgorithm, m){
 		py::arg("tol") = 1e-5
 	);
 
+	m.def("detect_divisive", &detect_divisive, "Divisive algorithm",
+		py::arg("edges"),
+		py::arg("ws"),
+		py::arg("num_of_runs") = 10
+	);
+
 	// Quality functions
 	m.def("calc_Q_be", &calc_Q_be, "Borgatti-Everett algorithm",
 		py::arg("edges"),

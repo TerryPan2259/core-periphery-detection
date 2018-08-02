@@ -10,5 +10,5 @@ be = cp.Divisive()
 Q = []
 be.detect(G)
 c = be.get_pair_id()
-x = be.is_core()
+x = be.get_coreness()
 print(c,x)

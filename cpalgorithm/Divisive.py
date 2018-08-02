@@ -63,7 +63,7 @@ class Divisive(CPAlgorithm):
 		>>> import networkx as nx
 		>>> import cpalgorithm as cpa
 		>>> G = nx.karate_club_graph()  # load the karate club network. 
-		>>> dv = cp.Divisive()
+		>>> dv = cpa.Divisive()
 		>>> dv.detect(G)
 
 		"""
@@ -71,7 +71,7 @@ class Divisive(CPAlgorithm):
 		node_pairs, w, node2id, id2node = self._to_edge_list(G)
 		
 		# divide a network into communities
-		cppairs = _cp.detect_dv(edges=node_pairs, ws=w, num_of_runs = self.num_runs)
+		cppairs = _cp.detect_divisive(edges=node_pairs, ws=w, num_of_runs = self.num_runs)
 		
 		
 		N = len(id2node) 
