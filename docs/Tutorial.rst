@@ -5,7 +5,7 @@ Tutorial
 Preparing a graph
 ---------------------
 
-cpalgorithm takes a graph object implemented in NetworkX as input 
+cpalgorithm takes a graph object implemented in NetworkX as input. 
 For example, making an empty graph is done by 
 
 .. code-block:: python
