@@ -3,4 +3,4 @@
 
 This Python library contains various algorithms for finding core-periphery structure in networks.
 
-Currently, I'm testing code, which will be finished til at the end of July 2018.
+See [docs](https://core-periphery-detection-in-networks.readthedocs.io/en/latest/) for installation, tutorials, and available algorithms. 
