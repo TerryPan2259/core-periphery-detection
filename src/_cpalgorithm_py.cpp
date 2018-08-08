@@ -141,7 +141,7 @@ void pack_Q(double _Q, vector<double>& _q, py::list& results)
 	results[1] = q_array_t;
 }
 
-/* BE algorithm*/
+/* Divisive algorithm*/
 py::list detect_divisive(py::array_t<int> edges, py::array_t<double> ws, int num_of_runs){
 	
        	Graph G(0); 
@@ -330,10 +330,10 @@ py::list calc_Q_divisive(py::array_t<int> edges, py::array_t<double> ws, py::arr
 	
 	Divisive dv = Divisive();
 
+
 	double Q = -1;
 	vector<double>q;
 	dv.calc_Q(G, c, x, Q, q);
-	
 	py::list results(2);
 	pack_Q(Q, q, results);	
 	return results;
@@ -580,7 +580,7 @@ PYBIND11_MODULE(_cpalgorithm, m){
 		py::arg("x")
 	);
 	
-	m.def("calc_Q_divisive", &calc_Q_sbm, "Quality function for the Divisive algorithm",
+	m.def("calc_Q_divisive", &calc_Q_divisive, "Quality function for the Divisive algorithm",
 		py::arg("edges"),
 		py::arg("ws"),
 		py::arg("c"),

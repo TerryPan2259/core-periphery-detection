@@ -43,7 +43,6 @@ protected: // function needed to be implemented
 	void _louvain_core(const Graph& G, vector<int>& C, const double M, mt19937_64& mtrnd);
 	double _calc_dQmod( double d, double degi, double D, double selfw, const double M );
 	double _calc_Qmod(const Graph& G, vector<int>& C, const double M);
-	void _calc_Q_be(const Graph& G, const vector<int>& c, const vector<double>& x, double& Q, vector<double>& q);
 	void _coarsing(const Graph& G, const vector<int>& c,Graph& newG);
 	void _modularity_label_switching(const Graph& G,vector<int>& C, const double M,mt19937_64& mtrnd);
 	void _subgraph(const Graph& G, vector<bool>&slice, Graph& Gs );	
@@ -77,41 +76,38 @@ void Divisive::calc_Q(
     	int K = *max_element(c.begin(), c.end()) + 1;
 	vector<double> qtmp(K,0.0);
 	q = qtmp;	
-	Q=0.0;
-	int N = G.get_num_nodes();
 	for(int k = 0; k < K; k++){
-	
+
 		vector<bool> slice(N,false);
-		int Ns = 0;
+		
 		for(int i = 0; i < N; i++){
 			if(c[i] == k){
 				slice[i] = true;
-				Ns++;
 			}
 		}
-		int idx = 0;
-		vector<double> xs(Ns, 0.0);
-		for(int i = 0; i < N; i++){
-			if(slice[i]){
-				xs[idx] = x[i];
-				idx++;
-			}
-		}
-	
-		
-		
+
 		Graph Gs(0);
 		_subgraph(G, slice, Gs);
 		
+		vector<double> xs = be.get_x();
 		vector<double> qss;
 		double Qs;
-		_calc_Q_be(Gs, c, xs, Qs, qss);
+		calc_Q_be(Gs, c, xs, Qs, qss);
 		q[k] = Qs;
 		Q+=Qs;
+				
+		int idx = 0;
+		for(int i = 0; i < N; i++){
+			if(c[i] == k){
+				x[i] = xs[idx];
+				idx++;
+			}
+		}
 	}	
 }
 
 void Divisive::detect(const Graph& G){
+    
 	_detect_(G, _c, _x, _Q, _q);		
 }
 
@@ -154,7 +150,7 @@ void Divisive::_detect_(const Graph& G, vector<int>& c, vector<double>& x, doubl
 		vector<double> xs = be.get_x();
 		vector<double> qss;
 		double Qs;
-		_calc_Q_be(Gs, c, xs, Qs, qss);
+		be.calc_Q(Gs, c, xs, Qs, qss);
 		_q[k] = Qs;
 		_Q+=Qs;
 				
@@ -165,12 +161,10 @@ void Divisive::_detect_(const Graph& G, vector<int>& c, vector<double>& x, doubl
 				idx++;
 			}
 		}
-	}
-	_c = c;
-	_x = x;
+	}	
 } 
 
-void Divisive::_calc_Q_be(
+void Divisive::calc_Q_be(
     const Graph& G,
     const vector<int>& c,
     const vector<double>& x,
@@ -178,13 +172,6 @@ void Divisive::_calc_Q_be(
     vector<double>& q)
 {
 	int N = G.get_num_nodes();
-	if(N==1){
-		Q = 0;
-		vector<double> tmp(1,0.0);
-		q = tmp;
-		return;
-	}
-
 	double M = 0.0;
 	double pa = 0;
 	double pb = 0;
@@ -199,23 +186,18 @@ void Divisive::_calc_Q_be(
 			int j = nei.get_node(); 
 			double w = nei.get_w(); 
 			mcc+=w * (x[i]+x[j] - x[i] * x[j]);
-			M+=1;
+			M++;
 		}
 	}
 	mcc = mcc/2;
 	M = M /2;
-
 	double M_b = (double)(nc * (nc-1) + 2 * nc * (N -nc))/2;
 	pa = M / (double)(N * (N-1)/2);
 	pb = M_b / (double)(N * (N-1)/2);	
 	
 	
-	Q = ((double)mcc - pa * M_b ) / (sqrt(pa * (1-pa)) * sqrt(pb * (1-pb)) +1e-30);
+	Q = ((double)mcc - pa * M_b ) / (sqrt(pa * (1-pa)) * sqrt(pa * (1-pb)));
 	Q = Q / (double)(N * (N-1)/2);
-		
-	if(Q > 1) Q = 1;
-	if(Q < -1) Q = -1;
-	
 	vector<double> qtmp(1,Q);
 	q= qtmp;
 }
@@ -241,7 +223,7 @@ void Divisive::_subgraph(const Graph& G, vector<bool>&slice, Graph& Gs ){
 		for(int j =0; j < sz;j++){
 			Neighbour n = G.get_kth_neighbour(i,j);
 			int nei = n.get_node();
-			double w = n.get_w();	
+			double w = n.get_node();;
 			if(slice[i] &  slice[nei]){
 				Gs.addEdge(node2id[i], node2id[nei], w);
 			}	

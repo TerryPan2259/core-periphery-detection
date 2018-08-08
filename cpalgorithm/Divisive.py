@@ -87,6 +87,6 @@ class Divisive(CPAlgorithm):
 		_c = np.array([ c[id2node[i]]  for i in range(N) ])
 		_x = np.array([ x[id2node[i]]  for i in range(N) ])
 	
-		result = _cp.calc_Q_be(edges=node_pairs, ws=w, c=_c, x=_x)
+		result = _cp.calc_Q_divisive(edges=node_pairs, ws=w, c=_c, x=_x)
 
 		return result[1].tolist()	

@@ -86,8 +86,12 @@ void BEAlgorithm::calc_Q(
 	pb = M_b / (double)(N * (N-1)/2);	
 	
 	
-	Q = ((double)mcc - pa * M_b ) / (sqrt(pa * (1-pa)) * sqrt(pa * (1-pb)));
+	Q = ((double)mcc - pa * M_b ) / (sqrt(pa * (1-pa)) * sqrt(pb * (1-pb)) + 1e-30);
 	Q = Q / (double)(N * (N-1)/2);
+	
+	if(Q > 1) Q = 1;
+	if(Q < -1) Q = -1;
+
 	vector<double> qtmp(1,Q);
 	q= qtmp;
 }

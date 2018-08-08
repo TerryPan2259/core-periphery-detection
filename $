@@ -110,4 +110,6 @@ def test_Divisive():
 	dv.detect(G)
 	pair_id = dv.get_pair_id()
 	coreness = dv.get_coreness()
-	sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, dv)
+	sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, km)
+
+test_SBM()

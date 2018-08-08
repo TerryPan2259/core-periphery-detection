@@ -108,7 +108,6 @@ def qstest(pair_id, coreness, G, cpa, significance_level=0.05, null_model = conf
    
     q = np.array(cpa.score(G, pair_id, coreness), dtype = np.float)    
     s = np.array(sfunc(G, pair_id, coreness) , dtype = np.float)
-    print(cpa.score(G, pair_id, coreness)) 
     C = len(q)
     alpha_corrected = 1.0 - (1.0 - significance_level) ** (1.0 / float(C))
         
@@ -131,8 +130,6 @@ def qstest(pair_id, coreness, G, cpa, significance_level=0.05, null_model = conf
     q_std = np.std(q_tilde, ddof = 1)
     s_std = np.std(s_tilde, ddof = 1)
    
-    print(q_ave, q_std, q, s_ave, s_std, s)
-	    
     if (s_std <= 1e-30) or (q_std <= 1e-30):
         gamma = 0.0
         s_std = 1e-20
