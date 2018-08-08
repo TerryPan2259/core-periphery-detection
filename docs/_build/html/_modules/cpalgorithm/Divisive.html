@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cpalgorithm.KM_config &mdash; cpalgorithm 0.0.1 documentation</title>
+  <title>cpalgorithm.Divisive &mdash; cpalgorithm 0.0.1 documentation</title>
   
 
   
@@ -138,7 +138,7 @@
         
           <li><a href="../index.html">Module code</a> &raquo;</li>
         
-      <li>cpalgorithm.KM_config</li>
+      <li>cpalgorithm.Divisive</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -153,45 +153,49 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for cpalgorithm.KM_config</h1><div class="highlight"><pre>
+  <h1>Source code for cpalgorithm.Divisive</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">_cpalgorithm</span> <span class="k">as</span> <span class="nn">_cp</span>
 <span class="kn">from</span> <span class="nn">.CPAlgorithm</span> <span class="k">import</span> <span class="o">*</span> 
 
-<div class="viewcode-block" id="KM_config"><a class="viewcode-back" href="../../generated/cpalgorithm.KM_config.html#cpalgorithm.KM_config">[docs]</a><span class="k">class</span> <span class="nc">KM_config</span><span class="p">(</span><span class="n">CPAlgorithm</span><span class="p">):</span>
-	<span class="sd">&quot;&quot;&quot;Kojaku-Masuda algorithm with the configuration model.</span>
-<span class="sd">	</span>
-<span class="sd">	This algorithm finds multiple core-periphery pairs in networks. </span>
-<span class="sd">	In the detection of core-periphery pairs, the configuration model is used as the null model. 	</span>
-<span class="sd">	</span>
+<div class="viewcode-block" id="Divisive"><a class="viewcode-back" href="../../generated/cpalgorithm.Divisive.html#cpalgorithm.Divisive">[docs]</a><span class="k">class</span> <span class="nc">Divisive</span><span class="p">(</span><span class="n">CPAlgorithm</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Divisive algorithm.</span>
+
+<span class="sd">	An algorithm for finding multiple core-periphery pairs in networks.</span>
+<span class="sd">	This algorithm partitions a network into communities using the Louvain algorithm. </span>
+<span class="sd">	Then, it partitions each community into a core and a periphery using the BE algorithm.</span>
+<span class="sd">	The quality of a community is computed by that equipped with the BE algorithm.</span>
+<span class="sd">		</span>
 <span class="sd">	Parameters</span>
 <span class="sd">	----------</span>
 <span class="sd">	num_runs : int</span>
-<span class="sd">		Number of runs of the algorithm  (optional, default: 1).  </span>
-
+<span class="sd">		   Number of runs of the algorithm (optional, default: 10)</span>
+<span class="sd">		   Run the algorithm num_runs times. Then, this algorithm outputs the result yielding the maximum quality. </span>
+<span class="sd">	</span>
 <span class="sd">	Examples</span>
 <span class="sd">	--------</span>
 <span class="sd">	Create this object.</span>
 
 <span class="sd">	&gt;&gt;&gt; import cpalgorithm as cpa	</span>
-<span class="sd">	&gt;&gt;&gt; km = cpa.KM_config()</span>
+<span class="sd">	&gt;&gt;&gt; dv = cpa.Divisive()</span>
 <span class="sd">	</span>
 <span class="sd">	**Core-periphery detection**</span>
 <span class="sd">	</span>
 <span class="sd">	Detect core-periphery structure in network G (i.e., NetworkX object):</span>
 <span class="sd">	</span>
-<span class="sd">	&gt;&gt;&gt; km.detect(G) </span>
+<span class="sd">	&gt;&gt;&gt; dv.detect(G) </span>
 <span class="sd">	</span>
 <span class="sd">	Retrieve the ids of the core-periphery pair to which each node belongs:</span>
 <span class="sd">	</span>
-<span class="sd">	&gt;&gt;&gt; pair_id = km.get_pair_id() </span>
+<span class="sd">	&gt;&gt;&gt; pair_id = dv.get_pair_id() </span>
 <span class="sd">	</span>
 <span class="sd">	Retrieve the coreness:</span>
 
-<span class="sd">	&gt;&gt;&gt; coreness = km.get_coreness() </span>
+<span class="sd">	&gt;&gt;&gt; coreness = dv.get_coreness() </span>
 <span class="sd">		</span>
 <span class="sd">	.. note::</span>
 
-<span class="sd">	   This algorithm can accept unweighted and weighted networks.</span>
+<span class="sd">	   This algorithm accepts unweighted and undirected networks only.</span>
+<span class="sd">	   This algorithm is stochastic, i.e., one would obtain different results at each run.</span>
 
 <span class="sd">	.. rubric:: Reference</span>
 
@@ -199,12 +203,12 @@
 
 <span class="sd">	&quot;&quot;&quot;</span>
 	
-	
-<div class="viewcode-block" id="KM_config.__init__"><a class="viewcode-back" href="../../generated/cpalgorithm.KM_config.html#cpalgorithm.KM_config.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_runs</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
+<div class="viewcode-block" id="Divisive.__init__"><a class="viewcode-back" href="../../generated/cpalgorithm.Divisive.html#cpalgorithm.Divisive.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_runs</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">num_runs</span> <span class="o">=</span> <span class="n">num_runs</span> </div>
+
 	
-<div class="viewcode-block" id="KM_config.detect"><a class="viewcode-back" href="../../generated/cpalgorithm.KM_config.html#cpalgorithm.KM_config.detect">[docs]</a>	<span class="k">def</span> <span class="nf">detect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">):</span>
-		<span class="sd">&quot;&quot;&quot;Detect multiple core-periphery pairs.</span>
+<div class="viewcode-block" id="Divisive.detect"><a class="viewcode-back" href="../../generated/cpalgorithm.Divisive.html#cpalgorithm.Divisive.detect">[docs]</a>	<span class="k">def</span> <span class="nf">detect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Detect a single core-periphery pair using the Borgatti-Everett algorithm.</span>
 <span class="sd">	</span>
 <span class="sd">		Parameters</span>
 <span class="sd">		----------</span>
@@ -215,36 +219,33 @@
 <span class="sd">		&gt;&gt;&gt; import networkx as nx</span>
 <span class="sd">		&gt;&gt;&gt; import cpalgorithm as cpa</span>
 <span class="sd">		&gt;&gt;&gt; G = nx.karate_club_graph()  # load the karate club network. </span>
-<span class="sd">		&gt;&gt;&gt; km = cp.KM_config() # label switching algorithm</span>
-<span class="sd">		&gt;&gt;&gt; km.detect(G)</span>
+<span class="sd">		&gt;&gt;&gt; dv = cpa.Divisive()</span>
+<span class="sd">		&gt;&gt;&gt; dv.detect(G)</span>
 
 <span class="sd">		&quot;&quot;&quot;</span>
 
 		<span class="n">node_pairs</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">node2id</span><span class="p">,</span> <span class="n">id2node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_edge_list</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
-
-		<span class="n">cppairs</span> <span class="o">=</span> <span class="n">_cp</span><span class="o">.</span><span class="n">detect_config</span><span class="p">(</span><span class="n">edges</span><span class="o">=</span><span class="n">node_pairs</span><span class="p">,</span> <span class="n">ws</span><span class="o">=</span><span class="n">w</span><span class="p">,</span> <span class="n">num_of_runs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_runs</span><span class="p">)</span>
-
-		<span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">node2id</span><span class="p">)</span>	
+		
+		<span class="c1"># divide a network into communities</span>
+		<span class="n">cppairs</span> <span class="o">=</span> <span class="n">_cp</span><span class="o">.</span><span class="n">detect_divisive</span><span class="p">(</span><span class="n">edges</span><span class="o">=</span><span class="n">node_pairs</span><span class="p">,</span> <span class="n">ws</span><span class="o">=</span><span class="n">w</span><span class="p">,</span> <span class="n">num_of_runs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_runs</span><span class="p">)</span>
+		
+		
+		<span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">id2node</span><span class="p">)</span> 
 		<span class="bp">self</span><span class="o">.</span><span class="n">c_</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span> <span class="p">[</span><span class="n">id2node</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)],</span> <span class="n">cppairs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)))</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">x_</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span> <span class="p">[</span><span class="n">id2node</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)],</span> <span class="n">cppairs</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">Q_</span> <span class="o">=</span> <span class="n">cppairs</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">qs_</span> <span class="o">=</span> <span class="n">cppairs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></div>
 
-	
 	<span class="k">def</span> <span class="nf">_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-
 		<span class="n">node_pairs</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">node2id</span><span class="p">,</span> <span class="n">id2node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_edge_list</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
 	
 		<span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">id2node</span><span class="p">)</span>
 		<span class="n">_c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="n">c</span><span class="p">[</span><span class="n">id2node</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="p">])</span>
 		<span class="n">_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="n">x</span><span class="p">[</span><span class="n">id2node</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="p">])</span>
 	
-		<span class="n">result</span> <span class="o">=</span> <span class="n">_cp</span><span class="o">.</span><span class="n">calc_Q_config</span><span class="p">(</span><span class="n">edges</span><span class="o">=</span><span class="n">node_pairs</span><span class="p">,</span> <span class="n">ws</span><span class="o">=</span><span class="n">w</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span><span class="n">_c</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">_x</span><span class="p">)</span>
+		<span class="n">result</span> <span class="o">=</span> <span class="n">_cp</span><span class="o">.</span><span class="n">calc_Q_divisive</span><span class="p">(</span><span class="n">edges</span><span class="o">=</span><span class="n">node_pairs</span><span class="p">,</span> <span class="n">ws</span><span class="o">=</span><span class="n">w</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">_c</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">_x</span><span class="p">)</span>
 
-		<span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-	
-	<span class="k">def</span> <span class="nf">significance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pvalues</span>	</div>
+		<span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>	</div>
 </pre></div>
 
            </div>

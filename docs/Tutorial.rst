@@ -104,7 +104,7 @@ Statistical test
 Core or peripheral nodes may largely correspond to large-degree or small-degree nodes, respectively.
 A question prompted by this observation is that does the detected core-periphery structure reveal something that cannot be explained by the degrees of nodes?
 To examine this point, cpalgorithm provides a statistical test for individual core-periphery pair [3].
-The statistical test examines to what extent can the detected core-periphery structure be explained by the degree. 
+The statistical test judges each detected core-periphery pair as insignificant if it can be explained largely by the degree (i.e., hub and non-hub nodes largely correspond to core and peripheral nodes, respectively). Otherwise, it judges a core-periphery pair as significant.  
 One can carry out the statistical test by writing a line of code: 
 
 .. code-block:: python

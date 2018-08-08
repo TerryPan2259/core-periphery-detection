@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cpalgorithm.Rossa &mdash; cpalgorithm 0.0.1 documentation</title>
+  <title>cpalgorithm.Divisive &mdash; cpalgorithm 0.0.1 documentation</title>
   
 
   
@@ -33,8 +33,8 @@
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="cpalgorithm.Divisive" href="cpalgorithm.Divisive.html" />
-    <link rel="prev" title="cpalgorithm.Rombach" href="cpalgorithm.Rombach.html" /> 
+    <link rel="next" title="cpalgorithm.KM_ER" href="cpalgorithm.KM_ER.html" />
+    <link rel="prev" title="cpalgorithm.Rossa" href="cpalgorithm.Rossa.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -101,8 +101,8 @@
 <li class="toctree-l3"><a class="reference internal" href="cpalgorithm.LapCore.html">cpalgorithm.LapCore</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cpalgorithm.LapSgnCore.html">cpalgorithm.LapSgnCore</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cpalgorithm.Rombach.html">cpalgorithm.Rombach</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">cpalgorithm.Rossa</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cpalgorithm.Divisive.html">cpalgorithm.Divisive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cpalgorithm.Rossa.html">cpalgorithm.Rossa</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cpalgorithm.Divisive</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cpalgorithm.KM_ER.html">cpalgorithm.KM_ER</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cpalgorithm.KM_config.html">cpalgorithm.KM_config</a></li>
 </ul>
@@ -157,7 +157,7 @@
         
           <li><a href="../Reference.html">Reference</a> &raquo;</li>
         
-      <li>cpalgorithm.Rossa</li>
+      <li>cpalgorithm.Divisive</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -174,43 +174,54 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="cpalgorithm-rossa">
-<h1>cpalgorithm.Rossa<a class="headerlink" href="#cpalgorithm-rossa" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="cpalgorithm-divisive">
+<h1>cpalgorithm.Divisive<a class="headerlink" href="#cpalgorithm-divisive" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="cpalgorithm.Rossa">
-<em class="property">class </em><code class="descname">Rossa</code><a class="reference internal" href="../_modules/cpalgorithm/Rossa.html#Rossa"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cpalgorithm.Rossa" title="Permalink to this definition">¶</a></dt>
-<dd><p>Rossa’s algorithm for finding continuous core-periphery structure.</p>
+<dt id="cpalgorithm.Divisive">
+<em class="property">class </em><code class="descname">Divisive</code><span class="sig-paren">(</span><em>num_runs=10</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cpalgorithm/Divisive.html#Divisive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cpalgorithm.Divisive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Divisive algorithm.</p>
+<p>An algorithm for finding multiple core-periphery pairs in networks.
+This algorithm partitions a network into communities using the Louvain algorithm.
+Then, it partitions each community into a core and a periphery using the BE algorithm.
+The quality of a community is computed by that equipped with the BE algorithm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>num_runs</strong> (<em>int</em>) – Number of runs of the algorithm (optional, default: 10)
+Run the algorithm num_runs times. Then, this algorithm outputs the result yielding the maximum quality.</td>
+</tr>
+</tbody>
+</table>
 <p class="rubric">Examples</p>
 <p>Create this object.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">cpalgorithm</span> <span class="k">as</span> <span class="nn">cpa</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span> <span class="o">=</span> <span class="n">cpa</span><span class="o">.</span><span class="n">Rossa</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dv</span> <span class="o">=</span> <span class="n">cpa</span><span class="o">.</span><span class="n">Divisive</span><span class="p">()</span>
 </pre></div>
 </div>
 <p><strong>Core-periphery detection</strong></p>
 <p>Detect core-periphery structure in network G (i.e., NetworkX object):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dv</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Retrieve the ids of the core-periphery pair to which each node belongs:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pair_id</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">get_pair_id</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pair_id</span> <span class="o">=</span> <span class="n">dv</span><span class="o">.</span><span class="n">get_pair_id</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Retrieve the coreness:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">coreness</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">get_coreness</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">coreness</span> <span class="o">=</span> <span class="n">dv</span><span class="o">.</span><span class="n">get_coreness</span><span class="p">()</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">This algorithm can accept unweighted and weighted networks.
-The algorithm assigns all nodes into the same core-periphery pair by construction, i.e., c[node_name] =0 for all node_name.</p>
+<p class="last">This algorithm accepts unweighted and undirected networks only.
+This algorithm is stochastic, i.e., one would obtain different results at each run.</p>
 </div>
 <p class="rubric">Reference</p>
-<ol class="upperalpha simple" start="6">
-<li>Rossa, F. Dercole, and C. Piccardi. Profiling core-periphery network structure by random walkers. Scientific Reports, 3, 1467, 2013</li>
-</ol>
+<p>[1] S. Kojaku and N. Masuda. Core-periphery structure requires something else in the network. New Journal of Physics, 20(4):43012, 2018</p>
 <dl class="method">
-<dt id="cpalgorithm.Rossa.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cpalgorithm/Rossa.html#Rossa.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cpalgorithm.Rossa.__init__" title="Permalink to this definition">¶</a></dt>
+<dt id="cpalgorithm.Divisive.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>num_runs=10</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cpalgorithm/Divisive.html#Divisive.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cpalgorithm.Divisive.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
@@ -221,11 +232,11 @@ The algorithm assigns all nodes into the same core-periphery pair by constructio
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>()</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>([num_runs])</td>
 <td>Initialize self.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">detect</span></code>(G)</td>
-<td>Detect a single core-periphery structure.</td>
+<td>Detect a single core-periphery pair using the Borgatti-Everett algorithm.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_coreness</span></code>()</td>
 <td>Get the coreness of each node</td>
@@ -239,9 +250,9 @@ The algorithm assigns all nodes into the same core-periphery pair by constructio
 </tbody>
 </table>
 <dl class="method">
-<dt id="cpalgorithm.Rossa.detect">
-<code class="descname">detect</code><span class="sig-paren">(</span><em>G</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cpalgorithm/Rossa.html#Rossa.detect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cpalgorithm.Rossa.detect" title="Permalink to this definition">¶</a></dt>
-<dd><p>Detect a single core-periphery structure.</p>
+<dt id="cpalgorithm.Divisive.detect">
+<code class="descname">detect</code><span class="sig-paren">(</span><em>G</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cpalgorithm/Divisive.html#Divisive.detect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cpalgorithm.Divisive.detect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detect a single core-periphery pair using the Borgatti-Everett algorithm.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -254,8 +265,8 @@ The algorithm assigns all nodes into the same core-periphery pair by constructio
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">cpalgorithm</span> <span class="k">as</span> <span class="nn">cpa</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">karate_club_graph</span><span class="p">()</span>  <span class="c1"># load the karate club network.</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">Rossa</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dv</span> <span class="o">=</span> <span class="n">cpa</span><span class="o">.</span><span class="n">Divisive</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dv</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -272,10 +283,10 @@ The algorithm assigns all nodes into the same core-periphery pair by constructio
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="cpalgorithm.Divisive.html" class="btn btn-neutral float-right" title="cpalgorithm.Divisive" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="cpalgorithm.KM_ER.html" class="btn btn-neutral float-right" title="cpalgorithm.KM_ER" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="cpalgorithm.Rombach.html" class="btn btn-neutral" title="cpalgorithm.Rombach" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="cpalgorithm.Rossa.html" class="btn btn-neutral" title="cpalgorithm.Rossa" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

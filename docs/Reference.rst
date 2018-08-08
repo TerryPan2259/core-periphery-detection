@@ -38,6 +38,7 @@ Core-periphery detection algorithms
   
    .. autosummary::
 
+      Divisive 
       KM_ER
       KM_config
 

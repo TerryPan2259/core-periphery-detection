@@ -10,8 +10,8 @@ cpalgorithm provides:
 * statistical tests for detected core-periphery structure.
 
 Despite the importance of core-periphery structure, a few software implements core-periphery detection algorithms. 
-Some authors provide the code for their algorithms, which are, however, often written in different programming languages and/or different usage. 
-The aim of cpalgorithm is to provide an access to the algorithms, making core-periphery structure easier. 
+In many cases, authors provide the code for their algorithms independently. 
+The aim of cpalgorithm is to provide an access to the algorithms, making the analysis of core-periphery structure easier. 
 
 ========================
 Core-periphery structure
@@ -30,7 +30,6 @@ Each core-periphery pair consists of a set of core blogs that are linking each o
    Core-periphery structure in the political blog network. 
    The filled or open circles indicate core nodes or peripheral nodes, respectively.  
    The colour of each circle indicates the core-periphery pair to which the node belongs.
-
 
 In the worldwide airport network [5], there are 28 core-periphery pairs, each of which mostly consists of the airports in the same geographical region [3,4].
 The core and peripheral ports largely correspond to the hubs and regional airports. 
@@ -73,7 +72,6 @@ Other types of core-periphery structure such as transportation-based core-periph
 
    Installation 
    Tutorial 
-   Examples 
    Reference 
 
 Indices and tables
