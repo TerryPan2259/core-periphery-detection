@@ -1,5 +1,5 @@
 # core-periphery-detection
-[![Build Status](https://travis-ci.org/skojaku/cpalgorithm.svg?branch=master)](https://travis-ci.org/skojaku/cpalgorithm)
+[![Build Status](https://travis-ci.org/skojaku/core-periphery-detection.svg?branch=master)](https://travis-ci.org/skojaku/core-periphery-detection)
 
 This Python library contains various algorithms for finding core-periphery structure in networks.
 
