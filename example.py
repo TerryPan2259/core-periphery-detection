@@ -6,10 +6,9 @@ import cpalgorithm as cp
 
 G=nx.karate_club_graph()
 
-be = cp.Divisive()
+be = cp.KM_ER(1)
 Q = []
 be.detect(G)
 c = be.get_pair_id()
 x = be.get_coreness()
 print(c,x)
-print(be.score(G, c, x))

@@ -109,9 +109,10 @@ One can carry out the statistical test by writing a line of code:
 
 .. code-block:: python
 
-   significant, p_values = cp.qstest(c, x, G, algorithm)
+   sig_c, sig_x, significant, p_values = cp.qstest(c, x, G, algorithm)
 
 where :python:`significant` and :python:`p_values` are list objects.
+`sig_c` and `sig_x` are dict objects in which the insignificant core-periphery pairs are excluded. 
 List :python:`significant` is a boolean list, where :python:`significant[c]=True` or :python:`significant[c]=False` flag indicates that the cth core-periphery pair is significant (i.e., cannot be explained by nodes' degrees) or insignificant (i.e., can be explained by the nodes' degree), respectively, e.g.,  
 
 .. code-block:: python

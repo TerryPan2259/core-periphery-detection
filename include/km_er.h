@@ -45,6 +45,7 @@ protected:
 	
 private:
 	int _num_runs;
+	int _round;
 	uniform_real_distribution<double> _udist;
 	
 	void _km_ER_label_switching(
@@ -140,6 +141,7 @@ Functions inherited from the super class (CPAlgorithm)
 void KM_ER::detect(const Graph& G){
 	//_km_ER_label_switching(G, _num_runs, _c, _x, _Q, _q, _mtrnd);
 	_km_ER_louvain(G, _num_runs, _c, _x, _Q, _q, _mtrnd);
+	//_km_ER_label_switching(G, _num_runs, _c, _x, _Q, _q, _mtrnd);
 }
 
 void KM_ER::calc_Q(
@@ -394,6 +396,7 @@ void KM_ER::_km_ER_label_switching_core(
     x.clear();
     c.assign(N, 0);
     x.assign(N, 1.0);
+    _round = 0;
     for (int i = 0; i < N; i++) {
         order[i] = i;
         c[i] = i;
@@ -401,6 +404,7 @@ void KM_ER::_km_ER_label_switching_core(
         sz_peri[i] += 1-x[i];
         M += G.wdegree(i);
     };
+    _round++;
     double rho = M / (double)( N * N );
     M = M / 2;
 
@@ -425,6 +429,7 @@ void KM_ER::_km_ER_label_switching_core(
             if ( (c[i] == cprime) & (x[i] == xprime) )
                 continue;
 
+
             sz_core[c[i]] -= x[i];
             sz_peri[c[i]] -= 1-x[i];
 
@@ -436,7 +441,7 @@ void KM_ER::_km_ER_label_switching_core(
 
             isupdated = true;
         }
-
+	_round++;
     } while (isupdated == true);
 
     /* Remove empty core-periphery pairs */
@@ -520,7 +525,6 @@ void KM_ER::_km_ER_louvain(
 		_coarsing(cnet_G, cnet_c, cnet_x, new_cnet_G, toLayerId);
 		cnet_G = new_cnet_G;
 		
-		//cout<<"---"<<cnet_G.get_num_nodes()<<" "<<cnet_G.get_num_edges()<<" "<<G.get_num_edges()<<"---"<<endl;
 		
 		int sz = cnet_G.get_num_nodes();
 		if(sz == cnet_N) break;	
