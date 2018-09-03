@@ -171,7 +171,7 @@ def qstest(pair_id, coreness, G, cpa, significance_level=0.05, null_model = conf
             sig_pair_id[k]=None
             sig_coreness[k]=None
         
-    return sig_pair_id, sig_coreness, significant, p_values, q_tilde, s_tilde
+    return sig_pair_id, sig_coreness, significant, p_values
 
 
 # Private function for qstest        
