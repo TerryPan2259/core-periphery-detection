@@ -13,6 +13,7 @@ environment:
     - PYTHON: "C:\\Python35-x64"
 
 install:
+  - "%PYTHON%\\python.exe -m pip install --upgrade pip"
   - "%PYTHON%\\python.exe -m pip install cpalgorithm"
 
 build: off
