@@ -1,5 +1,6 @@
 import numpy as np
 import networkx as nx
+import copy
 import multiprocessing as mp
 from scipy.stats import norm
 
@@ -23,7 +24,7 @@ def erdos_renyi(G):
     p = nx.density(G)
     return nx.fast_gnp_random_graph(n, p)
 
-def qstest(pair_id, coreness, G, cpa, significance_level=0.05, null_model = config_model, sfunc = sz_n, num_of_thread = 4, num_of_rand_net = 500 ):
+def qstest(pair_id, coreness, G, cpa, significance_level=0.05, null_model = config_model, sfunc = sz_n, num_of_thread = 4, num_of_rand_net = 500, q_tilde = [], s_tilde = []):
     """(q,s)-test for core-periphery structure.
     
     This function computes the significance of individual core-periphery pairs using either the Erdos-Renyi or the configuration model as the null model. 
@@ -110,18 +111,20 @@ def qstest(pair_id, coreness, G, cpa, significance_level=0.05, null_model = conf
     s = np.array(sfunc(G, pair_id, coreness) , dtype = np.float)
     C = len(q)
     alpha_corrected = 1.0 - (1.0 - significance_level) ** (1.0 / float(C))
-        
-    q_tilde = []
-    s_tilde = []
-    if num_of_thread == 1:
-        q_tilde, s_tilde = draw_qs_samples(G, sfunc, cpa, null_model, num_of_rand_net)
-    else:
-        private_args = [(G, sfunc, cpa, null_model, int(num_of_rand_net / num_of_thread) + 1) for i in range(num_of_thread)]
-        pool = mp.Pool(num_of_thread)
-        qs_tilde = pool.map(wrapper_draw_qs_samples, private_args)
-        for i in range(num_of_thread):
-            q_tilde += qs_tilde[i][0] 
-            s_tilde += qs_tilde[i][1]
+    
+
+    if len(q_tilde) == 0: 
+	    q_tilde = []
+	    s_tilde = []
+	    if num_of_thread == 1:
+	        q_tilde, s_tilde = draw_qs_samples(G, sfunc, cpa, null_model, num_of_rand_net)
+	    else:
+	        private_args = [(G, sfunc, cpa, null_model, int(num_of_rand_net / num_of_thread) + 1) for i in range(num_of_thread)]
+	        pool = mp.Pool(num_of_thread)
+	        qs_tilde = pool.map(wrapper_draw_qs_samples, private_args)
+	        for i in range(num_of_thread):
+	            q_tilde += qs_tilde[i][0] 
+	            s_tilde += qs_tilde[i][1]
     
     q_tilde = np.array(q_tilde, dtype = np.float)    
     s_tilde = np.array(s_tilde, dtype = np.float)    
@@ -157,8 +160,8 @@ def qstest(pair_id, coreness, G, cpa, significance_level=0.05, null_model = conf
             cid2newcid[cid] = cidx
             cidx+=1 
         
-    sig_pair_id = pair_id
-    sig_coreness = coreness
+    sig_pair_id = copy.deepcopy(pair_id)
+    sig_coreness = copy.deepcopy(coreness)
    
 	 
     for k, v in sig_pair_id.items():
@@ -168,7 +171,7 @@ def qstest(pair_id, coreness, G, cpa, significance_level=0.05, null_model = conf
             sig_pair_id[k]=None
             sig_coreness[k]=None
         
-    return sig_pair_id, sig_coreness, significant, p_values
+    return sig_pair_id, sig_coreness, significant, p_values, q_tilde, s_tilde
 
 
 # Private function for qstest        
