@@ -7,25 +7,25 @@ matrix:
         - os: linux
           sudo: required
           python: 3.4
+          install: pip3 install cpalgorithm
         - os: linux
           sudo: required
           python: 3.5
+          install: pip3 install cpalgorithm
         - os: linux
           sudo: required
           python: 3.6
+          install: pip3 install cpalgorithm
         - os: osx
           language: generic
           env: TOXENV=py34
+          install: brew update && brew install python3 && pip3 install cpalgorithm
         - os: osx
           language: generic
-          env: TOXENV=py35
+          install: brew update && brew install python3 && pip3 install cpalgorithm
         - os: osx
           language: generic
-          env: TOXENV=py36
-
-# command to install dependencies
-install:
-  - pip3 install cpalgorithm
+          install: brew update && brew install python3 && pip3 install cpalgorithm
 
 # command to run tests
 script:
