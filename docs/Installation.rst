@@ -5,8 +5,21 @@ Installation
 .. role:: python(code)
     :language: python
 
-cpalgorithm requires Python 3.4 or above.
-We assume you have the latest :python:`pip` (a package manager for Python).
+Requirements
+------------
+Your need to have the latest :python:`pip` (a package manager for Python) and one of the following compilers: 
+- Clang/LLVM 3.3 or newer (for Apple Xcode's clang, this is 5.0.0 or newer)
+- GCC 4.8 or newer
+- Microsoft Visual Studio 2015 Update 3 or newer
+- Intel C++ compiler 17 or newer
+- Cygwin/GCC (tested on 2.5.1)
+
+Currently, cpalgorithm is tested on (Ubuntu and CentOS). 
+We confirmed that cpalgorithm can also run on MacOS. 
+We haven't tested it on Windows.  
+
+Install
+-------
 
 To install cpalgorithm, 
 

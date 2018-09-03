@@ -13,36 +13,41 @@
 
   
   
-  
-  
 
   
 
   
   
     
-      <link rel="search" type="application/opensearchdescription+xml"
-            title="Search within cpalgorithm 0.0.1 documentation"
-            href="../_static/opensearch.xml"/>
+      <link rel="search" type="application/opensearchdescription+xml" title="Search within cpalgorithm 0.0.1 documentation" href="../_static/opensearch.xml"/>
     
 
   
 
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="cpalgorithm.KM_config" href="cpalgorithm.KM_config.html" /> 
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="cpalgorithm 0.0.1 documentation" href="../index.html"/>
+        <link rel="up" title="Reference" href="../Reference.html"/>
+        <link rel="prev" title="cpalgorithm.KM_config" href="cpalgorithm.KM_config.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav">
+<body class="wy-body-for-nav" role="document">
 
-   
   <div class="wy-grid-for-nav">
 
     
@@ -83,14 +88,10 @@
           
             
             
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+                <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../Installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tutorial.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Examples.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../Reference.html">Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../Reference.html#core-periphery-detection-algorithms">Core-periphery detection algorithms</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../Reference.html#statistical-test">Statistical test</a><ul class="current">
@@ -110,54 +111,34 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">cpalgorithm</a>
-        
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">cpalgorithm</a>
       </nav>
 
 
+      
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           
 
-
-
-
-
-
-
-
-
-
-
-
+ 
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
-
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html">Docs</a> &raquo;</li>
-        
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
           <li><a href="../Reference.html">Reference</a> &raquo;</li>
-        
-      <li>cpalgorithm.qstest</li>
-    
-    
+      
+    <li>cpalgorithm.qstest</li>
       <li class="wy-breadcrumbs-aside">
         
-            
+          
         
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -167,7 +148,7 @@
 <h1>cpalgorithm.qstest<a class="headerlink" href="#cpalgorithm-qstest" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="cpalgorithm.qstest">
-<code class="descname">qstest</code><span class="sig-paren">(</span><em>pair_id</em>, <em>coreness</em>, <em>G</em>, <em>cpa</em>, <em>significance_level=0.05</em>, <em>null_model=&lt;function config_model&gt;</em>, <em>sfunc=&lt;function sz_n&gt;</em>, <em>num_of_thread=4</em>, <em>num_of_rand_net=500</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cpalgorithm/qstest.html#qstest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cpalgorithm.qstest" title="Permalink to this definition">¶</a></dt>
+<code class="descname">qstest</code><span class="sig-paren">(</span><em>pair_id</em>, <em>coreness</em>, <em>G</em>, <em>cpa</em>, <em>significance_level=0.05</em>, <em>null_model=&lt;function config_model&gt;</em>, <em>sfunc=&lt;function sz_n&gt;</em>, <em>num_of_thread=4</em>, <em>num_of_rand_net=500</em>, <em>q_tilde=[]</em>, <em>s_tilde=[]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cpalgorithm/qstest.html#qstest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cpalgorithm.qstest" title="Permalink to this definition">¶</a></dt>
 <dd><p>(q,s)-test for core-periphery structure.</p>
 <p>This function computes the significance of individual core-periphery pairs using either the Erdos-Renyi or the configuration model as the null model.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -244,14 +225,13 @@ Scientific Reports, 8:7351 (2018)</p>
 
 
            </div>
-           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="cpalgorithm.KM_config.html" class="btn btn-neutral" title="cpalgorithm.KM_config" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="cpalgorithm.KM_config.html" class="btn btn-neutral" title="cpalgorithm.KM_config" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -261,11 +241,11 @@ Scientific Reports, 8:7351 (2018)</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2018-2018, Sadamori Kojaku.
-      Last updated on Aug 08, 2018.
+      Last updated on Sep 03, 2018.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -284,11 +264,9 @@ Scientific Reports, 8:7351 (2018)</p>
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'0.0.1',
-            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  false,
-            SOURCELINK_SUFFIX: '.txt'
+            HAS_SOURCE:  false
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -299,13 +277,19 @@ Scientific Reports, 8:7351 (2018)</p>
 
   
 
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
 
+  
+  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
+          SphinxRtdTheme.StickyNav.enable();
       });
-  </script> 
+  </script>
+   
 
 </body>
 </html>

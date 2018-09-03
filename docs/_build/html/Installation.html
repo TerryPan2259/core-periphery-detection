@@ -13,37 +13,41 @@
 
   
   
-  
-  
 
   
 
   
   
     
-      <link rel="search" type="application/opensearchdescription+xml"
-            title="Search within cpalgorithm 0.0.1 documentation"
-            href="_static/opensearch.xml"/>
+      <link rel="search" type="application/opensearchdescription+xml" title="Search within cpalgorithm 0.0.1 documentation" href="_static/opensearch.xml"/>
     
 
   
 
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Tutorial" href="Tutorial.html" />
-    <link rel="prev" title="Overview of cpalgorithm" href="index.html" /> 
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="cpalgorithm 0.0.1 documentation" href="index.html"/>
+        <link rel="next" title="Tutorial" href="Tutorial.html"/>
+        <link rel="prev" title="Overview of cpalgorithm" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav">
+<body class="wy-body-for-nav" role="document">
 
-   
   <div class="wy-grid-for-nav">
 
     
@@ -84,14 +88,14 @@
           
             
             
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+                <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install">Install</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="Tutorial.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Reference.html">Reference</a></li>
 </ul>
 
@@ -104,52 +108,32 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">cpalgorithm</a>
-        
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">cpalgorithm</a>
       </nav>
 
 
+      
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           
 
-
-
-
-
-
-
-
-
-
-
-
+ 
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
-
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-      <li>Installation</li>
-    
-    
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Installation</li>
       <li class="wy-breadcrumbs-aside">
         
-            
+          
         
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -157,8 +141,20 @@
             
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>cpalgorithm requires Python 3.4 or above.
-We assume you have the latest <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pip</span></span></code> (a package manager for Python).</p>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>Your need to have the latest <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pip</span></span></code> (a package manager for Python) and one of the following compilers:
+- Clang/LLVM 3.3 or newer (for Apple Xcode’s clang, this is 5.0.0 or newer)
+- GCC 4.8 or newer
+- Microsoft Visual Studio 2015 Update 3 or newer
+- Intel C++ compiler 17 or newer
+- Cygwin/GCC (tested on 2.5.1)</p>
+<p>Currently, cpalgorithm is tested on (Ubuntu and CentOS).
+We confirmed that cpalgorithm can also run on MacOS.
+We haven’t tested it on Windows.</p>
+</div>
+<div class="section" id="install">
+<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
 <p>To install cpalgorithm,</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip3 install cpalgorithm
 </pre></div>
@@ -172,19 +168,19 @@ We assume you have the latest <code class="code python docutils literal notransl
 </pre></div>
 </div>
 </div>
+</div>
 
 
            </div>
-           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Tutorial.html" class="btn btn-neutral float-right" title="Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Tutorial.html" class="btn btn-neutral float-right" title="Tutorial" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="Overview of cpalgorithm" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="Overview of cpalgorithm" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -194,11 +190,11 @@ We assume you have the latest <code class="code python docutils literal notransl
   <div role="contentinfo">
     <p>
         &copy; Copyright 2018-2018, Sadamori Kojaku.
-      Last updated on Aug 08, 2018.
+      Last updated on Sep 03, 2018.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -217,11 +213,9 @@ We assume you have the latest <code class="code python docutils literal notransl
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
             VERSION:'0.0.1',
-            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  false,
-            SOURCELINK_SUFFIX: '.txt'
+            HAS_SOURCE:  false
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
@@ -232,13 +226,19 @@ We assume you have the latest <code class="code python docutils literal notransl
 
   
 
-  <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
 
+  
+  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
+          SphinxRtdTheme.StickyNav.enable();
       });
-  </script> 
+  </script>
+   
 
 </body>
 </html>
