@@ -28,8 +28,7 @@ matrix:
 
 # command to install dependencies
 install:
-  - pip install -r requirements.txt
-  - pip3 install cpalgorithm
+  - pip install cpalgorithm
 
 # command to run tests
 script:
