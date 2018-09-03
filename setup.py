@@ -6,7 +6,7 @@ import setuptools
 import os
 from setuptools import setup, find_packages
 
-__version__ = '0.0.7'
+__version__ = '0.0.8'
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
@@ -37,7 +37,7 @@ ext_modules = [
 	    'include'
         ],
         language='c++',
-        extra_link_args=['-lgomp'],
+        #extra_link_args=['-lgomp'],
 	#extra_compile_args=['-fopenmp']
     ),
 ]

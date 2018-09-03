@@ -31,4 +31,4 @@ matrix:
 
 # command to run tests
 script:
-  - py.test tests/test.py 
+  - python tests/test.py 
