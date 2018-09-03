@@ -18,13 +18,16 @@ matrix:
           install: pip3 install cpalgorithm
         - os: osx
           language: generic
-          install: python -m pip install pybind11 && python -m pip install cpalgorithm
+	  env: PIP=pip3
+          install: python -m pip install cpalgorithm
         - os: osx
           language: generic
-          install: python -m pip install pybind11 && python -m pip install cpalgorithm
+	  env: PIP=pip3
+          install: python -m pip install cpalgorithm
         - os: osx
           language: generic
-          install: python -m pip install pybind11 && python -m pip install cpalgorithm
+	  env: PIP=pip3
+          install: python -m pip install cpalgorithm
 
 # command to run tests
 script:
