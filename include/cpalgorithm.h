@@ -6,7 +6,6 @@
 #include <map>
 #include <numeric>
 #include <cmath>
-#include <omp.h>
 
 #include <graph.h>
 
