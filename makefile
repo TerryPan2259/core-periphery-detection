@@ -5,7 +5,7 @@
 CC := g++
 
 #CFLAGS := -O3 -std=c++11 # use this option in case openmp does not work 
-CFLAGS := -O3 -std=c++11 -fopenmp
+CFLAGS := -O3 -std=c++11 -fopenmp -Wall
 
 all: km_config
 

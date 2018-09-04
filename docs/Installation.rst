@@ -11,13 +11,15 @@ You need to have the latest :python:`pip` (a package manager for Python) and one
 
  - Clang/LLVM 3.3 or newer (for Apple Xcode's clang, this is 5.0.0 or newer)
  - GCC 4.8 or newer
- - Microsoft Visual Studio 2015 Update 3 or newer
+ - Microsoft Visual C++ Build Tools 2015 or newer
  - Intel C++ compiler 17 or newer
  - Cygwin/GCC (tested on 2.5.1)
 
 Currently, cpalgorithm is tested on (Ubuntu and CentOS). 
 We confirmed that cpalgorithm can also run on MacOS. 
-We haven't tested it on Windows.  
+For Windows, cpalgorithm requires Visual C++ Build Tools 2015 or newer. To install, see `Windows Compilers <https://wiki.python.org/moin/WindowsCompilers/>`_.
+
+cpalgorithm may not be compatible with conda.
 
 Install
 -------
