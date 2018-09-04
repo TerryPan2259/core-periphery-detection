@@ -47,6 +47,7 @@ before_install: |
   fi
 
 install: 
+   - python -m pip install pybind11 
    - python -m pip install cpalgorithm
 
 # command to run tests
