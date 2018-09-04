@@ -6,7 +6,7 @@ import setuptools
 import os
 from setuptools import setup, find_packages
 
-__version__ = '0.0.9'
+__version__ = '0.0.10'
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
@@ -34,6 +34,7 @@ ext_modules = [
             # Path to pybind11 headers
             get_pybind_include(),
             get_pybind_include(user=True),
+	    'pybind11/include',
 	    'include'
         ],
         language='c++',
@@ -107,7 +108,7 @@ setup(
     url='https://github.com/skojaku/core-periphery-detection',
     ext_modules=ext_modules,
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
-    install_requires=['pybind11>=2.2', 'networkx>=2.0', 'numpy>=1.14.2', 'simanneal', 'scipy>=1.1.0'],
+    install_requires=['pybind11>=2.2','networkx>=2.0', 'numpy>=1.14.2', 'simanneal', 'scipy>=1.1.0'],
 #install_requires=['pybind11>=2.2', 'networkx>=2.0', 'numpy>=1.14.2', 'scipy>=1.1.0', 'simanneal'],
     cmdclass={'build_ext': BuildExt},
     zip_safe=False,
