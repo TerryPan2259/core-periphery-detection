@@ -448,7 +448,7 @@ void KM_ER::_km_ER_label_switching_core(
     std::vector<int> labs;
     for (int i = 0; i < N; i++) {
         int cid = -1;
-	int labsize = labs.size();
+	int labsize = (int) labs.size();
         for (int j = 0; j < labsize; j++) {
             if (labs[j] == c[i]) {
                 cid = j;
@@ -458,7 +458,7 @@ void KM_ER::_km_ER_label_switching_core(
 
         if (cid < 0) {
             labs.push_back(c[i]);
-            cid = labs.size() - 1;
+            cid = (int) labs.size() - 1;
         }
         c[i] = cid;
     }
@@ -542,7 +542,7 @@ void KM_ER::_coarsing(
     	vector<int>& toLayerId 
 	){
 		
-        int N = c.size();
+        int N = (int) c.size();
 	vector<int> ids(N,0);
     	int maxid = 0;
 	for(int i = 0;i<N;i++){
@@ -582,11 +582,11 @@ void KM_ER::_relabeling(
     	vector<int>& c
 	){
 
-    int N = c.size(); 
+    int N = (int)c.size(); 
     std::vector<int> labs;
     for (int i = 0; i < N; i++) {
         int cid = -1;
-	int labsize = labs.size();
+	int labsize = (int)labs.size();
         for (int j = 0; j < labsize; j++) {
             if (labs[j] == c[i]) {
                 cid = j;
@@ -596,7 +596,7 @@ void KM_ER::_relabeling(
 
         if (cid < 0) {
             labs.push_back(c[i]);
-            cid = labs.size() - 1;
+            cid = (int) labs.size() - 1;
         }
         c[i] = cid;
     }

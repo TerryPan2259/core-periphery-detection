@@ -1,9 +1,6 @@
 #include <iostream>
 #include <vector>
 
-using namespace std;
-//typedef pair<int, double> Edge; // Edge 
-
 class Neighbour{
 public:
     int _node;
@@ -15,6 +12,11 @@ public:
     // Getters
     int get_node() const;
     double get_w() const;
+};
+
+Neighbour::Neighbour(){
+	_node = -1;
+	_w = -1;
 };
 
 Neighbour::Neighbour(int node, double w){
@@ -30,6 +32,9 @@ int Neighbour::get_node() const{
 double Neighbour::get_w() const{
 	return _w;
 }
+
+using namespace std;
+//typedef pair<int, double> Edge; // Edge 
 
     
 class Graph{
@@ -48,6 +53,7 @@ public:
     int degree(int nid) const;
     double wdegree(int nid) const;
     void get_weight(int nid, int j, int& nei, double& w) const;
+    vector<Neighbour> get_neighbours(int nid);
     
     void compress();
     void subgraph(vector<bool>& slice, Graph& Gs);
@@ -74,7 +80,7 @@ Graph::Graph(int num_nodes){
 
 // Getter -----------
 int Graph::get_num_nodes() const{
-	return _neighbours.size();
+	return (int) _neighbours.size();
 }
 
 int Graph::get_num_edges() const{
@@ -82,9 +88,7 @@ int Graph::get_num_edges() const{
 	int M = 0;
     	for (int i = 0; i < N; i++) {
 		int sz = degree(i);
-    		for (int j = 0; j < sz; j++) {
-			M+= _neighbours[i][j].get_w();
-		}
+		M+=sz; 
 	}
 	return M/2;
 }
@@ -95,9 +99,14 @@ void Graph::get_weight(int nid, int j, int& nei, double& w) const{
 	w = _neighbours[nid][j].get_w();
 }
 
+// get neigubouring nodes
+vector<Neighbour> Graph::get_neighbours(int nid){
+	return _neighbours[nid];
+}
+
 // get weighted degree
 double Graph::wdegree(int nid) const{
-	int sz = _neighbours[nid].size();
+	int sz = (int)_neighbours[nid].size();
 	double deg = 0;
     	for (int j = 0; j < sz; j++) {
         	deg+= _neighbours[nid][j].get_w();
@@ -107,7 +116,7 @@ double Graph::wdegree(int nid) const{
 
 // get degree
 int Graph::degree(int nid) const{
-	return _neighbours[nid].size();
+	return (int)_neighbours[nid].size();
 }
 
 Neighbour Graph::get_kth_neighbour(int nid, int k) const{
@@ -117,7 +126,7 @@ Neighbour Graph::get_kth_neighbour(int nid, int k) const{
 // add 
 void Graph::addEdge(int u, int v, double w){
 	
-	int sz = _neighbours.size();
+	int sz = (int)_neighbours.size();
 	while( (sz <=u) ){
 		vector<Neighbour> tmp(0);
 		_neighbours.push_back(tmp);
@@ -144,7 +153,7 @@ void Graph::addEdge(int u, int v, double w){
 void Graph::print() const{
 	int N = get_num_nodes();
 	for(int i =0; i < N;i++){
-		int sz = _neighbours[i].size();
+		int sz = (int)_neighbours[i].size();
 		for(int j =0; j < sz;j++){
 			cout<<i<<" "<<_neighbours[i][j].get_node()<<" "<<_neighbours[i][j].get_w()<<endl;
 		}
@@ -158,9 +167,8 @@ vector<vector<double>> Graph::to_matrix() const{
 	vector<vector<double>> M(N, vector<double>(N, 0));
 		
 	for(int i =0; i < N;i++){
-		int sz = _neighbours[i].size();
-		for(int j =0; j < sz;j++){	
-			M[i][_neighbours[i][j].get_node()] = _neighbours[i][j].get_w();
+		for(auto nd : _neighbours[i]){	
+			M[i][nd.get_node()] = nd.get_w();
 		}
 	}
 	return M;
@@ -183,11 +191,10 @@ void Graph::compress(){
 	_neighbours = tmp;
 
 	for(int i = 0; i < N; i ++){
-		int sz = prev_neighbours[i].size();
 		map<int, double> myMap;
-		for(int j =0; j < sz;j++){	
-			int nei = prev_neighbours[i][j].get_node();
-			double w = prev_neighbours[i][j].get_w();
+		for(auto nd: prev_neighbours[i]){	
+			int nei = nd.get_node();
+			double w = nd.get_w();
 			if ( !myMap.insert( make_pair( nei, w ) ).second ) {
 				myMap[nei]+=w;
 			}
@@ -216,10 +223,9 @@ void Graph::subgraph(vector<bool>& slice, Graph& Gs){
 	Graph tt(Ns);
 	Gs = tt;
 	for(int i =0; i < N;i++){
-		int sz = _neighbours[i].size();
-		for(int j =0; j < sz;j++){
-			int nei = _neighbours[i][j].get_node();
-			double w = _neighbours[i][j].get_node();;
+		for(auto nd: _neighbours[i]){
+			int nei = nd.get_node();
+			double w = nd.get_node();;
 			if(slice[i] &  slice[nei]){
 				Gs.addEdge(node2id[i], node2id[nei], w);
 			}	

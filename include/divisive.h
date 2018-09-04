@@ -189,9 +189,9 @@ void Divisive::_calc_Q_be(
 	double pa = 0;
 	double pb = 0;
 	int nc = 0;
-	int mcc = 0;
+	double mcc = 0;
 	for( int i = 0;i < N;i++ ) {
-		nc+=x[i];
+		nc+=(int) x[i];
 	
 		int sz = G.degree(i);	
 		for( int k = 0; k < sz; k++ ) {
@@ -261,7 +261,7 @@ double Divisive::_calc_Qmod(
 	 ){
 	
 	double retval = 0;
-	int N = C.size();
+	int N = (int) C.size();
 	vector<double> degC(N, 0.0);
 	for(int i =0;i<N;i++){
         int di = G.degree(i);
@@ -294,7 +294,7 @@ void Divisive::_coarsing(
     	Graph& newG
 	){
 		
-        int N = c.size();
+        int N = (int) c.size();
 	
     	int K = *max_element(c.begin(), c.end()) + 1;
 	newG = Graph(K);
@@ -320,7 +320,7 @@ void Divisive::_modularity_label_switching(
         mt19937_64& mtrnd
 	){
 	
-        int N=C.size();
+        int N= (int)C.size();
 	vector<int> ndord(N);
 	vector<double> D(N, 0);
 	vector<double>deg(N, 0);
@@ -397,7 +397,7 @@ void Divisive::_modularity_label_switching(
 	std::vector<int> labs;
 	for(int i=0;i<N;i++){
 		int cid = -1;
- 		int labsize = labs.size();
+ 		int labsize = (int)labs.size();
 		for(int j=0;j<labsize;j++){
 			if(labs[j]==C[i]){
 				cid = j;
@@ -407,7 +407,7 @@ void Divisive::_modularity_label_switching(
 		
 		if (cid<0) {
 			labs.push_back(C[i]);
-			cid = labs.size()-1;
+			cid = (int)labs.size()-1;
 		}
 		C[i] = cid;		
 	}
@@ -425,7 +425,7 @@ void Divisive::_louvain_core(
 	Graph newG = G; 
 	vector<int>Zt = C; 
 	vector<int>Ct = C;
-	unsigned int prevGraphSize = C.size();
+	unsigned int prevGraphSize = (int) C.size();
 	double Qbest = _calc_Qmod(newG, Zt, M); 
 
 	do{
@@ -439,7 +439,7 @@ void Divisive::_louvain_core(
 
 		// update C
 		// Ct = Ct*Zt;
-		int Ctsize = Ct.size();
+		int Ctsize = (int) Ct.size();
 		for(int i = 0;i<Ctsize;i++){
 			Ct[i] = Zt[ Ct[i] ];
 		}

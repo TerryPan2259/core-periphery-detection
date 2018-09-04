@@ -34,7 +34,7 @@ void readEdgeTable(py::array_t<int> edges_array_t, py::array_t<double> w_array_t
     int N = 0;	
     auto edges = edges_array_t.data();
     auto r = edges_array_t.request();
-    int M = r.shape[0];
+    int M = (int) r.shape[0];
     auto ws = w_array_t.data();
 	
     for(int i =0; i< M; i++){
@@ -57,7 +57,7 @@ void readEdgeTable(py::array_t<int> edges_array_t, py::array_t<double> w_array_t
     G = tmp; 
 
     int wid = 0; 
-    int edgeListsize = edgeList.size();
+    int edgeListsize = (int) edgeList.size();
     for (int i = 0; i < edgeListsize; i += 2) {
         int sid = edgeList[i];
         int did = edgeList[i + 1];
@@ -77,9 +77,9 @@ void readCPResult(py::array_t<int> c_array_t, py::array_t<double> x_array_t, vec
     auto _x = x_array_t.data();
     
     auto r = c_array_t.request();
-    int N = r.shape[0];
+    int N = (int) r.shape[0];
 
-    vector<int> cList(N, 0.0);
+    vector<int> cList(N, 0);
     vector<double> xList(N, 0.0);
 	
     for(int i =0; i< N; i++){
@@ -92,7 +92,7 @@ void readCPResult(py::array_t<int> c_array_t, py::array_t<double> x_array_t, vec
 
 void packResults(vector<int>&c, vector<double>& x, double& Q, vector<double>&q, py::list& results)
 {
-	int N = c.size();
+	int N = (int)c.size();
 	py::array_t<double> cids_array_t(N);
 	auto cids = cids_array_t.mutable_data();
 	
@@ -104,7 +104,7 @@ void packResults(vector<int>&c, vector<double>& x, double& Q, vector<double>&q, 
 		xs[i] = x[i];
 	}
 	
-	int K = q.size();
+	int K = (int) q.size();
 	py::array_t<double> qs_array_t(K);
 	auto qs = qs_array_t.mutable_data();
 	
@@ -126,7 +126,7 @@ void packResults(vector<int>&c, vector<double>& x, double& Q, vector<double>&q, 
 
 void pack_Q(double _Q, vector<double>& _q, py::list& results)
 {
-	int K = _q.size();
+	int K = (int) _q.size();
 	py::array_t<double> q_array_t(K);
 	auto q = q_array_t.mutable_data();
 	

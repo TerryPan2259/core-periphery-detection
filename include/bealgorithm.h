@@ -65,8 +65,8 @@ void BEAlgorithm::calc_Q(
 	double M = 0.0;
 	double pa = 0;
 	double pb = 0;
-	int nc = 0;
-	int mcc = 0;
+	double nc = 0;
+	double mcc = 0;
 	for( int i = 0;i < N;i++ ) {
 		nc+=x[i];
 	
@@ -133,7 +133,7 @@ void BEAlgorithm::_detect_(const Graph& G, vector<double>& x, mt19937_64& mtrnd)
 	x = tmp;
 	uniform_real_distribution<double> dis(0.0, 1.0);	
 	
-	int Nperi = N;
+	double Nperi = N;
 	for(int i = 0;i<N; i++){
 		if(dis(mtrnd) < 0.5) {
 			x[i] = 1;
@@ -147,7 +147,7 @@ void BEAlgorithm::_detect_(const Graph& G, vector<double>& x, mt19937_64& mtrnd)
 	std::vector<double>xt = x;
 	std::vector<double>xbest(N, 0.0);
 	std::vector<bool>fixed(N, false);
-	vector<int> Dperi(N, 0);
+	vector<double> Dperi(N, 0);
 
 	for( int j = 0;j < N;j++){
 		std::fill(fixed.begin(),fixed.end(),false);

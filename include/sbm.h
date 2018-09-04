@@ -45,7 +45,7 @@ public:
 	    vector<double>& q);
 
 protected:
-	double _maxItNum;
+	int _maxItNum;
 	double _tol;
 
 	double _klent(double x, double y);
@@ -75,7 +75,7 @@ SBM::SBM():CPAlgorithm(){
 };
 
 SBM::SBM(double maxItNum, double tol):CPAlgorithm(){
-	_maxItNum = maxItNum;
+	_maxItNum = (int) maxItNum;
 	_tol = tol;
 };
 
@@ -152,9 +152,9 @@ void SBM::calc_Q(
     vector<double>& q)
 {
 		
-	int Mcc = 0;
-	int Mcp = 0;
-	int Mpp = 0;
+	double Mcc = 0;
+	double Mcp = 0;
+	double Mpp = 0;
 	int Nc = 0;
 	int N = G.get_num_nodes();
 	double rho = 0;
@@ -166,7 +166,7 @@ void SBM::calc_Q(
 			Mcp+=x[i] * (1-x[j]) + x[j] * (1-x[i]);
 			Mpp+=(1-x[i]) * (1-x[j]);
 		}
-		Nc+=x[i];	
+		Nc+=(int)x[i];	
 	}	
 	rho = (Mcc + Mcp + Mpp) / (double) (N * N);
 	
@@ -299,7 +299,7 @@ void SBM::predict(vector<int>&Glist, const int N, const int K, vector<vector<lon
     long int i;
     for (i = 0; i < N; i++)
     {
-        Glist[i] = distance(One_point[i].begin(),max_element(One_point[i].begin(),One_point[i].end()));        
+        Glist[i] = (int) distance(One_point[i].begin(),max_element(One_point[i].begin(),One_point[i].end()));        
         //Glist[i] = distance(One_point[i],max_element(One_point[i].begin(),One_point[i].end()));        
     }    
 	return;
@@ -325,7 +325,7 @@ void SBM::initilize_params(const vector<vector<int>>& edgeList, const int N, con
      External_field.assign(K,0.0);
      
      // First we count the degrees by scanning through the list once	
-     int sz = edgeList.size();
+     int sz = (int) edgeList.size();
      for(int i=0; i < sz; i++)
      {
 	int src = edgeList[i][0];
@@ -337,7 +337,7 @@ void SBM::initilize_params(const vector<vector<int>>& edgeList, const int N, con
      double avedeg = 0;	     
      for(int i=0; i < N; i++)
      {	
-	Degree[i] = adjList[i].size();
+	Degree[i] = (int) adjList[i].size();
 	avedeg+=(double)Degree[i];
      }
 	avedeg/=(double)N;
@@ -373,7 +373,7 @@ void SBM::initilize_params(const vector<vector<int>>& edgeList, const int N, con
 	Omega[1][1] = p*p*p*p;
 	
 	//one could randomly generate a,b repeatedly for each node/edge. one value usually work just as well.
-	srand(time(NULL)); //random seed 
+	srand((unsigned int)time(NULL)); //random seed 
 	long double a;		
 	long double b;
 	a = ((long double) rand() / (RAND_MAX));
@@ -433,14 +433,14 @@ void SBM::compute_external(vector<double>& External_field, const int N, const in
 //compute the one point marginal
 void SBM::compute_one_point(vector<vector<long double>>& One_point,  int N,  int K,  vector<vector<int>>& adjList,  vector<int>& Degree,  vector<long double>& Gamma,  vector<vector<long double>>& Omega,  map<pair<int,int>, array<long double,MAX_K> >& Cavity,  vector<double>& External_field)
 {
-    long double BUFFER[K];
+    vector<double> BUFFER(K, 0.0);
     long int i,j;
     int r,s,it;
     long double SIGMA1,SIGMA2,PROD;
     
     for(i = 0; i < N; i++)
     {
-        fill(BUFFER,BUFFER+K,0);
+        fill(BUFFER.begin(),BUFFER.end(),0);
         for(r = 0; r < K; r++)
         {
             PROD = 0;
@@ -485,7 +485,7 @@ void SBM::compute_one_point(vector<vector<long double>>& One_point,  int N,  int
 //compute the two point marginal
 void SBM::compute_two_point(map<pair<int,int>, array<array<long double,MAX_K>, MAX_K> >& Two_point, const int N, const int K, const vector<vector<int>>& adjList, const vector<int>& Degree, const vector<vector<long double>>& Omega,  map<pair<int,int>, array<long double,MAX_K> >& Cavity)
 {       
-    long double BUFFER[K][K];
+    vector<vector<double>> BUFFER(K, vector<double>(K,0.0));
     long double NORM,PROD; //normalization term, sum of the individual q_{ij}^{rs}.
     long int i,j;
     int r,s,it;
@@ -496,8 +496,9 @@ void SBM::compute_two_point(map<pair<int,int>, array<array<long double,MAX_K>, M
         {
             j = adjList[i][it];
             NORM = 0;
-            fill(BUFFER[0],BUFFER[0]+K,0);
-            fill(BUFFER[1],BUFFER[1]+K,0);
+            fill(BUFFER[0].begin(),BUFFER[0].end(),0);
+            fill(BUFFER[1].begin(),BUFFER[1].end(),0);
+
             //summing over the four possible values of two point marginal
             for(r = 0; r < K; r++)
             {
@@ -526,7 +527,7 @@ void SBM::compute_two_point(map<pair<int,int>, array<array<long double,MAX_K>, M
 //only update the edge terms, the non-egde terms will just be the value of the one point marginal
 void SBM::compute_cavity(map<pair<int,int>, array<long double,MAX_K> >& Cavity, const int N, const int K, const vector<vector<int>>& adjList, const vector<int>& Degree, const vector<long double>& Gamma, const vector<vector<long double>>& Omega, const vector<vector<long double>>& One_point, const vector<double>& External_field)
 {
-    long double BUFFER[K];
+    vector<double> BUFFER(K,0.0);
     long int i,j,k;
     int r,s,it1,it2; //use two iterators for two edges
     long double SIGMA1,SIGMA2,PROD;

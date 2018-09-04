@@ -174,7 +174,7 @@ void KM_modmat::_km_modmat_label_switching(
     }
 
     Q = -1;
-    int N = M.size();
+    int N = (int) M.size();
     #ifdef _OPENMP
     #pragma omp parallel for shared(c, x, Q, q, N, mtrnd_list)
     #endif
@@ -203,7 +203,7 @@ void KM_modmat::_km_modmat_label_switching(
 			x[i] = xi[i];
 		    }
 		    q.clear();
-		    int K = qi.size();
+		    int K = (int) qi.size();
 	            vector<double> tmp(K,0.0);	
 		    q = tmp;
 		    for(int k = 0; k < K; k++){
@@ -222,7 +222,7 @@ void KM_modmat::_calc_Q_modmat(
     double& Q,
     vector<double>& q)
 {
-    int N = M.size();
+    int N = (int) M.size();
     int K = *max_element(c.begin(), c.end()) + 1;
     
     q.assign(K, 0.0);
@@ -250,7 +250,7 @@ void KM_modmat::_propose_new_label_modmat(
     mt19937_64& mtrnd
     )
 {
-        int N = M.size();
+        int N = (int) M.size();
     	int K = *max_element(c.begin(), c.end()) + 1;
 	vector<double> dq_core(K,0.0);
 	vector<double> dq_peri(K,0.0);
@@ -289,11 +289,11 @@ void KM_modmat::_relabeling(
     	vector<int>& c
 	){
 
-    int N = c.size(); 
+    int N = (int) c.size(); 
     std::vector<int> labs;
     for (int i = 0; i < N; i++) {
         int cid = -1;
-	int labsize = labs.size();
+	int labsize = (int) labs.size();
         for (int j = 0; j < labsize; j++) {
             if (labs[j] == c[i]) {
                 cid = j;
@@ -303,7 +303,7 @@ void KM_modmat::_relabeling(
 
         if (cid < 0) {
             labs.push_back(c[i]);
-            cid = labs.size() - 1;
+            cid = (int)labs.size() - 1;
         }
         c[i] = cid;
     }
@@ -317,7 +317,7 @@ void KM_modmat::_km_modmat_label_switching_core(
     )
 {
     /* Variable declarations */
-    int N = M.size();
+    int N = (int) M.size();
     vector<int> order(N);
     vector<double> degs(N);
     bool isupdated = false;
@@ -371,7 +371,7 @@ void KM_modmat::_coarsing(
     	vector<int>& toLayerId 
 	){
 		
-        int N = c.size();
+        int N = (int) c.size();
 	vector<int> ids(N,0);
     	int maxid = 0;
 	for(int i = 0;i<N;i++){
@@ -404,13 +404,13 @@ int KM_modmat::_count_non_empty_block(
     	vector<int>& c,
     	vector<double>& x
 	){
-	int N = c.size();
+	int N = (int) c.size();
 	vector<int> ids(N,0);
 	for(int i = 0; i< N; i++){
 		ids[i] = 2 * c[i] + (int)x[i];
 	}
 	sort(ids.begin(), ids.end());
-	return unique(ids.begin(), ids.end()) - ids.begin();
+	return (int) (unique(ids.begin(), ids.end()) - ids.begin());
 }
 
 void KM_modmat::_km_modmat_louvain_core(
@@ -421,7 +421,7 @@ void KM_modmat::_km_modmat_louvain_core(
 	){
 
 	// Intiialise variables	
-	int N = M.size();
+	int N = (int) M.size();
 	c.clear();
 	x.clear();
     	c.assign(N, 0); 
@@ -438,7 +438,7 @@ void KM_modmat::_km_modmat_louvain_core(
 
 	int cnet_N;
 	do{
-		cnet_N = cnet_M.size();
+		cnet_N = (int) cnet_M.size();
 		
 		// Core-periphery detection	
 		vector<int> cnet_c; // label of node in the coarse network, Mt 
@@ -467,7 +467,7 @@ void KM_modmat::_km_modmat_louvain_core(
 		_coarsing(cnet_M, cnet_c, cnet_x, new_cnet_M, toLayerId);
 		cnet_M = new_cnet_M;
 		
-		int sz = cnet_M.size();
+		int sz = (int) cnet_M.size();
 		if(sz == cnet_N) break;	
 			
 	}while( true );
@@ -485,7 +485,7 @@ void KM_modmat::_km_modmat_louvain(
     )
 {
 
-    int N = M.size();
+    int N = (int) M.size();
     c.clear();
     x.clear();
     c.assign(N, 0);
@@ -534,7 +534,7 @@ void KM_modmat::_km_modmat_louvain(
 			x[i] = xi[i];
 		    }
 		    q.clear();
-		    int K = qi.size();
+		    int K = (int) qi.size();
 	            vector<double> tmp(K,0.0);	
 		    q = tmp;
 		    for(int k = 0; k < K; k++){

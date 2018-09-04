@@ -89,9 +89,9 @@ void MINRES::calc_Q(
 {
 	
 	Q = 0.0;
-	int mcc=0;
-	int mpp = 0;
-	int ncc = 0;
+	double mcc=0;
+	double mpp = 0;
+	double ncc = 0;
 
 	int N = G.get_num_nodes();
 	for(int i = 0; i < N; i++){
@@ -119,7 +119,7 @@ Private functions (internal use only)
 -----------------------------*/
 vector<int> MINRES::_sortIndex(const vector<int>& Qs){
     vector<int> y(Qs.size());
-    size_t n(0);
+    int n;
     generate(std::begin(y), std::end(y), [&]{ return n++; });
 
     sort(  std::begin(y), 

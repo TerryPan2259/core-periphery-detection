@@ -450,7 +450,7 @@ void KM_config::_km_config_label_switching_core(
     std::vector<int> labs;
     for (int i = 0; i < N; i++) {
         int cid = -1;
-	int labsize = labs.size();
+	int labsize = (int) labs.size();
         for (int j = 0; j < labsize; j++) {
             if (labs[j] == c[i]) {
                 cid = j;
@@ -460,7 +460,7 @@ void KM_config::_km_config_label_switching_core(
 
         if (cid < 0) {
             labs.push_back(c[i]);
-            cid = labs.size() - 1;
+            cid = (int)labs.size() - 1;
         }
         c[i] = cid;
     }
@@ -506,7 +506,7 @@ void KM_config::_km_config_louvain(
 	
 		// Update the label of node in the original network, ct and xt.	
 		for(int i = 0; i< N; i++){
-			int cnet_id = toLayerId[2 * ct[i] + xt[i]];
+			int cnet_id = toLayerId[2 * ct[i] + (int)xt[i]];
 			ct[i] = cnet_c[ cnet_id ];
 			xt[i] = cnet_x[ cnet_id ];
 		}
@@ -545,7 +545,7 @@ void KM_config::_coarsing(
     	vector<int>& toLayerId 
 	){
 		
-        int N = c.size();
+        int N = (int) c.size();
 	vector<int> ids(N,0);
     	int maxid = 0;
 	for(int i = 0;i<N;i++){
@@ -585,11 +585,11 @@ void KM_config::_relabeling(
     	vector<int>& c
 	){
 
-    int N = c.size(); 
+    int N = (int) c.size(); 
     std::vector<int> labs;
     for (int i = 0; i < N; i++) {
         int cid = -1;
-	int labsize = labs.size();
+	int labsize = (int) labs.size();
         for (int j = 0; j < labsize; j++) {
             if (labs[j] == c[i]) {
                 cid = j;
@@ -599,7 +599,7 @@ void KM_config::_relabeling(
 
         if (cid < 0) {
             labs.push_back(c[i]);
-            cid = labs.size() - 1;
+            cid = (int) labs.size() - 1;
         }
         c[i] = cid;
     }
