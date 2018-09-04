@@ -15,15 +15,12 @@ matrix:
           python: 3.6
         - os: osx
           language: generic
-          env: PIP=pip3
           env: PYTHON=3.4.4
         - os: osx
           language: generic
-          env: PIP=pip3
           env: PYTHON=3.5.1
         - os: osx
           language: generic
-          env: PIP=pip3
           env: PYTHON=3.6.1
 
 before_install: |

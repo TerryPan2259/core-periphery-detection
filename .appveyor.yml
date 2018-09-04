@@ -11,11 +11,11 @@ environment:
     # isn't covered by this document) at the time of writing.
 
     - PYTHON: "C:\\Python34"
-      MSVC_VERSION: "Visual Studio 10"
+      MSVC_VERSION: "Visual Studio 14"
     - PYTHON: "C:\\Python35"
-      MSVC_VERSION: "Visual Studio 10"
+      MSVC_VERSION: "Visual Studio 14"
     - PYTHON: "C:\\Python36"
-      MSVC_VERSION: "Visual Studio 10"
+      MSVC_VERSION: "Visual Studio 14"
     - PYTHON: "C:\\Python35-x64"
 
 install:

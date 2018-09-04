@@ -6,7 +6,7 @@ import setuptools
 import os
 from setuptools import setup, find_packages
 
-__version__ = '0.0.11'
+__version__ = '0.0.12'
 
 
 def read(fname):
@@ -65,9 +65,10 @@ def cpp_flag(compiler):
 
     The c++14 is prefered over c++11 (when it is available).
     """
-    if has_flag(compiler, '-std=c++14'):
-        return '-std=c++14'
-    elif has_flag(compiler, '-std=c++11'):
+    #if has_flag(compiler, '-std=c++14'):
+    #   return '-std=c++14'
+    if has_flag(compiler, '-std=c++11'):
+    #elif has_flag(compiler, '-std=c++11'):
         return '-std=c++11'
     else:
         raise RuntimeError('Unsupported compiler -- at least C++11 support '
