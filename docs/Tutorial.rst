@@ -3,10 +3,10 @@ Tutorial
 =======================
 
 Preparing a graph
----------------------
+-----------------
 
-cpalgorithm takes a graph object implemented in NetworkX as input. 
-For example, making an empty graph is done by 
+The algorithms in cpalgorithm take NetworkX graph object as input. 
+Making an empty graph is done by 
 
 .. code-block:: python
 
@@ -23,7 +23,7 @@ One can create a graph object from a file "example.csv":
 .. note:: 
 
   The "example.csv" is a space-separated file consisting of two columns, where
-  each row corresponds to a pair of adjacent nodes connected by an edge.  
+  each row corresponds to a pair of adjacent nodes connected by an edge. See :ref:`examples`.
 
 See details in `NetworkX documentation <https://networkx.github.io/documentation/stable/>`_.
 
@@ -33,9 +33,8 @@ Core-periphery detection
 .. role:: python(code)
     :language: python
 
-
-We'll demonstrate how to use the KM algorithm [1].
-
+cpalgorithm contains several algorithms to find core-periphery structure in networks.
+Here, we apply the KM-config algorithm to the karate club network.
 
 Create an object called KM_config:
 
@@ -46,41 +45,51 @@ Create an object called KM_config:
 
    algorithm = cp.KM_config()
 
+Load the karate club network:
+ 
+.. code-block:: python
 
-Then, pass the network to :python:`detect()` method of the algorithm:
+   G = nx.karate_club_graph() # loading the karate club network
+
+
+Then, pass the graph to :python:`detect()` method:
 
 .. code-block:: python
   
-   G = nx.karate_club_graph() # loading the karate club network
- 
    algorithm.detect(G)
 
-Finally, retrieve the results by
 
+Retrieve the results by
 
 .. code-block:: python
   
    c = algorithm.get_pair_id()
    x = algorithm.get_coreness()
+
   
-which gives two dictionaries :python:`c` and :python:`x`.
-Dictionary :python:`c` consists of the names of nodes as keys and ID of the core-periphery pair to which the nodes belong as values, e.g.,  
+:python:`c` and :python:`x` are python dict objects. 
+Dictionary :python:`c` takes keys representing the node names, and integer values representing the IDs of the core-periphery pair to which to the node belongs.  
+For example,
  
 .. code-block:: python
 
    c = {NodeA: 0, NodeB: 1, NodeC: 0, NodeD: 2 ..., 
 
-In dictionary :python:`x`, keys are the node names, and values indicate coreness values, where coreness value 1 and 0 indicates a core or a peripheral node, respectively, e.g.,  
+means that NodeA and NodeC belong to core-periphery pair 0, NoedB belongs to core-periphery pair 1 and NodeD belongs to core-periphery pair 2. 
+
+Dictionary :python:`x` takes keys representing the node names, and float values representing the coreness values ranging between 0 and 1.
+Coreness value 1 and 0 indicates a core or a peripheral node, respectively. For example, 
 
 .. code-block:: python
 
    x = {NodeA: 1, NodeB: 1, NodeC: 0, NodeD: 1 ...,
 
-Note that coreness values can be float values, indicating the extent to which the node belongs to the core. 
+means NodeA, NodeB NodeD are core nodes and NodeC is a peripheral node. 
+Note that some algorithms set coreness values between 0 and 1, which indicates the extent to which the node belongs to the core. 
+
 
 One can use other algorithms in the same way. 
-For example, one can use the Borgatti-Everet algorithm as follows. 
- 
+For example, one needs to modify one line to use the Borgatti-Everet algorithm (e.g, cp.BE()). 
 
 .. code-block:: python
   
@@ -88,8 +97,9 @@ For example, one can use the Borgatti-Everet algorithm as follows.
    import networkx as nx
 
    algorithm = cp.BE()
+   #algorithm = cp.KM_config()
 
-   G = nx.karate_club_graph() # loading the karate club network
+   G = nx.karate_club_graph() 
    algorithm.detect(G)
  
    c = algorithm.get_pair_id()
@@ -99,11 +109,10 @@ The available algorithms are listed in :ref:`reference`.
 
 
 Statistical test
-------------------------
+----------------
 
-Core or peripheral nodes may largely correspond to large-degree or small-degree nodes, respectively.
-A question prompted by this observation is that does the detected core-periphery structure reveal something that cannot be explained by the degrees of nodes?
-To examine this point, cpalgorithm provides a statistical test for individual core-periphery pair [3].
+Likewise rich-club and various centrality measures, heterogeneous degree distribution alone may explain core-periphery structure.
+cpalgorithm provides a statistical test to examine the significance of individual core-periphery pairs. 
 The statistical test judges each detected core-periphery pair as insignificant if it can be explained largely by the degree (i.e., hub and non-hub nodes largely correspond to core and peripheral nodes, respectively). Otherwise, it judges a core-periphery pair as significant.  
 One can carry out the statistical test by writing a line of code: 
 
@@ -113,7 +122,7 @@ One can carry out the statistical test by writing a line of code:
 
 where :python:`significant` and :python:`p_values` are list objects.
 `sig_c` and `sig_x` are dict objects in which the insignificant core-periphery pairs are excluded. 
-List :python:`significant` is a boolean list, where :python:`significant[c]=True` or :python:`significant[c]=False` flag indicates that the cth core-periphery pair is significant (i.e., cannot be explained by nodes' degrees) or insignificant (i.e., can be explained by the nodes' degree), respectively, e.g.,  
+List :python:`significant` is a boolean list, where :python:`significant[c]=True` or :python:`significant[c]=False` flag indicates that the cth core-periphery pair is significant or insignificant, respectively, e.g., 
 
 .. code-block:: python
 
@@ -129,15 +138,6 @@ List :python:`p_values` is a float list, where :python:`p_values[c]` is the p-va
 
   The statistical test examines the significance of each core-periphery pair individually, which causes the multiple-comparisons problem. 
   To suppress the false positives, we adopt the e Šidák correction. 
-  In other words, the :python:`p_values` is computed first. Then, we apply the Šidák correction. The result is  :python:`significant`.
   The default significance level is 0.05.
-  
-
-References
-----------
-
-- [1] S. Kojaku and N. Masuda, N. J. Phys. 20, 043012 (2018)
-- [2] S. P. Borgatti and M. G. Everett, Soc. Netw. 21, 375 (2000) 
-- [3] S. Kojaku and N. Masuda, Sci. Rep. 8, 7351 (2018)
 
 

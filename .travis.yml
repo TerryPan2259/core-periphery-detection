@@ -7,29 +7,28 @@ matrix:
         - os: linux
           sudo: required
           python: 3.4
-          env: TOXENV=py34
+          install: pip3 install cpalgorithm
         - os: linux
           sudo: required
           python: 3.5
-          env: TOXENV=py35
+          install: pip3 install cpalgorithm
         - os: linux
           sudo: required
           python: 3.6
-          env: TOXENV=py36
+          install: pip3 install cpalgorithm
         - os: osx
           language: generic
-          env: TOXENV=py34
+	  env: PIP=pip3
+          install: python -m pip install cpalgorithm
         - os: osx
           language: generic
-          env: TOXENV=py35
+	  env: PIP=pip3
+          install: python -m pip install cpalgorithm
         - os: osx
           language: generic
-          env: TOXENV=py36
-
-# command to install dependencies
-install:
-  - pip install cpalgorithm
+	  env: PIP=pip3
+          install: python -m pip install cpalgorithm
 
 # command to run tests
 script:
-  - py.test tests/test.py 
+  - python tests/test.py 

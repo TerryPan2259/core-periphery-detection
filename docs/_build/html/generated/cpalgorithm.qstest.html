@@ -93,7 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../Examples.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../Reference.html">Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../Reference.html#core-periphery-detection-algorithms">Core-periphery detection algorithms</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../Reference.html#statistical-test">Statistical test</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../Reference.html#module-cpalgorithm">Statistical test</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">cpalgorithm.qstest</a></li>
 </ul>
 </li>
@@ -167,7 +167,7 @@
 <h1>cpalgorithm.qstest<a class="headerlink" href="#cpalgorithm-qstest" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="cpalgorithm.qstest">
-<code class="descname">qstest</code><span class="sig-paren">(</span><em>pair_id</em>, <em>coreness</em>, <em>G</em>, <em>cpa</em>, <em>significance_level=0.05</em>, <em>null_model=&lt;function config_model&gt;</em>, <em>sfunc=&lt;function sz_n&gt;</em>, <em>num_of_thread=4</em>, <em>num_of_rand_net=500</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cpalgorithm/qstest.html#qstest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cpalgorithm.qstest" title="Permalink to this definition">¶</a></dt>
+<code class="descname">qstest</code><span class="sig-paren">(</span><em>pair_id</em>, <em>coreness</em>, <em>G</em>, <em>cpa</em>, <em>significance_level=0.05</em>, <em>null_model=&lt;function config_model&gt;</em>, <em>sfunc=&lt;function sz_n&gt;</em>, <em>num_of_thread=4</em>, <em>num_of_rand_net=500</em>, <em>q_tilde=[]</em>, <em>s_tilde=[]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cpalgorithm/qstest.html#qstest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cpalgorithm.qstest" title="Permalink to this definition">¶</a></dt>
 <dd><p>(q,s)-test for core-periphery structure.</p>
 <p>This function computes the significance of individual core-periphery pairs using either the Erdos-Renyi or the configuration model as the null model.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -261,7 +261,7 @@ Scientific Reports, 8:7351 (2018)</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2018-2018, Sadamori Kojaku.
-      Last updated on Aug 08, 2018.
+      Last updated on Sep 04, 2018.
 
     </p>
   </div>

@@ -89,7 +89,11 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install">Install</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="Tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Reference.html">Reference</a></li>
@@ -157,8 +161,24 @@
             
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>cpalgorithm requires Python 3.4 or above.
-We assume you have the latest <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pip</span></span></code> (a package manager for Python).</p>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>You need to have the latest <code class="code python docutils literal notranslate"><span class="name"><span class="pre">pip</span></span></code> (a package manager for Python) and one of the following compilers:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Clang/LLVM 3.3 or newer (for Apple Xcode’s clang, this is 5.0.0 or newer)</li>
+<li>GCC 4.8 or newer</li>
+<li>Microsoft Visual Studio 2015 Update 3 or newer</li>
+<li>Intel C++ compiler 17 or newer</li>
+<li>Cygwin/GCC (tested on 2.5.1)</li>
+</ul>
+</div></blockquote>
+<p>Currently, cpalgorithm is tested on (Ubuntu and CentOS).
+We confirmed that cpalgorithm can also run on MacOS.
+We haven’t tested it on Windows.</p>
+</div>
+<div class="section" id="install">
+<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
 <p>To install cpalgorithm,</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip3 install cpalgorithm
 </pre></div>
@@ -170,6 +190,7 @@ We assume you have the latest <code class="code python docutils literal notransl
 <p>You can upgrade a newer release by</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip3 install --upgrade cpalgorithm
 </pre></div>
+</div>
 </div>
 </div>
 
@@ -194,7 +215,7 @@ We assume you have the latest <code class="code python docutils literal notransl
   <div role="contentinfo">
     <p>
         &copy; Copyright 2018-2018, Sadamori Kojaku.
-      Last updated on Aug 08, 2018.
+      Last updated on Sep 04, 2018.
 
     </p>
   </div>

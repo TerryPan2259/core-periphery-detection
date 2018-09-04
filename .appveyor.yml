@@ -1,3 +1,6 @@
+image:
+  - Visual Studio 2017
+
 environment:
 
   matrix:
@@ -8,15 +11,16 @@ environment:
     # isn't covered by this document) at the time of writing.
 
     - PYTHON: "C:\\Python34"
+      MSVC_VERSION: "Visual Studio 10"
     - PYTHON: "C:\\Python35"
+      MSVC_VERSION: "Visual Studio 10"
     - PYTHON: "C:\\Python36"
+      MSVC_VERSION: "Visual Studio 10"
     - PYTHON: "C:\\Python35-x64"
 
 install:
-  # We need wheel installed to build wheels
-  - "%PYTHON%\\python.exe -m pip install wheel"
-  - "%PYTHON%\\python.exe -m pip install -r requirements.txt"
-  - "%PYTHON%\\python.exe -m pip install install cpalgorithm"
+  - "%PYTHON%\\python.exe -m pip install --upgrade pip"
+  - "%PYTHON%\\python.exe -m pip install cpalgorithm"
 
 build: off
 
@@ -35,7 +39,6 @@ after_test:
   # Again, you only need build.cmd if you're building C extensions for
   # 64-bit Python 3.3/3.4. And you need to use %PYTHON% to get the correct
   # interpreter
-  - "build.cmd %PYTHON%\\python.exe setup.py bdist_wheel"
 
 artifacts:
   # bdist_wheel puts your built wheel in the dist directory

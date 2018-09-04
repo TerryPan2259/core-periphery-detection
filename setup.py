@@ -6,7 +6,7 @@ import setuptools
 import os
 from setuptools import setup, find_packages
 
-__version__ = '0.0.3'
+__version__ = '0.0.8'
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
@@ -37,8 +37,8 @@ ext_modules = [
 	    'include'
         ],
         language='c++',
-        extra_link_args=['-lgomp'],
-	extra_compile_args=['-fopenmp']
+        #extra_link_args=['-lgomp'],
+	#extra_compile_args=['-fopenmp']
     ),
 ]
 
@@ -88,7 +88,7 @@ class BuildExt(build_ext):
         if ct == 'unix':
             opts.append('-DVERSION_INFO="%s"' % self.distribution.get_version())
             opts.append(cpp_flag(self.compiler))
-            opts.append('-fopenmp')
+            #opts.append('-fopenmp')
             if has_flag(self.compiler, '-fvisibility=hidden'):
                 opts.append('-fvisibility=hidden')
         elif ct == 'msvc':

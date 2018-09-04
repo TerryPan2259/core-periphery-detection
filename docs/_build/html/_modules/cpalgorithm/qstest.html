@@ -156,6 +156,7 @@
   <h1>Source code for cpalgorithm.qstest</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="k">as</span> <span class="nn">mp</span>
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">norm</span>
 
@@ -179,7 +180,7 @@
     <span class="n">p</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">density</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">nx</span><span class="o">.</span><span class="n">fast_gnp_random_graph</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
 
-<div class="viewcode-block" id="qstest"><a class="viewcode-back" href="../../generated/cpalgorithm.qstest.html#cpalgorithm.qstest">[docs]</a><span class="k">def</span> <span class="nf">qstest</span><span class="p">(</span><span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">cpa</span><span class="p">,</span> <span class="n">significance_level</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">null_model</span> <span class="o">=</span> <span class="n">config_model</span><span class="p">,</span> <span class="n">sfunc</span> <span class="o">=</span> <span class="n">sz_n</span><span class="p">,</span> <span class="n">num_of_thread</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">num_of_rand_net</span> <span class="o">=</span> <span class="mi">500</span> <span class="p">):</span>
+<div class="viewcode-block" id="qstest"><a class="viewcode-back" href="../../generated/cpalgorithm.qstest.html#cpalgorithm.qstest">[docs]</a><span class="k">def</span> <span class="nf">qstest</span><span class="p">(</span><span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">cpa</span><span class="p">,</span> <span class="n">significance_level</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">null_model</span> <span class="o">=</span> <span class="n">config_model</span><span class="p">,</span> <span class="n">sfunc</span> <span class="o">=</span> <span class="n">sz_n</span><span class="p">,</span> <span class="n">num_of_thread</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">num_of_rand_net</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">q_tilde</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">s_tilde</span> <span class="o">=</span> <span class="p">[]):</span>
     <span class="sd">&quot;&quot;&quot;(q,s)-test for core-periphery structure.</span>
 <span class="sd">    </span>
 <span class="sd">    This function computes the significance of individual core-periphery pairs using either the Erdos-Renyi or the configuration model as the null model. </span>
@@ -266,18 +267,20 @@
     <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sfunc</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pair_id</span><span class="p">,</span> <span class="n">coreness</span><span class="p">)</span> <span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
     <span class="n">C</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
     <span class="n">alpha_corrected</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">significance_level</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">C</span><span class="p">))</span>
-        
-    <span class="n">q_tilde</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">s_tilde</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">if</span> <span class="n">num_of_thread</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">q_tilde</span><span class="p">,</span> <span class="n">s_tilde</span> <span class="o">=</span> <span class="n">draw_qs_samples</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">sfunc</span><span class="p">,</span> <span class="n">cpa</span><span class="p">,</span> <span class="n">null_model</span><span class="p">,</span> <span class="n">num_of_rand_net</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">private_args</span> <span class="o">=</span> <span class="p">[(</span><span class="n">G</span><span class="p">,</span> <span class="n">sfunc</span><span class="p">,</span> <span class="n">cpa</span><span class="p">,</span> <span class="n">null_model</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">num_of_rand_net</span> <span class="o">/</span> <span class="n">num_of_thread</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_of_thread</span><span class="p">)]</span>
-        <span class="n">pool</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">num_of_thread</span><span class="p">)</span>
-        <span class="n">qs_tilde</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">wrapper_draw_qs_samples</span><span class="p">,</span> <span class="n">private_args</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_of_thread</span><span class="p">):</span>
-            <span class="n">q_tilde</span> <span class="o">+=</span> <span class="n">qs_tilde</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> 
-            <span class="n">s_tilde</span> <span class="o">+=</span> <span class="n">qs_tilde</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">q_tilde</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> 
+	    <span class="n">q_tilde</span> <span class="o">=</span> <span class="p">[]</span>
+	    <span class="n">s_tilde</span> <span class="o">=</span> <span class="p">[]</span>
+	    <span class="k">if</span> <span class="n">num_of_thread</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+	        <span class="n">q_tilde</span><span class="p">,</span> <span class="n">s_tilde</span> <span class="o">=</span> <span class="n">draw_qs_samples</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">sfunc</span><span class="p">,</span> <span class="n">cpa</span><span class="p">,</span> <span class="n">null_model</span><span class="p">,</span> <span class="n">num_of_rand_net</span><span class="p">)</span>
+	    <span class="k">else</span><span class="p">:</span>
+	        <span class="n">private_args</span> <span class="o">=</span> <span class="p">[(</span><span class="n">G</span><span class="p">,</span> <span class="n">sfunc</span><span class="p">,</span> <span class="n">cpa</span><span class="p">,</span> <span class="n">null_model</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">num_of_rand_net</span> <span class="o">/</span> <span class="n">num_of_thread</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_of_thread</span><span class="p">)]</span>
+	        <span class="n">pool</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">num_of_thread</span><span class="p">)</span>
+	        <span class="n">qs_tilde</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">wrapper_draw_qs_samples</span><span class="p">,</span> <span class="n">private_args</span><span class="p">)</span>
+	        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_of_thread</span><span class="p">):</span>
+	            <span class="n">q_tilde</span> <span class="o">+=</span> <span class="n">qs_tilde</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> 
+	            <span class="n">s_tilde</span> <span class="o">+=</span> <span class="n">qs_tilde</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
     
     <span class="n">q_tilde</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">q_tilde</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>    
     <span class="n">s_tilde</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">s_tilde</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>    
@@ -313,8 +316,8 @@
             <span class="n">cid2newcid</span><span class="p">[</span><span class="n">cid</span><span class="p">]</span> <span class="o">=</span> <span class="n">cidx</span>
             <span class="n">cidx</span><span class="o">+=</span><span class="mi">1</span> 
         
-    <span class="n">sig_pair_id</span> <span class="o">=</span> <span class="n">pair_id</span>
-    <span class="n">sig_coreness</span> <span class="o">=</span> <span class="n">coreness</span>
+    <span class="n">sig_pair_id</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">pair_id</span><span class="p">)</span>
+    <span class="n">sig_coreness</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">coreness</span><span class="p">)</span>
    
 	 
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">sig_pair_id</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -357,7 +360,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2018-2018, Sadamori Kojaku.
-      Last updated on Aug 08, 2018.
+      Last updated on Sep 04, 2018.
 
     </p>
   </div>

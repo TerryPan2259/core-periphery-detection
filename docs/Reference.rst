@@ -47,8 +47,6 @@ Statistical test
 
 .. currentmodule:: cpalgorithm
 
-.. rubric:: Algorithms for finding single core-periphery structure
-
 .. automodule:: cpalgorithm
 
 .. autosummary::

@@ -102,4 +102,13 @@ def test_KM_config():
 	coreness = km.get_coreness()
 	sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, km)
 
+test_BE()
+test_MINRES()
+test_SBM()
 test_LowRankCore()
+test_LapCore()
+test_LapSgnCore()
+test_Rombach()
+test_Rossa()
+test_KM_ER()
+test_KM_config()
