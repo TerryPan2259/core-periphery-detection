@@ -10,27 +10,22 @@ matrix:
         - os: linux
           sudo: required
           python: 3.5
-          install: pip3 install cpalgorithm
         - os: linux
           sudo: required
           python: 3.6
-          install: pip3 install cpalgorithm
         - os: osx
           language: generic
           env: PIP=pip3
-          install: python -m pip install cpalgorithm
         - os: osx
           language: generic
           env: PIP=pip3
-          install: python -m pip install cpalgorithm
         - os: osx
           language: generic
           env: PIP=pip3
-          install: python -m pip install cpalgorithm
 
 install: 
-   - python -m pip install cpalgorithm
+   - python3 -m pip install cpalgorithm
 
 # command to run tests
 script:
-  - python tests/test.py 
+  - python3 tests/test.py 
