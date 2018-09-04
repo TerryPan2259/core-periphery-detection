@@ -6,7 +6,8 @@ df = pd.read_csv('data/example_edge_list.dat', sep=',') # Load a list of edges (
 
 G = nx.from_pandas_edgelist(df) # NetworkX graph object
 
-be = cp.KM_ER()
+G = nx.karate_club_graph() 
+be = cp.MINRES()
 be.detect(G)
 c = be.get_pair_id()
 x = be.get_coreness()

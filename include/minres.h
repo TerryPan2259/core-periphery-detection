@@ -117,13 +117,15 @@ void MINRES::calc_Q(
 /*-----------------------------
 Private functions (internal use only)
 -----------------------------*/
-vector<int> MINRES::_sortIndex(const vector<int>& Qs){
-    vector<int> y(Qs.size());
-    int n;
-    generate(std::begin(y), std::end(y), [&]{ return n++; });
-
-    sort(  std::begin(y), 
-                std::end(y),
-                [&](int i1, int i2) { return Qs[i1] > Qs[i2]; } );
-    return y;
+vector<int> MINRES::_sortIndex(const vector<int>& data){
+	vector<int> index((int)data.size(), 0);
+	for (int i = 0 ; i != index.size() ; i++) {
+    		index[i] = i;
+	}
+	sort(index.begin(), index.end(),
+    		[&](const int& a, const int& b) {
+        	return (data[a] > data[b]);
+    		}
+	);
+    return index;
 }
