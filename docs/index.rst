@@ -20,8 +20,8 @@ What is core-periphery structure?
 Core-periphery structure is a mesoscale structure of networks, where a core is a group of densely interconnected nodes, and a periphery is a group of sparsely interconnected nodes. 
 Core-periphery structure has been found in various empirical networks such as social networks, biological networks and transportation networks [1, 2].
 The core and peripheral nodes may play different roles in networks. 
-An example is social network, where core and peripheal nodes often correspond to leaders and followers [1].
-Another example is transportation network, where core and peripheral nodes largely correspond to hub and regional airports [3].  
+An example is social networks, where core and peripheal nodes often correspond to leaders and followers [1].
+Another example is airport networks, where core and peripheral nodes largely correspond to hub and regional airports [3].  
  
 
 Networks may contain a single core-periphery pair or multiple core-periphery pairs.
