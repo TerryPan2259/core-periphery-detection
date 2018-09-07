@@ -4,4 +4,4 @@
 Contact
 #######
 
-cpalgorithm is maintained by `Sadamori Kojaku <https://skojaku.github.io/>`. 
+cpalgorithm is maintained by `Sadamori Kojaku <https://skojaku.github.io/>`_. 
