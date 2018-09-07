@@ -53,9 +53,9 @@ References
 
    Installation 
    Tutorial 
-   FAQ/FAQ 
-   Examples
    Reference 
+   Examples
+   FAQ/FAQ 
    Contact 
 
 Indices and tables
