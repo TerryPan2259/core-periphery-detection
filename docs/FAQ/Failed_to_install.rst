@@ -23,7 +23,7 @@ Also, you need to install `pybind11 <https://github.com/pybind/pybind11>`_.
 cpalgorithm is not compatible with Conda
 ========================================
 
-Installing packages via pip may destroys `Conda <https://conda.io/docs/index.html>`_.
+Installing packages via pip may destroy `Conda <https://conda.io/docs/index.html>`_.
 Consider installing the package from source. See :ref:`install_from_source`. 
  
 
