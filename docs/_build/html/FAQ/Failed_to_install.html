@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; cpalgorithm 0.0.1 documentation</title>
+  <title>Failed to install cpalgorithm &mdash; cpalgorithm 0.0.1 documentation</title>
   
 
   
@@ -32,7 +32,9 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="My program is too slow. Why?" href="Program_is_too_slow.html" />
+    <link rel="prev" title="Frequently Asked Questions" href="FAQ.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -86,10 +88,20 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../Installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tutorial.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../FAQ/FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="FAQ.html">Frequently Asked Questions</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Failed to install cpalgorithm</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cpalgorithm-is-not-compatible-with-conda">cpalgorithm is not compatible with Conda</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#check-python-version">Check python version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#change-os">Change OS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-from-source">Install from source</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Program_is_too_slow.html">My program is too slow. Why?</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../Examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Reference.html">Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Contact.html">Contact</a></li>
@@ -138,7 +150,9 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>&lt;no title&gt;</li>
+          <li><a href="FAQ.html">Frequently Asked Questions</a> &raquo;</li>
+        
+      <li>Failed to install cpalgorithm</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -155,49 +169,71 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="sphx-glr-download-link-note admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Click <a class="reference internal" href="#sphx-glr-download-auto-examples-example-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+  <div class="section" id="failed-to-install-cpalgorithm">
+<span id="id1"></span><h1>Failed to install cpalgorithm<a class="headerlink" href="#failed-to-install-cpalgorithm" title="Permalink to this headline">¶</a></h1>
+<p>cpalgorithm contains c++ extension modules which need to be compiled.</p>
+<p>First, please make sure that you have one of the following compilers:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Clang/LLVM 3.3 or newer (for Apple Xcode’s clang, this is 5.0.0 or newer)</li>
+<li>GCC 4.8 or newer</li>
+<li>Microsoft Visual C++ Build Tools 2015 or newer</li>
+<li>Intel C++ compiler 17 or newer</li>
+<li>Cygwin/GCC (tested on 2.5.1)</li>
+</ul>
+</div></blockquote>
+<p>Also, you need to install <a class="reference external" href="https://github.com/pybind/pybind11">pybind11</a>.</p>
+<div class="section" id="cpalgorithm-is-not-compatible-with-conda">
+<h2>cpalgorithm is not compatible with Conda<a class="headerlink" href="#cpalgorithm-is-not-compatible-with-conda" title="Permalink to this headline">¶</a></h2>
+<p>Installing packages via pip may destroys <a class="reference external" href="https://conda.io/docs/index.html">Conda</a>.
+Consider installing the package from source. See <a class="reference internal" href="#install-from-source"><span class="std std-ref">Install from source</span></a>.</p>
 </div>
-<p class="sphx-glr-example-title" id="sphx-glr-auto-examples-example-py">Detect core-periphery structure in empirical networks.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cpalgorithm</span> <span class="kn">as</span> <span class="nn">cp</span>
-<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="kn">as</span> <span class="nn">stats</span>
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
-<span class="kn">import</span> <span class="nn">cpalgorithm</span> <span class="kn">as</span> <span class="nn">cpa</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="c1"># load graph</span>
-<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">karate_club_graph</span><span class="p">()</span>
-<span class="n">G</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">to_undirected</span><span class="p">()</span>
-
-<span class="c1"># load algorithm</span>
-<span class="n">alg</span> <span class="o">=</span> <span class="n">cpa</span><span class="o">.</span><span class="n">BE</span><span class="p">()</span>
-
-<span class="c1"># Core-periphery detection</span>
-<span class="n">alg</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
-
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;core-periphery IDs&quot;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">alg</span><span class="o">.</span><span class="n">get_pair_id</span><span class="p">())</span>
-
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Coreness &quot;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">alg</span><span class="o">.</span><span class="n">get_coreness</span><span class="p">())</span>
+<div class="section" id="check-python-version">
+<h2>Check python version<a class="headerlink" href="#check-python-version" title="Permalink to this headline">¶</a></h2>
+<p>cpalgorithm is not compatible with python 2.x.
+Use python version 3.4 or newer.</p>
+</div>
+<div class="section" id="change-os">
+<h2>Change OS<a class="headerlink" href="#change-os" title="Permalink to this headline">¶</a></h2>
+<p>The library is frequently tested on Ubuntu 16.04 and CentOS 7, and occasionally on Windows 10 and MacOS.
+So if you failed to install on Windows and MacOS, then consider using Ubuntu or CentOS.</p>
+</div>
+<div class="section" id="install-from-source">
+<span id="id2"></span><h2>Install from source<a class="headerlink" href="#install-from-source" title="Permalink to this headline">¶</a></h2>
+<p>If you failed to install via pip, another option is to build from source.
+Download the source code from GitHub, e.g.,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/skojaku/core-periphery-detection
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  0.000 seconds)</p>
-<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-py">
-<div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/example.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">example.py</span></code></a></div>
-<div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/example.ipynb" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">example.ipynb</span></code></a></div>
+<p>Then, move to the directory</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> core-periphery-detection
+</pre></div>
 </div>
-<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
+<p>Type</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m pip install .
+</pre></div>
+</div>
+<p>If you are luckily, you can install the package (Congratulations!).
+If you could not, then find out the error messages.
+In many cases, the compilers do not support std=c++11 or do not meet the requirements mentioned above.
+In this case, upgrade the compilers.</p>
+</div>
+</div>
 
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Program_is_too_slow.html" class="btn btn-neutral float-right" title="My program is too slow. Why?" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="FAQ.html" class="btn btn-neutral" title="Frequently Asked Questions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

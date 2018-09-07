@@ -1,0 +1,348 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>My program is too slow. Why? &mdash; cpalgorithm 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+      <link rel="search" type="application/opensearchdescription+xml"
+            title="Search within cpalgorithm 0.0.1 documentation"
+            href="../_static/opensearch.xml"/>
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Examples" href="../Examples.html" />
+    <link rel="prev" title="Failed to install cpalgorithm" href="Failed_to_install.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cpalgorithm
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="FAQ.html">Frequently Asked Questions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Failed_to_install.html">Failed to install cpalgorithm</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">My program is too slow. Why?</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#combine-multi-edges">Combine multi-edges</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shorten-node-name">Shorten node name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#use-parallel-computing">Use parallel computing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cpalgorithm</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="FAQ.html">Frequently Asked Questions</a> &raquo;</li>
+        
+      <li>My program is too slow. Why?</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="my-program-is-too-slow-why">
+<span id="program-is-too-slow"></span><h1>My program is too slow. Why?<a class="headerlink" href="#my-program-is-too-slow-why" title="Permalink to this headline">¶</a></h1>
+<p>cpalgorithm can be slow for some reasons and here is the workaround.</p>
+<div class="section" id="combine-multi-edges">
+<h2>Combine multi-edges<a class="headerlink" href="#combine-multi-edges" title="Permalink to this headline">¶</a></h2>
+<p>If there are multiple edges between the same pair of nodes in your neworkx graph object <code class="code python docutils literal notranslate"><span class="name"><span class="pre">G</span></span></code>,
+consider aggregating the multiple edges into one edge, that is to replace the multiple edges with a single edge having a weight, where the weight indicates the number of edges (or the sum of the weight over the multiple edges) between the pair of nodes.</p>
+<p>This can be done by</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Gnew</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">data</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;weight&#39;</span> <span class="ow">in</span> <span class="n">data</span> <span class="k">else</span> <span class="mf">1.0</span>
+    <span class="k">if</span> <span class="n">Gnew</span><span class="o">.</span><span class="n">has_edge</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">):</span>
+        <span class="n">Gnew</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">][</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">w</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">Gnew</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <code class="code python docutils literal notranslate"><span class="name"><span class="pre">G</span></span></code> is the network containing multi-edges, and <code class="code python docutils literal notranslate"><span class="name"><span class="pre">Gnew</span></span></code> is the network without multiple edges.</p>
+</div>
+<div class="section" id="shorten-node-name">
+<h2>Shorten node name<a class="headerlink" href="#shorten-node-name" title="Permalink to this headline">¶</a></h2>
+<p>cpalgorithm internally converts nodes’ names, which can be string or number, into unique integers.
+This process can be slow if the nodes’ names are long.</p>
+<p>One can check the nodes’ names by</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>One can reduce the computational time by shortening the name of each node, e.g., integers.</p>
+</div>
+<div class="section" id="use-parallel-computing">
+<h2>Use parallel computing<a class="headerlink" href="#use-parallel-computing" title="Permalink to this headline">¶</a></h2>
+<p>Some algorithms provide different results on different runs.
+cpalgorithm runs such algorithms several times with different random seeds.
+Then, it chooses the one yielding the largest quality value.
+If we run the algorithm in parallel, then computational time would be reduced.</p>
+<p>Here is an example of how to do this:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">cpalgorithm</span> <span class="kn">as</span> <span class="nn">cp</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span>
+
+<span class="c1"># A function for reducing computation time in algorithm using parallel computing</span>
+<span class="k">def</span> <span class="nf">par_detect_cp</span><span class="p">(</span><span class="n">num_of_cores</span><span class="p">,</span> <span class="n">num_runs</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
+     <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="n">num_of_cores</span><span class="p">)</span>
+     <span class="n">results</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">_detect_cp</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_runs</span><span class="p">)))</span>
+     <span class="n">algorithm</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">score</span><span class="p">()),</span> <span class="n">results</span><span class="p">)))]</span>
+     <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+     <span class="k">return</span> <span class="n">algorithm</span>
+
+<span class="c1"># This is an internal function of detect_cp</span>
+<span class="k">def</span> <span class="nf">_detect_cp</span><span class="p">(</span><span class="n">_rubbish</span><span class="p">):</span>
+     <span class="n">alg</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">KM_config</span><span class="p">(</span><span class="n">num_runs</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+     <span class="n">alg</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+     <span class="k">return</span> <span class="n">alg</span>
+
+
+<span class="c1"># Construct Graph object</span>
+<span class="k">global</span> <span class="n">G</span> <span class="c1"># Declare the graph object as a global variable to save memory</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">karate_club_graph</span><span class="p">()</span>
+
+<span class="n">algorithm</span> <span class="o">=</span> <span class="n">par_detect_cp</span><span class="p">(</span><span class="n">num_of_cores</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">num_runs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">get_pair_id</span><span class="p">()</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">get_coreness</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Name</span><span class="se">\t</span><span class="s1">PairID</span><span class="se">\t</span><span class="s1">Coreness&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+     <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="se">\t</span><span class="si">%d</span><span class="se">\t</span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">c</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
+</pre></div>
+</td></tr></table></div>
+<p>In this example, the networkx graph object is constructed in lines 22 and 23.
+The algorithm is set in line 16.
+In line 25, we specify the number of cores by <code class="code python docutils literal notranslate"><span class="name"><span class="pre">num_cores</span></span><span class="operator"><span class="pre">=</span></span><span class="literal number integer"><span class="pre">10</span></span></code>.
+<code class="code python docutils literal notranslate"><span class="name"><span class="pre">num_runs</span></span></code> is the number of times that cpalglrithm runs the algorithm.
+Default is <code class="code python docutils literal notranslate"><span class="name"><span class="pre">num_runs</span></span><span class="operator"><span class="pre">=</span></span><span class="literal number integer"><span class="pre">10</span></span></code>. <code class="code python docutils literal notranslate"><span class="name"><span class="pre">num_cores</span></span></code> should be equal or smaller than  <code class="code python docutils literal notranslate"><span class="name"><span class="pre">num_runs</span></span></code>.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../Examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Failed_to_install.html" class="btn btn-neutral" title="Failed to install cpalgorithm" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018-2018, Sadamori Kojaku.
+      Last updated on Sep 07, 2018.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/copybutton.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

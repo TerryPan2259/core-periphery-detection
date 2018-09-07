@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; cpalgorithm 0.0.1 documentation</title>
+  <title>Frequently Asked Questions &mdash; cpalgorithm 0.0.1 documentation</title>
   
 
   
@@ -32,7 +32,9 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Failed to install cpalgorithm" href="Failed_to_install.html" />
+    <link rel="prev" title="Tutorial" href="../Tutorial.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -86,10 +88,14 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../Installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tutorial.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../FAQ/FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Frequently Asked Questions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Failed_to_install.html">Failed to install cpalgorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Program_is_too_slow.html">My program is too slow. Why?</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../Examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Reference.html">Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Contact.html">Contact</a></li>
@@ -138,7 +144,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>&lt;no title&gt;</li>
+      <li>Frequently Asked Questions</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -155,49 +161,30 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="sphx-glr-download-link-note admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Click <a class="reference internal" href="#sphx-glr-download-auto-examples-example-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+  <div class="section" id="frequently-asked-questions">
+<span id="faq"></span><h1>Frequently Asked Questions<a class="headerlink" href="#frequently-asked-questions" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Failed_to_install.html">Failed to install cpalgorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Program_is_too_slow.html">My program is too slow. Why?</a></li>
+</ul>
 </div>
-<p class="sphx-glr-example-title" id="sphx-glr-auto-examples-example-py">Detect core-periphery structure in empirical networks.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cpalgorithm</span> <span class="kn">as</span> <span class="nn">cp</span>
-<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="kn">as</span> <span class="nn">stats</span>
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
-<span class="kn">import</span> <span class="nn">cpalgorithm</span> <span class="kn">as</span> <span class="nn">cpa</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="c1"># load graph</span>
-<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">karate_club_graph</span><span class="p">()</span>
-<span class="n">G</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">to_undirected</span><span class="p">()</span>
-
-<span class="c1"># load algorithm</span>
-<span class="n">alg</span> <span class="o">=</span> <span class="n">cpa</span><span class="o">.</span><span class="n">BE</span><span class="p">()</span>
-
-<span class="c1"># Core-periphery detection</span>
-<span class="n">alg</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
-
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;core-periphery IDs&quot;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">alg</span><span class="o">.</span><span class="n">get_pair_id</span><span class="p">())</span>
-
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Coreness &quot;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">alg</span><span class="o">.</span><span class="n">get_coreness</span><span class="p">())</span>
-</pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  0.000 seconds)</p>
-<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-example-py">
-<div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/example.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">example.py</span></code></a></div>
-<div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/example.ipynb" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">example.ipynb</span></code></a></div>
-</div>
-<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
 
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Failed_to_install.html" class="btn btn-neutral float-right" title="Failed to install cpalgorithm" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../Tutorial.html" class="btn btn-neutral" title="Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

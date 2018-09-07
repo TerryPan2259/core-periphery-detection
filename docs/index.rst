@@ -69,11 +69,14 @@ Other types of core-periphery structure such as transportation-based core-periph
 .. toctree::
    :maxdepth: 2 
    :caption: Contents:
+   :glob:
 
    Installation 
    Tutorial 
+   FAQ/FAQ 
    Examples
    Reference 
+   Contact 
 
 Indices and tables
 ==================
