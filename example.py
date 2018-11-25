@@ -5,9 +5,8 @@ import networkx as nx
 import cpalgorithm as cp
 
 G=nx.karate_club_graph()
-G=nx.florentine_families_graph()
 	
-be = cp.KM_config()
+be = cp.Surprise()
 
 be.detect(G)
 
