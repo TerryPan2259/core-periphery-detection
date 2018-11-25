@@ -6,7 +6,8 @@ import setuptools
 import os
 from setuptools import setup, find_packages
 
-__version__ = '0.0.1'
+__version__ = '0.0.12'
+
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
@@ -34,14 +35,14 @@ ext_modules = [
             # Path to pybind11 headers
             get_pybind_include(),
             get_pybind_include(user=True),
+	    'pybind11/include',
 	    'include'
         ],
         language='c++',
-        extra_link_args=['-lgomp'],
-	extra_compile_args=['-fopenmp']
+        #extra_link_args=['-lgomp'],
+	#extra_compile_args=['-fopenmp']
     ),
 ]
-print(ext_modules)
 
 # As of Python 3.6, CCompiler has a `has_flag` method.
 # cf http://bugs.python.org/issue26689
@@ -64,9 +65,10 @@ def cpp_flag(compiler):
 
     The c++14 is prefered over c++11 (when it is available).
     """
-    if has_flag(compiler, '-std=c++14'):
-        return '-std=c++14'
-    elif has_flag(compiler, '-std=c++11'):
+    #if has_flag(compiler, '-std=c++14'):
+    #   return '-std=c++14'
+    if has_flag(compiler, '-std=c++11'):
+    #elif has_flag(compiler, '-std=c++11'):
         return '-std=c++11'
     else:
         raise RuntimeError('Unsupported compiler -- at least C++11 support '
@@ -89,7 +91,7 @@ class BuildExt(build_ext):
         if ct == 'unix':
             opts.append('-DVERSION_INFO="%s"' % self.distribution.get_version())
             opts.append(cpp_flag(self.compiler))
-            opts.append('-fopenmp')
+            #opts.append('-fopenmp')
             if has_flag(self.compiler, '-fvisibility=hidden'):
                 opts.append('-fvisibility=hidden')
         elif ct == 'msvc':
@@ -104,11 +106,12 @@ setup(
     author='Sadamori Kojaku',
     author_email='freesailing4046@gmail.com',
     description='Algorithm for finding multiple core-periphery pairs in networks',
-    long_description=read('README.md'),
+    long_description="sada",
     url='https://github.com/skojaku/core-periphery-detection',
     ext_modules=ext_modules,
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
-    install_requires=['pybind11>=2.2', 'networkx>=2.0', 'numpy>=1.14.2'],
+    install_requires=['pybind11>=2.2','networkx>=2.0', 'numpy>=1.14.2', 'simanneal', 'scipy>=1.1.0'],
+#install_requires=['pybind11>=2.2', 'networkx>=2.0', 'numpy>=1.14.2', 'scipy>=1.1.0', 'simanneal'],
     cmdclass={'build_ext': BuildExt},
     zip_safe=False,
     include_package_data=True,
@@ -122,5 +125,5 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
-    keywords='network core-periphery structure',
+    keywords='network core-periphery structure'
 )

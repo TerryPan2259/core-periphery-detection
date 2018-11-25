@@ -2,27 +2,23 @@ import csv
 import numpy as np
 import pandas as pd
 import networkx as nx
+import _cpalgorithm as _cp
+import cpalgorithm as cp
 
-#import km_config as kmconfig
-from kmalgorithm import km_config, km_modmat
-
-#linkfilename='example_edge_list.txt'
-#df = pd.read_csv(linkfilename, sep=' ')
 G=nx.karate_club_graph()
-#Gi = nx.convert_node_labels_to_integers(G)
-node2id = dict(zip(G.nodes, range(len(G.nodes))))
-id2node= dict((v,k) for k,v in node2id.items())
+#G=nx.florentine_families_graph()
+#df = pd.read_csv("karate.dat", sep='\t');
+#G = nx.from_pandas_edgelist(df, "source", 'target', 'weight')
 
-nx.relabel_nodes(G, node2id,False)
-edges = G.edges(data="weight")	
+be = cp.BE()
 
-node_pairs = np.array([ [edge[0], edge[1]] for edge in edges ]).astype(int)
-w = np.array([ edge[2] for edge in edges ]).astype(float)
+Q = []
+be.detect(G)
+c = be.get_pair_id()
+x = be.is_core()
 
-if all(np.isnan(w)):
-	nx.set_edge_attributes(G, values =1, name='weight')
-	w[:] = 1.0
-print(w, node_pairs)
-cppairs = km_config(G, significance_level = 0.05)
+print(sum(be.score()))
 
-print(cppairs)
+#significance, p_values, q_tilde, s_tilde = cp.qstest(c, x, G, be, num_of_thread = 4, null_model = cp.erdos_renyi)
+print(c,x)
+#print(significance, p_values)

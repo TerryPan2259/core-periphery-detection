@@ -1,0 +1,338 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Tutorial &mdash; cpalgorithm 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+      <link rel="search" type="application/opensearchdescription+xml"
+            title="Search within cpalgorithm 0.0.1 documentation"
+            href="_static/opensearch.xml"/>
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Frequently Asked Questions" href="FAQ/FAQ.html" />
+    <link rel="prev" title="Installation" href="Installation.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> cpalgorithm
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#preparing-a-graph">Preparing a graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#core-periphery-detection">Core-periphery detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#statistical-test">Statistical test</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="FAQ/FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cpalgorithm</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Tutorial</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="preparing-a-graph">
+<h2>Preparing a graph<a class="headerlink" href="#preparing-a-graph" title="Permalink to this headline">¶</a></h2>
+<p>The algorithms in cpalgorithm take NetworkX graph object as input.
+Making an empty graph is done by</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>One can create a graph object from a file “example.csv”:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">read_edgelist</span><span class="p">(</span><span class="s2">&quot;example.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The “example.csv” is a space-separated file consisting of two columns, where
+each row corresponds to a pair of adjacent nodes connected by an edge. See <a class="reference internal" href="Examples.html#examples"><span class="std std-ref">Examples</span></a>.</p>
+</div>
+<p>See details in <a class="reference external" href="https://networkx.github.io/documentation/stable/">NetworkX documentation</a>.</p>
+</div>
+<div class="section" id="core-periphery-detection">
+<h2>Core-periphery detection<a class="headerlink" href="#core-periphery-detection" title="Permalink to this headline">¶</a></h2>
+<p>cpalgorithm contains several algorithms to find core-periphery structure in networks.
+Here, we apply the KM-config algorithm to the karate club network.</p>
+<p>Create an object called KM_config:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cpalgorithm</span> <span class="kn">as</span> <span class="nn">cp</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
+
+<span class="n">algorithm</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">KM_config</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Load the karate club network:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">karate_club_graph</span><span class="p">()</span> <span class="c1"># loading the karate club network</span>
+</pre></div>
+</div>
+<p>Then, pass the graph to <code class="code python docutils literal notranslate"><span class="name"><span class="pre">detect</span></span><span class="punctuation"><span class="pre">()</span></span></code> method:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">algorithm</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Retrieve the results by</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">get_pair_id</span><span class="p">()</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">get_coreness</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="code python docutils literal notranslate"><span class="name"><span class="pre">c</span></span></code> and <code class="code python docutils literal notranslate"><span class="name"><span class="pre">x</span></span></code> are python dict objects.
+Dictionary <code class="code python docutils literal notranslate"><span class="name"><span class="pre">c</span></span></code> takes keys representing the node names, and integer values representing the IDs of the core-periphery pair to which to the node belongs.
+For example,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="p">{</span><span class="n">NodeA</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">NodeB</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">NodeC</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">NodeD</span><span class="p">:</span> <span class="mi">2</span> <span class="o">...</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>means that NodeA and NodeC belong to core-periphery pair 0, NoedB belongs to core-periphery pair 1 and NodeD belongs to core-periphery pair 2.</p>
+<p>Dictionary <code class="code python docutils literal notranslate"><span class="name"><span class="pre">x</span></span></code> takes keys representing the node names, and float values representing the coreness values ranging between 0 and 1.
+Coreness value 1 and 0 indicates a core or a peripheral node, respectively. For example,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="p">{</span><span class="n">NodeA</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">NodeB</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">NodeC</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">NodeD</span><span class="p">:</span> <span class="mi">1</span> <span class="o">...</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>means NodeA, NodeB NodeD are core nodes and NodeC is a peripheral node.
+Note that some algorithms set coreness values between 0 and 1, which indicates the extent to which the node belongs to the core.</p>
+<p>One can use other algorithms in the same way.
+For example, one needs to modify one line to use the Borgatti-Everet algorithm (e.g, cp.BE()).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cpalgorithm</span> <span class="kn">as</span> <span class="nn">cp</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
+
+<span class="n">algorithm</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">BE</span><span class="p">()</span>
+<span class="c1">#algorithm = cp.KM_config()</span>
+
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">karate_club_graph</span><span class="p">()</span>
+<span class="n">algorithm</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">get_pair_id</span><span class="p">()</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">get_coreness</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The available algorithms are listed in <a class="reference internal" href="Reference.html#reference"><span class="std std-ref">Reference</span></a>.</p>
+</div>
+<div class="section" id="statistical-test">
+<h2>Statistical test<a class="headerlink" href="#statistical-test" title="Permalink to this headline">¶</a></h2>
+<p>Likewise rich-club and various centrality measures, heterogeneous degree distribution alone may explain core-periphery structure.
+cpalgorithm provides a statistical test to examine the significance of individual core-periphery pairs.
+The statistical test judges each detected core-periphery pair as insignificant if it can be explained largely by the degree (i.e., hub and non-hub nodes largely correspond to core and peripheral nodes, respectively). Otherwise, it judges a core-periphery pair as significant.
+One can carry out the statistical test by writing a line of code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sig_c</span><span class="p">,</span> <span class="n">sig_x</span><span class="p">,</span> <span class="n">significant</span><span class="p">,</span> <span class="n">p_values</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">qstest</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <code class="code python docutils literal notranslate"><span class="name"><span class="pre">significant</span></span></code> and <code class="code python docutils literal notranslate"><span class="name"><span class="pre">p_values</span></span></code> are list objects.
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">sig_c</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">sig_x</span></code> are dict objects in which the insignificant core-periphery pairs are excluded.
+List <code class="code python docutils literal notranslate"><span class="name"><span class="pre">significant</span></span></code> is a boolean list, where <code class="code python docutils literal notranslate"><span class="name"><span class="pre">significant</span></span><span class="punctuation"><span class="pre">[</span></span><span class="name"><span class="pre">c</span></span><span class="punctuation"><span class="pre">]</span></span><span class="operator"><span class="pre">=</span></span><span class="name builtin pseudo"><span class="pre">True</span></span></code> or <code class="code python docutils literal notranslate"><span class="name"><span class="pre">significant</span></span><span class="punctuation"><span class="pre">[</span></span><span class="name"><span class="pre">c</span></span><span class="punctuation"><span class="pre">]</span></span><span class="operator"><span class="pre">=</span></span><span class="name builtin pseudo"><span class="pre">False</span></span></code> flag indicates that the cth core-periphery pair is significant or insignificant, respectively, e.g.,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">significant</span> <span class="o">=</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>List <code class="code python docutils literal notranslate"><span class="name"><span class="pre">p_values</span></span></code> is a float list, where <code class="code python docutils literal notranslate"><span class="name"><span class="pre">p_values</span></span><span class="punctuation"><span class="pre">[</span></span><span class="name"><span class="pre">c</span></span><span class="punctuation"><span class="pre">]</span></span></code> is the p-value of the cth core-periphery pair under the configuration model, e.g.,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">p_values</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.00001</span><span class="p">,</span> <span class="mf">0.587</span><span class="p">,</span> <span class="mf">0.443</span><span class="p">,</span> <span class="mf">0.0001</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The statistical test examines the significance of each core-periphery pair individually, which causes the multiple-comparisons problem.
+To suppress the false positives, we adopt the e Šidák correction.
+The default significance level is 0.05.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="FAQ/FAQ.html" class="btn btn-neutral float-right" title="Frequently Asked Questions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Installation.html" class="btn btn-neutral" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018-2018, Sadamori Kojaku.
+      Last updated on Sep 07, 2018.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/copybutton.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

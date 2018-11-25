@@ -24,7 +24,7 @@ public:
 	void calc_Q(
 	    const Graph& G,
 	    const vector<int>& c,
-	    const vector<bool>& x,
+	    const vector<double>& x,
 	    double& Q,
 	    vector<double>& q);
 private:
@@ -67,9 +67,9 @@ void MINRES::detect(const Graph& G){
 	}
 	
 	// set
-	vector<bool> tmp2(N, false);
+	vector<double> tmp2(N, 0.0);
 	for(int k = 0;k<=kbest;k++){
-		tmp2[ ord[k] ] = true;
+		tmp2[ ord[k] ] = 1.0;
 	}
 	_x = tmp2;
 	
@@ -83,15 +83,15 @@ void MINRES::detect(const Graph& G){
 void MINRES::calc_Q(
     const Graph& G,
     const vector<int>& c,
-    const vector<bool>& x,
+    const vector<double>& x,
     double& Q,
     vector<double>& q)
 {
 	
 	Q = 0.0;
-	int mcc=0;
-	int mpp = 0;
-	int ncc = 0;
+	double mcc=0;
+	double mpp = 0;
+	double ncc = 0;
 
 	int N = G.get_num_nodes();
 	for(int i = 0; i < N; i++){
@@ -99,14 +99,10 @@ void MINRES::calc_Q(
 		for(int j = 0; j < sz; j++){
 			int nei = -1; double w = -1;
 			G.get_weight(i, j, nei, w);
-			if(x[i] & x[j]){	
-				mcc++;
-			}
-			if(!x[i] & !x[j]){	
-				mpp++;
-			}
+			mcc+=x[i] * x[j];
+			mpp+= (1-x[i]) * (1- x[j]);
 		}
-		if(x[i]) ncc+=1;
+		ncc+=x[i];
 	}
 	
 	//(ncc * ncc - mcc) number of absent edges in core
@@ -121,13 +117,15 @@ void MINRES::calc_Q(
 /*-----------------------------
 Private functions (internal use only)
 -----------------------------*/
-vector<int> MINRES::_sortIndex(const vector<int>& Qs){
-    vector<int> y(Qs.size());
-    size_t n(0);
-    generate(std::begin(y), std::end(y), [&]{ return n++; });
-
-    sort(  std::begin(y), 
-                std::end(y),
-                [&](int i1, int i2) { return Qs[i1] > Qs[i2]; } );
-    return y;
+vector<int> MINRES::_sortIndex(const vector<int>& data){
+	vector<int> index((int)data.size(), 0);
+	for (int i = 0 ; i != index.size() ; i++) {
+    		index[i] = i;
+	}
+	sort(index.begin(), index.end(),
+    		[&](const int& a, const int& b) {
+        	return (data[a] > data[b]);
+    		}
+	);
+    return index;
 }

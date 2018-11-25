@@ -35,7 +35,7 @@ public:
 	void calc_Q(
 	    const Graph& G,
 	    const vector<int>& c,
-	    const vector<bool>& x,
+	    const vector<double>& x,
 	    double& Q,
 	    vector<double>& q);
 	
@@ -48,7 +48,7 @@ private:
 	    const vector<vector<double>>& M,
 	    const int num_of_runs,
 	    vector<int>& c,
-	    vector<bool>& x,
+	    vector<double>& x,
 	    double& Q,
 	    vector<double>& q,
 	    mt19937_64& mtrnd
@@ -57,7 +57,7 @@ private:
 	void _km_modmat_louvain_core(
 		const vector<vector<double>>& M, 
 	    	vector<int>& c,
-	    	vector<bool>& x,
+	    	vector<double>& x,
 	        mt19937_64& mtrnd
 		);
 
@@ -65,7 +65,7 @@ private:
 	    const vector<vector<double>>& M,
 	    const int num_of_runs,
 	    vector<int>& c,
-	    vector<bool>& x,
+	    vector<double>& x,
 	    double& Q,
 	    vector<double>& q,
 	    mt19937_64& mtrnd
@@ -74,17 +74,17 @@ private:
 	void _km_modmat_label_switching_core(
 	    const vector<vector<double>>& M,
 	    vector<int>& c,
-	    vector<bool>& x,
+	    vector<double>& x,
 	    mt19937_64& mtrnd
 	    );
 
 	void _propose_new_label_modmat(
 	    const vector<vector<double>>& M,
 	    const vector<int>& c,
-	    const vector<bool>& x,
+	    const vector<double>& x,
 	    const int node_id,
 	    int& cprime,
-	    bool& xprime,
+	    double& xprime,
 	    double& dQ,
 	    mt19937_64& mtrnd
 	    );
@@ -92,21 +92,21 @@ private:
 	void _calc_Q_modmat(
 	    const vector<vector<double>>& M,
 	    const vector<int>& c,
-	    const vector<bool>& x,
+	    const vector<double>& x,
 	    double& Q,
 	    vector<double>& q);
 
 	void _coarsing(
 	    	const vector<vector<double>>& M,
 	    	const vector<int>& c,
-	    	const vector<bool>& x,
+	    	const vector<double>& x,
 	    	vector<vector<double>>& newM,
 	    	vector<int>& toLayerId 
 		);
 
 	int _count_non_empty_block(
     		vector<int>& c,
-    		vector<bool>& x
+    		vector<double>& x
 		);
 
 	void _relabeling(vector<int>& c);
@@ -137,7 +137,7 @@ void KM_modmat::detect(const Graph& G){
 void KM_modmat::calc_Q(
     const Graph& G,
     const vector<int>& c,
-    const vector<bool>& x,
+    const vector<double>& x,
     double& Q,
     vector<double>& q)
 {
@@ -152,7 +152,7 @@ void KM_modmat::_km_modmat_label_switching(
     const vector<vector<double>>& M,
     const int num_of_runs,
     vector<int>& c,
-    vector<bool>& x,
+    vector<double>& x,
     double& Q,
     vector<double>& q,
     mt19937_64& mtrnd
@@ -174,13 +174,13 @@ void KM_modmat::_km_modmat_label_switching(
     }
 
     Q = -1;
-    int N = M.size();
+    int N = (int) M.size();
     #ifdef _OPENMP
     #pragma omp parallel for shared(c, x, Q, q, N, mtrnd_list)
     #endif
     for (int i = 0; i < num_of_runs; i++) {
         vector<int> ci;
-        vector<bool> xi;
+        vector<double> xi;
         vector<double> qi;
         double Qi = 0.0;
 
@@ -203,7 +203,7 @@ void KM_modmat::_km_modmat_label_switching(
 			x[i] = xi[i];
 		    }
 		    q.clear();
-		    int K = qi.size();
+		    int K = (int) qi.size();
 	            vector<double> tmp(K,0.0);	
 		    q = tmp;
 		    for(int k = 0; k < K; k++){
@@ -218,20 +218,18 @@ void KM_modmat::_km_modmat_label_switching(
 void KM_modmat::_calc_Q_modmat(
     const vector<vector<double>>& M,
     const vector<int>& c,
-    const vector<bool>& x,
+    const vector<double>& x,
     double& Q,
     vector<double>& q)
 {
-    int N = M.size();
+    int N = (int) M.size();
     int K = *max_element(c.begin(), c.end()) + 1;
     
     q.assign(K, 0.0);
     for (int i = 0; i < N; i++) {
     	for (int j = 0; j < N; j++) {
 		if( c[i] != c[j]) continue;
-		if(x[i] | x[j]){
-			q[c[i]]+=M[i][j];
-		}	
+		q[c[i]]+=M[i][j] * (x[i] + x[j] - x[i] * x[j]);
     	}
     }
     Q = 0;
@@ -244,15 +242,15 @@ void KM_modmat::_calc_Q_modmat(
 void KM_modmat::_propose_new_label_modmat(
     const vector<vector<double>>& M,
     const vector<int>& c,
-    const vector<bool>& x,
+    const vector<double>& x,
     const int node_id,
     int& cprime,
-    bool& xprime,
+    double& xprime,
     double& dQ,
     mt19937_64& mtrnd
     )
 {
-        int N = M.size();
+        int N = (int) M.size();
     	int K = *max_element(c.begin(), c.end()) + 1;
 	vector<double> dq_core(K,0.0);
 	vector<double> dq_peri(K,0.0);
@@ -261,8 +259,8 @@ void KM_modmat::_propose_new_label_modmat(
 	for(int i = 0; i < N; i++){
 		if(i == node_id) continue;
 		dq_core[c[i]]+= M[node_id][i];
-		dq_peri[c[i]]+= !!(x[i]) * M[node_id][i];
-		dq_old+= !!( (x[i] | x[node_id]) && c[node_id] == c[i]) * M[node_id][i];
+		dq_peri[c[i]]+= x[i] * M[node_id][i];
+		dq_old+= ( x[i] + x[node_id] - x[i] * x[node_id]) * !!(c[node_id] == c[i]) * M[node_id][i];
 	}
 
 	double dqmax = 0;
@@ -271,14 +269,14 @@ void KM_modmat::_propose_new_label_modmat(
 		dq_core[k]+=M[node_id][node_id]/2; // add quality induced by self-edges
 		if(dq_core[k] > dq_peri[k]){
 			if( dq_core[k]-dq_old >0 && dq_core[k] > dqmax ){
-				xprime = true;
+				xprime = 1.0;
 				cprime = k;	
 				dqmax = dq_core[k];	
 				dQ = dq_core[k] - dq_old;	
 			}
 		}else{
 			if( dq_peri[k]-dq_old >0 && dq_peri[k] > dqmax ){
-				xprime = false;
+				xprime = 0;
 				cprime = k;		
 				dqmax = dq_peri[k];
 				dQ = dq_peri[k] - dq_old;	
@@ -291,11 +289,11 @@ void KM_modmat::_relabeling(
     	vector<int>& c
 	){
 
-    int N = c.size(); 
+    int N = (int) c.size(); 
     std::vector<int> labs;
     for (int i = 0; i < N; i++) {
         int cid = -1;
-	int labsize = labs.size();
+	int labsize = (int) labs.size();
         for (int j = 0; j < labsize; j++) {
             if (labs[j] == c[i]) {
                 cid = j;
@@ -305,7 +303,7 @@ void KM_modmat::_relabeling(
 
         if (cid < 0) {
             labs.push_back(c[i]);
-            cid = labs.size() - 1;
+            cid = (int)labs.size() - 1;
         }
         c[i] = cid;
     }
@@ -314,12 +312,12 @@ void KM_modmat::_relabeling(
 void KM_modmat::_km_modmat_label_switching_core(
     const vector<vector<double>>& M,
     vector<int>& c,
-    vector<bool>& x,
+    vector<double>& x,
     mt19937_64& mtrnd
     )
 {
     /* Variable declarations */
-    int N = M.size();
+    int N = (int) M.size();
     vector<int> order(N);
     vector<double> degs(N);
     bool isupdated = false;
@@ -341,7 +339,7 @@ void KM_modmat::_km_modmat_label_switching_core(
             int i = order[scan_count];
 
             int cprime = c[i]; // c'
-            bool xprime = x[i]; // x'
+            double xprime = x[i]; // x'
 
             double dQ = 0;
             _propose_new_label_modmat(M, c, x, i, cprime, xprime, dQ, mtrnd);
@@ -368,23 +366,23 @@ void KM_modmat::_km_modmat_label_switching_core(
 void KM_modmat::_coarsing(
     	const vector<vector<double>>& M,
     	const vector<int>& c,
-    	const vector<bool>& x,
+    	const vector<double>& x,
     	vector<vector<double>>& newM,
     	vector<int>& toLayerId 
 	){
 		
-        int N = c.size();
+        int N = (int) c.size();
 	vector<int> ids(N,0);
     	int maxid = 0;
 	for(int i = 0;i<N;i++){
-		ids[i] = 2 * c[i] + x[i];
+		ids[i] = 2 * c[i] + (int)x[i];
 		maxid = MAX(maxid, ids[i]);
 	}
 	_relabeling(ids);
 	toLayerId.clear();
 	toLayerId.assign(maxid+1,0);
 	for(int i = 0;i<N;i++){
-		toLayerId[2 * c[i] + x[i]] = ids[i];
+		toLayerId[2 * c[i] + (int)x[i]] = ids[i];
 	}
 	
 	
@@ -394,9 +392,9 @@ void KM_modmat::_coarsing(
 	newM = tmp;
 
 	for(int i = 0;i<N;i++){
-		int mi = 2 * c[i] + x[i];
+		int mi = 2 * c[i] + (int)x[i];
 		for(int j = 0;j<N;j++){
-			int mj = 2 * c[j] + x[j];
+			int mj = 2 * c[j] + (int)x[j];
 			newM[ toLayerId[mi] ][ toLayerId[mj] ]+=M[i][j];
 		}
 	}
@@ -404,34 +402,34 @@ void KM_modmat::_coarsing(
 
 int KM_modmat::_count_non_empty_block(
     	vector<int>& c,
-    	vector<bool>& x
+    	vector<double>& x
 	){
-	int N = c.size();
+	int N = (int) c.size();
 	vector<int> ids(N,0);
 	for(int i = 0; i< N; i++){
-		ids[i] = 2 * c[i] + x[i];
+		ids[i] = 2 * c[i] + (int)x[i];
 	}
 	sort(ids.begin(), ids.end());
-	return unique(ids.begin(), ids.end()) - ids.begin();
+	return (int) (unique(ids.begin(), ids.end()) - ids.begin());
 }
 
 void KM_modmat::_km_modmat_louvain_core(
 	const vector<vector<double>>& M, 
     	vector<int>& c,
-    	vector<bool>& x,
+    	vector<double>& x,
         mt19937_64& mtrnd
 	){
 
 	// Intiialise variables	
-	int N = M.size();
+	int N = (int) M.size();
 	c.clear();
 	x.clear();
     	c.assign(N, 0); 
-    	x.assign(N, true);
+    	x.assign(N, 1.0);
     	for (int i = 0; i < N; i++) c[i] = i;
 	
 	vector<int>ct = c; // label of each node at tth iteration
-	vector<bool>xt = x; // label of each node at tth iteration. 
+	vector<double>xt = x; // label of each node at tth iteration. 
 	vector<vector<double>> cnet_M; // coarse network
 	vector<int> toLayerId; //toLayerId[i] maps 2*c[i] + x[i] to the id of node in the coarse network 
 	_coarsing(M, ct, xt, cnet_M, toLayerId); // Initialise toLayerId
@@ -440,16 +438,16 @@ void KM_modmat::_km_modmat_louvain_core(
 
 	int cnet_N;
 	do{
-		cnet_N = cnet_M.size();
+		cnet_N = (int) cnet_M.size();
 		
 		// Core-periphery detection	
 		vector<int> cnet_c; // label of node in the coarse network, Mt 
-		vector<bool> cnet_x; // label of node in the coarse network, Mt 
+		vector<double> cnet_x; // label of node in the coarse network, Mt 
 		_km_modmat_label_switching_core(cnet_M, cnet_c, cnet_x, mtrnd);
 	
 		// Update the label of node in the original network, ct and xt.	
 		for(int i = 0; i< N; i++){
-			int cnet_id = toLayerId[2 * ct[i] + xt[i]];
+			int cnet_id = toLayerId[2 * ct[i] + (int)xt[i]];
 			ct[i] = cnet_c[ cnet_id ];
 			xt[i] = cnet_x[ cnet_id ];
 		}
@@ -469,7 +467,7 @@ void KM_modmat::_km_modmat_louvain_core(
 		_coarsing(cnet_M, cnet_c, cnet_x, new_cnet_M, toLayerId);
 		cnet_M = new_cnet_M;
 		
-		int sz = cnet_M.size();
+		int sz = (int) cnet_M.size();
 		if(sz == cnet_N) break;	
 			
 	}while( true );
@@ -480,18 +478,18 @@ void KM_modmat::_km_modmat_louvain(
     const vector<vector<double>>& M,
     const int num_of_runs,
     vector<int>& c,
-    vector<bool>& x,
+    vector<double>& x,
     double& Q,
     vector<double>& q,
     mt19937_64& mtrnd
     )
 {
 
-    int N = M.size();
+    int N = (int) M.size();
     c.clear();
     x.clear();
     c.assign(N, 0);
-    x.assign(N, true);
+    x.assign(N, 1.0);
 
     /* Generate \hat q^{(s)} and \hat n^{(s)} (1 \leq s \leq S) */
     // create random number generator per each thread
@@ -514,7 +512,7 @@ void KM_modmat::_km_modmat_louvain(
     #endif
     for (int i = 0; i < num_of_runs; i++) {
         vector<int> ci;
-        vector<bool> xi;
+        vector<double> xi;
         vector<double> qi;
         double Qi = 0.0;
 
@@ -536,7 +534,7 @@ void KM_modmat::_km_modmat_louvain(
 			x[i] = xi[i];
 		    }
 		    q.clear();
-		    int K = qi.size();
+		    int K = (int) qi.size();
 	            vector<double> tmp(K,0.0);	
 		    q = tmp;
 		    for(int k = 0; k < K; k++){

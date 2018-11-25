@@ -1,0 +1,428 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Examples &mdash; cpalgorithm 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+      <link rel="search" type="application/opensearchdescription+xml"
+            title="Search within cpalgorithm 0.0.1 documentation"
+            href="_static/opensearch.xml"/>
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Reference" href="Reference.html" />
+    <link rel="prev" title="Any other algorithms?" href="FAQ/Any_other_algorithms.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> cpalgorithm
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FAQ/FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#load-a-graph-from-a-list-of-edges">Load a graph from a list of edges</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cpalgorithm</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Examples</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="examples">
+<span id="id1"></span><h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="load-a-graph-from-a-list-of-edges">
+<h2>Load a graph from a list of edges<a class="headerlink" href="#load-a-graph-from-a-list-of-edges" title="Permalink to this headline">¶</a></h2>
+<p>In many cases, network structure is described by a list of edges.
+In this example, we consider a standard file format composed of three columns, where
+the first and second columns are the pairs of adjacent nodes, and third column is the weight of the edge between them, e.g.,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>source,target,weight
+ACE,@BD,1
+BDF,@BD,1
+CEG,@BD,1
+DFH,@BD,1
+EGI,@BD,1
+FHJ,@BD,1
+GIK,@BD,1
+HJL,@BD,1
+IKM,@BD,1
+@BD,ACE,1
+BDF,ACE,1
+CEG,ACE,1
+DFH,ACE,1
+EGI,ACE,1
+FHJ,ACE,1
+GIK,ACE,1
+HJL,ACE,1
+IKM,ACE,1
+@BD,BDF,1
+ACE,BDF,1
+CEG,BDF,1
+DFH,BDF,1
+EGI,BDF,1
+FHJ,BDF,1
+GIK,BDF,1
+HJL,BDF,1
+IKM,BDF,1
+@BD,CEG,1
+ACE,CEG,1
+BDF,CEG,1
+DFH,CEG,1
+EGI,CEG,1
+FHJ,CEG,1
+GIK,CEG,1
+HJL,CEG,1
+IKM,CEG,1
+@BD,DFH,1
+ACE,DFH,1
+BDF,DFH,1
+CEG,DFH,1
+EGI,DFH,1
+FHJ,DFH,1
+GIK,DFH,1
+HJL,DFH,1
+IKM,DFH,1
+@BD,EGI,1
+ACE,EGI,1
+BDF,EGI,1
+CEG,EGI,1
+DFH,EGI,1
+@BD,FHJ,1
+ACE,FHJ,1
+BDF,FHJ,1
+CEG,FHJ,1
+DFH,FHJ,1
+@BD,GIK,1
+ACE,GIK,1
+BDF,GIK,1
+CEG,GIK,1
+DFH,GIK,1
+@BD,HJL,1
+ACE,HJL,1
+BDF,HJL,1
+CEG,HJL,1
+DFH,HJL,1
+@BD,IKM,1
+ACE,IKM,1
+BDF,IKM,1
+CEG,IKM,1
+DFH,IKM,1
+KMO,JLN,1
+LNP,JLN,1
+MOQ,JLN,1
+NPR,JLN,1
+OQS,JLN,1
+PRT,JLN,1
+QSU,JLN,1
+RTV,JLN,1
+SUW,JLN,1
+JLN,KMO,1
+LNP,KMO,1
+MOQ,KMO,1
+NPR,KMO,1
+OQS,KMO,1
+PRT,KMO,1
+QSU,KMO,1
+RTV,KMO,1
+SUW,KMO,1
+JLN,LNP,1
+KMO,LNP,1
+MOQ,LNP,1
+NPR,LNP,1
+OQS,LNP,1
+PRT,LNP,1
+QSU,LNP,1
+RTV,LNP,1
+SUW,LNP,1
+JLN,MOQ,1
+KMO,MOQ,1
+LNP,MOQ,1
+NPR,MOQ,1
+OQS,MOQ,1
+PRT,MOQ,1
+QSU,MOQ,1
+RTV,MOQ,1
+SUW,MOQ,1
+JLN,NPR,1
+KMO,NPR,1
+LNP,NPR,1
+MOQ,NPR,1
+OQS,NPR,1
+PRT,NPR,1
+QSU,NPR,1
+RTV,NPR,1
+SUW,NPR,1
+JLN,OQS,1
+KMO,OQS,1
+LNP,OQS,1
+MOQ,OQS,1
+NPR,OQS,1
+JLN,PRT,1
+KMO,PRT,1
+LNP,PRT,1
+MOQ,PRT,1
+NPR,PRT,1
+JLN,QSU,1
+KMO,QSU,1
+LNP,QSU,1
+MOQ,QSU,1
+NPR,QSU,1
+JLN,RTV,1
+KMO,RTV,1
+LNP,RTV,1
+MOQ,RTV,1
+NPR,RTV,1
+JLN,SUW,1
+KMO,SUW,1
+LNP,SUW,1
+MOQ,SUW,1
+NPR,SUW,1
+</pre></div>
+</div>
+<p>Save this file as example_edge_list.csv.</p>
+<p>Loading this network and applying an algorithm are done by</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">cpalgorithm</span> <span class="kn">as</span> <span class="nn">cp</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;example_edge_list.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span> <span class="c1"># Load a list of edges (comma-separated file)</span>
+
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">from_pandas_edgelist</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="c1"># NetworkX graph object</span>
+
+<span class="n">algorithm</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">KM_ER</span><span class="p">()</span>
+<span class="n">algorithm</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">get_pair_id</span><span class="p">()</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">get_coreness</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Name</span><span class="se">\t</span><span class="s1">PairID</span><span class="se">\t</span><span class="s1">Coreness&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="se">\t</span><span class="si">%d</span><span class="se">\t</span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">c</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>which displays</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Name PairID  Coreness
+OQS  <span class="m">0</span>       <span class="m">0</span>.000000
+LNP  <span class="m">0</span>       <span class="m">1</span>.000000
+QSU  <span class="m">0</span>       <span class="m">0</span>.000000
+SUW  <span class="m">0</span>       <span class="m">0</span>.000000
+KMO  <span class="m">0</span>       <span class="m">1</span>.000000
+MOQ  <span class="m">0</span>       <span class="m">1</span>.000000
+PRT  <span class="m">0</span>       <span class="m">0</span>.000000
+JLN  <span class="m">0</span>       <span class="m">1</span>.000000
+NPR  <span class="m">0</span>       <span class="m">1</span>.000000
+RTV  <span class="m">0</span>       <span class="m">0</span>.000000
+IKM  <span class="m">1</span>       <span class="m">0</span>.000000
+HJL  <span class="m">1</span>       <span class="m">0</span>.000000
+BDF  <span class="m">1</span>       <span class="m">1</span>.000000
+@BD  <span class="m">1</span>       <span class="m">1</span>.000000
+EGI  <span class="m">1</span>       <span class="m">0</span>.000000
+GIK  <span class="m">1</span>       <span class="m">0</span>.000000
+FHJ  <span class="m">1</span>       <span class="m">0</span>.000000
+CEG  <span class="m">1</span>       <span class="m">1</span>.000000
+ACE  <span class="m">1</span>       <span class="m">1</span>.000000
+DFH  <span class="m">1</span>       <span class="m">1</span>.000000
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Reference.html" class="btn btn-neutral float-right" title="Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="FAQ/Any_other_algorithms.html" class="btn btn-neutral" title="Any other algorithms?" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018-2018, Sadamori Kojaku.
+      Last updated on Sep 07, 2018.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/copybutton.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
