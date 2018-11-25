@@ -111,3 +111,16 @@ def test_Divisive():
 	pair_id = dv.get_pair_id()
 	coreness = dv.get_coreness()
 	sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, dv)
+
+def test_Surprise():
+	# Surprise =========================
+	G=nx.karate_club_graph()
+	print("Running Surprise ...")
+	spr = cpa.Surprise()
+	spr.detect(G)
+	pair_id = spr.get_pair_id()
+	coreness = spr.get_coreness()
+	sig_pair_id, sig_coreness, significance, p_values = cpa.qstest(pair_id, coreness, G, spr)
+	
+
+test_Surprise()

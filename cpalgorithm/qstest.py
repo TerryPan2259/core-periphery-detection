@@ -150,7 +150,7 @@ def qstest(pair_id, coreness, G, cpa, significance_level=0.05, null_model = conf
             continue    
         w = np.exp(- ( (s[cid] - s_tilde) / (np.sqrt(2.0) * h * s_std) ) ** 2)
         cd = norm.cdf( ( (q[cid] - q_tilde) / (h * q_std) - gamma * (s[cid] - s_tilde) / (h * s_std) ) / np.sqrt(1.0 - gamma * gamma) )    
-        denom = sum(w)    
+        denom = sum(w)   
         if denom <= 1e-30:
             continue    
         p_values[cid] = 1.0 - (sum( w * cd ) / denom)
@@ -159,11 +159,10 @@ def qstest(pair_id, coreness, G, cpa, significance_level=0.05, null_model = conf
         if significant[cid]:
             cid2newcid[cid] = cidx
             cidx+=1 
-        
+   
     sig_pair_id = copy.deepcopy(pair_id)
     sig_coreness = copy.deepcopy(coreness)
    
-	 
     for k, v in sig_pair_id.items():
         if significant[v]:
             sig_pair_id[k]=cid2newcid[ pair_id[k] ]
